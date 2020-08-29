@@ -14,7 +14,7 @@ import FeatherCore
 struct BlogFrontendController {
 
     func homeView(req: Request, page content: Metadata) throws -> EventLoopFuture<Response> {
-        BlogPostModel.findMetadata(on: req.db)
+        BlogPostModel.query(on: req.db)
         .join(Metadata.self, on: \BlogPostModel.$id == \Metadata.$reference, method: .inner)
         .filter(Metadata.self, \.$status == .published)
         .sort(Metadata.self, \.$date, .descending)
