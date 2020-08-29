@@ -8,13 +8,19 @@
 import Vapor
 import Fluent
 import Liquid
+import FeatherCore
 
 fileprivate extension Application {
+        
     struct Paths {
-        static let resources = ""
-        static let assets = ""
+        static let base: String = Environment.path("BASE_PATH")
+        static let `public`: String = Paths.base + "Public/"
+        static let assets: String = Paths.public + "assets/"
+        static let resources: String = Paths.base + "Resources/"
     }
+
 }
+
 
 extension BlogModule {
     
