@@ -1,38 +1,33 @@
 //
 //  BlogRouter.swift
-//  FeatherCMS
+//  BlogModule
 //
 //  Created by Tibor Bodecs on 2019. 12. 17..
 //
 
-import Vapor
-import ViperKit
 import FeatherCore
 
 struct BlogRouter: ViperRouter {
 
-    let postAdminController = BlogPostAdminController()
-    let authorAdminController = BlogAuthorAdminController()
-    let categoryAdminController = BlogCategoryAdminController()
-    let linkAdminController = BlogAuthorLinkAdminController()
+    let postAdmin = BlogPostAdminController()
+    let authorAdmin = BlogAuthorAdminController()
+    let categoryAdmin = BlogCategoryAdminController()
+    let linkAdmin = BlogAuthorLinkAdminController()
+    let frontend = BlogFrontendController()
 
-    func hook(name: String, routes: RoutesBuilder, app: Application) throws {
-        switch name {
-        case "protected-admin":
-            let module = routes.grouped(.init(stringLiteral: BlogModule.name))
+    func adminRoutesHook(args: HookArguments) {
+        let routes = args["routes"] as! RoutesBuilder
 
-            self.postAdminController.setupRoutes(routes: module, on: BlogPostModel.pathComponent)
-            self.categoryAdminController.setupRoutes(routes: module, on: BlogCategoryModel.pathComponent)
-            
+        let modulePath = routes.grouped(BlogModule.pathComponent)
 
-            self.authorAdminController.setupRoutes(routes: module, on: BlogAuthorModel.pathComponent)
-            
-            let adminAuthor = module.grouped(.init(stringLiteral: BlogAuthorModel.name),
-                                             .init(stringLiteral: ":" + self.authorAdminController.idParamKey))
-            self.linkAdminController.setupRoutes(routes: adminAuthor, on: BlogAuthorLinkModel.pathComponent)
-        default:
-            break;
-        }
+        postAdmin.setupRoutes(on: modulePath, as: BlogPostModel.pathComponent)
+        categoryAdmin.setupRoutes(on: modulePath, as: BlogCategoryModel.pathComponent)
+
+        authorAdmin.setupRoutes(on: modulePath, as: BlogAuthorModel.pathComponent)
+
+        let adminAuthor = modulePath.grouped(BlogAuthorModel.pathComponent, authorAdmin.idPathComponent)
+        linkAdmin.setupRoutes(on: adminAuthor, as: BlogAuthorLinkModel.pathComponent)
+        
     }
 }
 

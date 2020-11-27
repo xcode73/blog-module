@@ -1,27 +1,20 @@
 //
 //  BlogModule.swift
-//  FeatherCMS
+//  BlogModule
 //
 //  Created by Tibor Bodecs on 2020. 01. 25..
 //
 
-import Vapor
 import Fluent
-import ViperKit
-import ViewKit
 import FeatherCore
 
 final class BlogModule: ViperModule {
 
     static let name = "blog"
-        
+    var priority: Int { 1100 }
+
     var router: ViperRouter? = BlogRouter()
     
-    func boot(_ app: Application) throws {
-        app.databases.middleware.use(MetadataMiddleware<BlogPostModel>())
-        app.databases.middleware.use(MetadataMiddleware<BlogCategoryModel>())
-        app.databases.middleware.use(MetadataMiddleware<BlogAuthorModel>())
-    }
 
     var migrations: [Migration] {
         [
@@ -29,160 +22,144 @@ final class BlogModule: ViperModule {
         ]
     }
 
-    var viewsUrl: URL? {
+    static var bundleUrl: URL? {
         Bundle.module.bundleURL
             .appendingPathComponent("Contents")
             .appendingPathComponent("Resources")
-            .appendingPathComponent("Views")
+            .appendingPathComponent("Bundle")
     }
 
-    // MARK: - hook functions
-
-    func invoke(name: String, req: Request, params: [String : Any] = [:]) -> EventLoopFuture<Any?>? {
-        switch name {
-        case "install":
-            return self.installHook(req: req)
-        case "frontend-page":
-            return self.frontendPageHook(req: req)
-        case "home-page":
-            let content = params["page-content"] as! Metadata
-            return try? BlogFrontendController().homeView(req: req, page: content).map { $0 as Any }
-        case "posts-page":
-            let content = params["page-content"] as! Metadata
-            return try? BlogFrontendController().postsView(req: req, page: content).map { $0 as Any }
-        case "categories-page":
-            let content = params["page-content"] as! Metadata
-            return try? BlogFrontendController().categoriesView(req: req, page: content).map { $0 as Any }
-        case "authors-page":
-            let content = params["page-content"] as! Metadata
-            return try? BlogFrontendController().authorsView(req: req, page: content).map { $0 as Any }
-        default:
-            return nil
-        }
+    func boot(_ app: Application) throws {
+        app.databases.middleware.use(MetadataMiddleware<BlogPostModel>())
+        app.databases.middleware.use(MetadataMiddleware<BlogCategoryModel>())
+        app.databases.middleware.use(MetadataMiddleware<BlogAuthorModel>())
+        
+        
+        app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
+        app.hooks.register("installer", use: installerHook)
+        app.hooks.register("frontend-page", use: frontendPageHook)
+        app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
+        
+        app.hooks.register("home-page", use: homePageHook)
+        app.hooks.register("categories-page", use: categoriesPageHook)
+        app.hooks.register("authors-page", use: authorsPageHook)
+        app.hooks.register("posts-page", use: postsPageHook)
     }
 
-    private func frontendPageHook(req: Request) -> EventLoopFuture<Any?>? {
+    // MARK: - hooks
+
+    func leafAdminMenuHook(args: HookArguments) -> LeafDataRepresentable {
+        [
+            "name": "Blog",
+            "icon": "book",
+            "items": LeafData.array([
+                [
+                    "url": "/admin/blog/posts/",
+                    "label": "Posts",
+                ],
+                [
+                    "url": "/admin/blog/categories/",
+                    "label": "Categories",
+                ],
+                [
+                    "url": "/admin/blog/authors/",
+                    "label": "Authors",
+                ],
+            ])
+        ]
+    }
+    
+    func installerHook(args: HookArguments) -> ViperInstaller {
+        BlogInstaller()
+    }
+
+    func frontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
+        let req = args["req"] as! Request
+
         return Metadata.query(on: req.db)
             .filter(Metadata.self, \.$module == BlogModule.name)
             .filter(Metadata.self, \.$model ~~ [BlogPostModel.name, BlogCategoryModel.name, BlogAuthorModel.name])
-            .filter(Metadata.self, \.$slug == req.url.path.safeSlug())
+            .filter(Metadata.self, \.$slug == req.url.path.trimmingSlashes())
             .filter(Metadata.self, \.$status != .archived)
             .first()
-            .flatMap { content -> EventLoopFuture<Response?> in
-                guard let content = content else {
+            .flatMap { [self] metadata -> EventLoopFuture<Response?> in
+                guard let metadata = metadata else {
                     return req.eventLoop.future(nil)
                 }
-                if content.model == BlogPostModel.name {
-                    return self.renderPost(req, content).encodeResponse(for: req).map { $0 as Response? }
+                if metadata.model == BlogPostModel.name {
+                    return (router as! BlogRouter).frontend.postView(req, metadata)
+                        .encodeOptionalResponse(for: req)
                 }
-                if content.model == BlogCategoryModel.name {
-                    return self.renderCategory(req, content).encodeResponse(for: req).map { $0 as Response? }
+                if metadata.model == BlogCategoryModel.name {
+                    return (router as! BlogRouter).frontend.categoryView(req, metadata)
+                        .encodeOptionalResponse(for: req)
                 }
-                if content.model == BlogAuthorModel.name {
-                    return self.renderAuthor(req, content).encodeResponse(for: req).map { $0 as Response? }
+                if metadata.model == BlogAuthorModel.name {
+                    return (router as! BlogRouter).frontend.authorView(req, metadata)
+                        .encodeOptionalResponse(for: req)
                 }
                 return req.eventLoop.future(nil)
             }
-            .map { $0 as Any }
     }
     
-    private func renderCategory(_ req: Request, _ content: Metadata) -> EventLoopFuture<View> {
-        BlogPostModel.findMetadata(on: req.db)
-        .filter(\.$category.$id == content.reference)
-        .all()
-        .and(BlogCategoryModel.find(content.reference, on: req.db).unwrap(or: Abort(.notFound)))
-        .flatMap { posts, category in
-            let items = posts.map { post -> BlogPostContext in
-                let postContent = try! post.joined(Metadata.self)
-                return .init(post: post.viewContext, category: category.viewContext, content: postContent.viewContext)
-            }
-            struct Context: Encodable {
-                let category: BlogCategoryModel.ViewContext
-                let items: [BlogPostContext]
-            }
-
-            let ctx = Context(category: category.viewContext, items: items)
-            return req.view.render("Blog/Frontend/Category", HTMLContext(content.metaContext, ctx))
-        }
-    }
-    
-    private func renderAuthor(_ req: Request, _ content: Metadata) -> EventLoopFuture<View> {
-        BlogPostModel.findMetadata(on: req.db)
-        .filter(\.$author.$id == content.reference)
-        .with(\.$category)
-        .all()
-        .and(BlogAuthorModel
-                .query(on: req.db)
-                .filter(\.$id == content.reference)
-                .with(\.$links)
-                .first().unwrap(or: Abort(.notFound)))
-        .flatMap { posts, author in
-            let items = posts.map { post -> BlogPostContext in
-                let postContent = try! post.joined(Metadata.self)
-                return .init(post: post.viewContext, category: post.category.viewContext, content: postContent.viewContext)
-            }
-            let authorLinks = author.links
-                .sorted { $0.priority > $1.priority }
-                .map(\.viewContext)
-            
-            print(authorLinks)
-            struct Context: Encodable {
-                struct AuthorWithLinksViewContext: Encodable {
-                    var profile: BlogAuthorModel.ViewContext
-                    var links: [BlogAuthorLinkModel.ViewContext]
-                }
-                
-                let author: AuthorWithLinksViewContext
-                let items: [BlogPostContext]
-            }
-
-            let ctx = Context(author: .init(profile: author.viewContext, links: authorLinks), items: items)
-            return req.view.render("Blog/Frontend/Author", HTMLContext(content.metaContext, ctx))
-        }
-    }
-    
-    private func renderPost(_ req: Request, _ content: Metadata) -> EventLoopFuture<View> {
+    /// renders the [home-page] content
+    func homePageHook(args: HookArguments) -> EventLoopFuture<Response?> {
+        let req = args["req"] as! Request
+        let metadata = args["page-metadata"] as! Metadata
+        
         return BlogPostModel
-        .query(on: req.db)
-        .filter(\.$id == content.reference)
-        .with(\.$category)
-        .with(\.$author)
-        .first()
-        .flatMap { post -> EventLoopFuture<(BlogPostModel, [BlogAuthorLinkModel])>  in
-            guard post != nil else {
-                return req.eventLoop.future((post!, []))
-            }
-            // TODO: rewrite this with a joined query...
-            return BlogAuthorLinkModel.query(on: req.db).all().map { links in
-                return (post!, links)
-            }
-        }
-        .flatMap { (post, links) -> EventLoopFuture<View> in
-            let authorLinks = links
-                .filter { $0.$author.id == post.author.id }
-                .sorted { $0.priority > $1.priority }
-                .map(\.viewContext)
-            
-            struct ViewContext: Encodable {
-                struct AuthorWithLinksViewContext: Encodable {
-                    var profile: BlogAuthorModel.ViewContext
-                    var links: [BlogAuthorLinkModel.ViewContext]
-                }
-                var post: BlogPostModel.ViewContext
-                var category: BlogCategoryModel.ViewContext
-                var author: AuthorWithLinksViewContext
-            }
+            .home(on: req)
+            .flatMap { BlogFrontendView(req).home(posts: $0, metadata: metadata) }
+            .encodeOptionalResponse(for: req)
+    }
 
-            var postViewContext = post.viewContext
-            postViewContext.content = content.filter(postViewContext.content, req: req)
+    /// renders the [categories-page] content
+    func categoriesPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
+        let req = args["req"] as! Request
+        let metadata = args["page-metadata"] as! Metadata
+        
+        return BlogCategoryModel
+            .findPublished(on: req)
+            .flatMap { BlogFrontendView(req).categories($0, metadata: metadata) }
+            .encodeOptionalResponse(for: req)
+    }
 
-            let context = ViewContext(post: postViewContext,
-                                      category: post.category.viewContext,
-                                      author: .init(profile: post.author.viewContext,
-                                                    links: authorLinks))
-
-            return req.view.render("Blog/Frontend/Post", HTMLContext(content.metaContext, context))
-        }
+    /// renders the [authors-page] content
+    func authorsPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
+        let req = args["req"] as! Request
+        let metadata = args["page-metadata"] as! Metadata
+        
+        return BlogAuthorModel.findPublished(on: req)
+            .flatMap { BlogFrontendView(req).authors($0, metadata: metadata) }
+            .encodeOptionalResponse(for: req)
     }
     
+    /// renders the [posts-page] content
+    func postsPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
+        let req = args["req"] as! Request
+        let metadata = args["page-metadata"] as! Metadata
+        
+        var qb = BlogPostModel.find(on: req)
+
+        let search: String? = req.query["search"]
+        let limit: Int = req.query["limit"] ?? 10
+        let page: Int = max((req.query["page"] ?? 1), 1)
+
+        if let searchTerm = search, !searchTerm.isEmpty {
+            qb = qb.filter(\.$title ~~ searchTerm)
+        }
+
+        let start: Int = (page - 1) * limit
+        let end: Int = page * limit
+
+        let count = qb.count()
+        let items = qb.copy().range(start..<end).all()
+
+        return items.and(count).map { (posts, count) -> ViewKit.Page<LeafData> in
+            let total = Int(ceil(Float(count) / Float(limit)))
+            return .init(posts.map { $0.leafDataWithMetadata }, info: .init(current: page, limit: limit, total: total))
+        }
+        .flatMap { BlogFrontendView(req).posts(page: $0, metadata: metadata) }
+        .encodeOptionalResponse(for: req)
+    }
 }

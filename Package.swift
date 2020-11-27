@@ -10,20 +10,17 @@ let package = Package(
         .library(name: "BlogModule", targets: ["BlogModule"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/binarybirds/feather-core", .branch("main")),
+        .package(url: "https://github.com/binarybirds/feather-core", from: "1.0.0-beta"),
     ],
     targets: [
-        .target(name: "BlogModule",
-                dependencies: [
-                    .product(name: "FeatherCore", package: "feather-core"),
-                ],
-                resources: [
-                    .copy("Views"),
-                ]
-        ),
-        .testTarget(name: "BlogModuleTests",
-                    dependencies: [
-                        .target(name: "BlogModule"),
-                    ])
+        .target(name: "BlogModule", dependencies: [
+            .product(name: "FeatherCore", package: "feather-core"),
+        ],
+        resources: [
+            .copy("Bundle"),
+        ]),
+        .testTarget(name: "BlogModuleTests", dependencies: [
+                .target(name: "BlogModule"),
+            ])
     ]
 )
