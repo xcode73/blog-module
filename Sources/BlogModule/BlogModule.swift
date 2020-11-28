@@ -21,8 +21,8 @@ final class BlogModule: ViperModule {
             BlogMigration_v1_0_0(),
         ]
     }
-
-    var bundleUrl: URL? {
+  
+    static var bundleUrl: URL? {
         Bundle.module.resourceURL?.appendingPathComponent("Bundle")
     }
 
