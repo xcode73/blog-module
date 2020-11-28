@@ -22,7 +22,7 @@ final class BlogModule: ViperModule {
         ]
     }
 
-    static var bundleUrl: URL? {
+    var bundleUrl: URL? {
         Bundle.module.resourceURL?.appendingPathComponent("Bundle")
     }
 
