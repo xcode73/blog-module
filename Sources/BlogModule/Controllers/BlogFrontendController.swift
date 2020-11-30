@@ -11,7 +11,7 @@ import FeatherCore
 struct BlogFrontendController {
 
     /// single category page
-    func categoryView(_ req: Request, _ metadata: Metadata) -> EventLoopFuture<View> {
+    func categoryView(_ req: Request, _ metadata: FrontendMetadata) -> EventLoopFuture<View> {
         BlogCategoryModel
             .findBy(id: metadata.reference, on: req)
             .and(BlogPostModel.findByCategory(id: metadata.reference, on: req))
@@ -19,7 +19,7 @@ struct BlogFrontendController {
     }
 
     /// author profile page
-    func authorView(_ req: Request, _ metadata: Metadata) -> EventLoopFuture<View> {
+    func authorView(_ req: Request, _ metadata: FrontendMetadata) -> EventLoopFuture<View> {
         BlogAuthorModel
             .findBy(id: metadata.reference, on: req)
             .and(BlogPostModel.findByAuthor(id: metadata.reference, on: req))
@@ -27,7 +27,7 @@ struct BlogFrontendController {
     }
 
     /// single post page
-    func postView(_ req: Request, _ metadata: Metadata) -> EventLoopFuture<View> {
+    func postView(_ req: Request, _ metadata: FrontendMetadata) -> EventLoopFuture<View> {
         BlogPostModel
             .findBy(id: metadata.reference, on: req)
             .flatMap { BlogFrontendView(req).post($0) }

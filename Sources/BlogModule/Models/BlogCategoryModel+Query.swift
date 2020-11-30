@@ -15,7 +15,8 @@ extension BlogCategoryModel {
 
     static func findPublished(on req: Request) -> EventLoopFuture<[BlogCategoryModel]> {
         findMetadata(on: req.db)
-            .filter(Metadata.self, \.$status == .published)
+            .filter(FrontendMetadata.self, \.$status == .published)
+            .filter(FrontendMetadata.self, \.$date <= Date())
             .all()
     }
 }

@@ -22,7 +22,7 @@ final class BlogAuthorEditForm: ModelForm {
     var name = StringFormField()
     var bio = StringFormField()
     var image = FileFormField()
-    var metadata: Metadata?
+    var metadata: FrontendMetadata?
     var notification: String?
     
     var leafData: LeafData {

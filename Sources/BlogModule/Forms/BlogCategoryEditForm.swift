@@ -26,7 +26,7 @@ final class BlogCategoryEditForm: ModelForm {
     var color = StringFormField()
     var priority = StringFormField()
     var image = FileFormField()
-    var metadata: Metadata?
+    var metadata: FrontendMetadata?
     var notification: String?
 
     var leafData: LeafData {

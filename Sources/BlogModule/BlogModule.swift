@@ -27,9 +27,9 @@ final class BlogModule: ViperModule {
     }
 
     func boot(_ app: Application) throws {
-        app.databases.middleware.use(MetadataMiddleware<BlogPostModel>())
-        app.databases.middleware.use(MetadataMiddleware<BlogCategoryModel>())
-        app.databases.middleware.use(MetadataMiddleware<BlogAuthorModel>())
+        app.databases.middleware.use(FrontendMetadataMiddleware<BlogPostModel>())
+        app.databases.middleware.use(FrontendMetadataMiddleware<BlogCategoryModel>())
+        app.databases.middleware.use(FrontendMetadataMiddleware<BlogAuthorModel>())
         
         
         app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
@@ -73,11 +73,11 @@ final class BlogModule: ViperModule {
     func frontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
 
-        return Metadata.query(on: req.db)
-            .filter(Metadata.self, \.$module == BlogModule.name)
-            .filter(Metadata.self, \.$model ~~ [BlogPostModel.name, BlogCategoryModel.name, BlogAuthorModel.name])
-            .filter(Metadata.self, \.$slug == req.url.path.trimmingSlashes())
-            .filter(Metadata.self, \.$status != .archived)
+        return FrontendMetadata.query(on: req.db)
+            .filter(FrontendMetadata.self, \.$module == BlogModule.name)
+            .filter(FrontendMetadata.self, \.$model ~~ [BlogPostModel.name, BlogCategoryModel.name, BlogAuthorModel.name])
+            .filter(FrontendMetadata.self, \.$slug == req.url.path.trimmingSlashes())
+            .filter(FrontendMetadata.self, \.$status != .archived)
             .first()
             .flatMap { [self] metadata -> EventLoopFuture<Response?> in
                 guard let metadata = metadata else {
@@ -102,7 +102,7 @@ final class BlogModule: ViperModule {
     /// renders the [home-page] content
     func homePageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
-        let metadata = args["page-metadata"] as! Metadata
+        let metadata = args["page-metadata"] as! FrontendMetadata
         
         return BlogPostModel
             .home(on: req)
@@ -113,7 +113,7 @@ final class BlogModule: ViperModule {
     /// renders the [categories-page] content
     func categoriesPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
-        let metadata = args["page-metadata"] as! Metadata
+        let metadata = args["page-metadata"] as! FrontendMetadata
         
         return BlogCategoryModel
             .findPublished(on: req)
@@ -124,7 +124,7 @@ final class BlogModule: ViperModule {
     /// renders the [authors-page] content
     func authorsPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
-        let metadata = args["page-metadata"] as! Metadata
+        let metadata = args["page-metadata"] as! FrontendMetadata
         
         return BlogAuthorModel.findPublished(on: req)
             .flatMap { BlogFrontendView(req).authors($0, metadata: metadata) }
@@ -134,7 +134,7 @@ final class BlogModule: ViperModule {
     /// renders the [posts-page] content
     func postsPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
-        let metadata = args["page-metadata"] as! Metadata
+        let metadata = args["page-metadata"] as! FrontendMetadata
         
         var qb = BlogPostModel.find(on: req)
 

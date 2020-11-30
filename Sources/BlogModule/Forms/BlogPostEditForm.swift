@@ -29,7 +29,7 @@ final class BlogPostEditForm: ModelForm {
     var authorId = StringSelectionFormField()
     var image = FileFormField()
     var notification: String?
-    var metadata: Metadata?
+    var metadata: FrontendMetadata?
 
     var leafData: LeafData {
         .dictionary([

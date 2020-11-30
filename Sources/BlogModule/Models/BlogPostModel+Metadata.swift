@@ -7,11 +7,11 @@
 
 import FeatherCore
 
-extension BlogPostModel: MetadataChangeDelegate {
+extension BlogPostModel: FrontendMetadataChangeDelegate {
     
     var slug: String { title.slugify() }
     
-    func willUpdate(_ metadata: Metadata) {
+    func willUpdate(_ metadata: FrontendMetadata) {
         metadata.slug = slug
         metadata.title = title
         metadata.excerpt = excerpt

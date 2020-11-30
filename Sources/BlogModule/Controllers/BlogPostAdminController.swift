@@ -27,12 +27,12 @@ struct BlogPostAdminController: ViperAdminViewController {
     }
     
     func beforeList(req: Request, queryBuilder qb: QueryBuilder<Model>) throws -> QueryBuilder<Model> {
-        qb.join(Metadata.self, on: \Metadata.$reference == \Model.$id, method: .inner)
+        qb.join(FrontendMetadata.self, on: \FrontendMetadata.$reference == \Model.$id, method: .inner)
     }
 
     func beforeList(req: Request, order: FieldKey, sort: Sort, queryBuilder qb: QueryBuilder<Model>) -> QueryBuilder<Model> {
         if order == "date" {
-            return qb.sort(Metadata.self, \.$date, sort.direction)
+            return qb.sort(FrontendMetadata.self, \.$date, sort.direction)
         }
         return qb.sort(order, sort.direction)
     }
