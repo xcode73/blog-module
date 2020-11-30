@@ -14,7 +14,8 @@ struct BlogPostAdminController: ViperAdminViewController {
     typealias EditForm = BlogPostEditForm
     
     var listAllowedOrders: [FieldKey] = [
-        Model.FieldKeys.title
+        Model.FieldKeys.title,
+        "date"
     ]
     
     func search(using qb: QueryBuilder<Model>, for searchTerm: String) {
@@ -23,6 +24,24 @@ struct BlogPostAdminController: ViperAdminViewController {
 
     private func path(_ model: Model) -> String {
         Model.path + model.id!.uuidString + ".jpg"
+    }
+    
+    func beforeList(req: Request, queryBuilder qb: QueryBuilder<Model>) throws -> QueryBuilder<Model> {
+        qb.join(Metadata.self, on: \Metadata.$reference == \Model.$id, method: .inner)
+    }
+
+    func beforeList(req: Request, order: FieldKey, sort: Sort, queryBuilder qb: QueryBuilder<Model>) -> QueryBuilder<Model> {
+        if order == "date" {
+            return qb.sort(Metadata.self, \.$date, sort.direction)
+        }
+        return qb.sort(order, sort.direction)
+    }
+
+    func beforeListRender(page: ViewKit.Page<Model>) -> LeafData {
+        .dictionary([
+            "items": .array(page.items.map(\.leafDataWithMetadata)),
+            "info": page.info.leafData
+        ])
     }
 
     func beforeRender(req: Request, form: EditForm) -> EventLoopFuture<Void> {
