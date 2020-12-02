@@ -27,17 +27,23 @@ final class BlogModule: ViperModule {
     }
 
     func boot(_ app: Application) throws {
+        /// frontend middleware
         app.databases.middleware.use(FrontendMetadataMiddleware<BlogPostModel>())
         app.databases.middleware.use(FrontendMetadataMiddleware<BlogCategoryModel>())
         app.databases.middleware.use(FrontendMetadataMiddleware<BlogAuthorModel>())
         
-        
-        app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
+        /// install
         app.hooks.register("installer", use: installerHook)
-        app.hooks.register("frontend-page", use: frontendPageHook)
+        app.hooks.register("main-menu-install", use: mainMenuInstallHook)
+        app.hooks.register("static-page-install", use: staticPageInstallHook)
+        
+        /// admin
+        app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
         app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
         
+        /// frontend pages
         app.hooks.register("home-page", use: homePageHook)
+        app.hooks.register("frontend-page", use: frontendPageHook)
         app.hooks.register("categories-page", use: categoriesPageHook)
         app.hooks.register("authors-page", use: authorsPageHook)
         app.hooks.register("posts-page", use: postsPageHook)
@@ -45,6 +51,47 @@ final class BlogModule: ViperModule {
 
     // MARK: - hooks
 
+    func installerHook(args: HookArguments) -> ViperInstaller {
+        BlogInstaller()
+    }
+
+    func mainMenuInstallHook(args: HookArguments) -> [[String:Any]] {
+        [
+            [
+                "label": "Posts",
+                "url": "/posts/",
+                "priority": 900,
+            ],
+            [
+                "label": "Categories",
+                "url": "/categories/",
+                "priority": 800,
+            ],
+            [
+                "label": "Authors",
+                "url": "/authors/",
+                "priority": 700,
+            ],
+        ]
+    }
+
+    func staticPageInstallHook(args: HookArguments) -> [[String:Any]] {
+        [
+            [
+                "title": "Posts",
+                "content": "[posts-page]",
+            ],
+            [
+                "title": "Categories",
+                "content": "[categories-page]",
+            ],
+            [
+                "title": "Authors",
+                "content": "[authors-page]",
+            ],
+        ]
+    }
+    
     func leafAdminMenuHook(args: HookArguments) -> LeafDataRepresentable {
         [
             "name": "Blog",
@@ -64,10 +111,6 @@ final class BlogModule: ViperModule {
                 ],
             ])
         ]
-    }
-    
-    func installerHook(args: HookArguments) -> ViperInstaller {
-        BlogInstaller()
     }
 
     func frontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {

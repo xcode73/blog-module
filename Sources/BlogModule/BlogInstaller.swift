@@ -119,7 +119,7 @@ struct BlogInstaller: ViperInstaller {
                           authorId: authorId),
             BlogPostModel(title: "Welcome to Feather",
                           imageKey: "blog/posts/eb03ed0a-c5e1-48ae-8f9f-f3ac482e5fa4.jpg",
-                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          excerpt: "Feather is an open source content management system. It is blazing fast with an easy-to-use admin interface where you can customise almost everything.",
                           content: BlogModule.sample(asset: "welcome.html"),
                           categoryId: categoryId,
                           authorId: authorId),
