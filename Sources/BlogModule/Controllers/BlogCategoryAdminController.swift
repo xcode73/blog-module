@@ -19,7 +19,7 @@ struct BlogCategoryAdminController: ViperAdminViewController {
         Model.FieldKeys.priority,
     ]
 
-    func search(using qb: QueryBuilder<Model>, for searchTerm: String) {
+    func searchList(using qb: QueryBuilder<Model>, for searchTerm: String) {
         qb.filter(\.$title ~~ searchTerm)
     }
     

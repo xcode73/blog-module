@@ -18,7 +18,7 @@ struct BlogPostAdminController: ViperAdminViewController {
         "date"
     ]
     
-    func search(using qb: QueryBuilder<Model>, for searchTerm: String) {
+    func searchList(using qb: QueryBuilder<Model>, for searchTerm: String) {
         qb.filter(\.$title ~~ searchTerm)
     }
 
