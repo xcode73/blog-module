@@ -11,101 +11,63 @@ final class BlogCategoryEditForm: ModelForm {
 
     typealias Model = BlogCategoryModel
 
-    struct Input: Decodable {
-        var modelId: String
-        var title: String
-        var excerpt: String
-        var color: String
-        var priority: String
-        var image: File?
-    }
-
-    var modelId: String? = nil
-    var title = StringFormField()
-    var excerpt = StringFormField()
-    var color = StringFormField()
-    var priority = StringFormField()
-    var image = FileFormField()
-    var metadata: FrontendMetadata?
+    var modelId: UUID?
+    var title = FormField<String>(key: "title").required().length(max: 250)
+    var excerpt = FormField<String>(key: "excerpt")
+    var color = FormField<String>(key: "color")
+    var priority = FormField<Int>(key: "priority").required().min(0).max(9999)
+    var image = FileFormField(key: "image").required()
     var notification: String?
+    
+    var metadata: FrontendMetadata?
+    
+    var fields: [FormFieldRepresentable] {
+        [title, excerpt, color, priority, image]
+    }
 
     var leafData: LeafData {
         .dictionary([
-            "modelId": modelId,
-            "title": title,
-            "excerpt": excerpt,
-            "color": color,
-            "priority": priority,
-            "image": image,
-            "metadata": metadata,
-            "notification": notification,
+            "modelId": modelId?.encodeToLeafData() ?? .string(nil),
+            "fields": fieldsLeafData,
+            "notification": .string(notification),
+            "metadata": metadata?.leafData ?? .dictionary(nil),
         ])
     }
 
-    init() {
-        initialize()
+    init() {}
+
+    func initialize(req: Request) -> EventLoopFuture<Void> {
+        priority.value = 100
+
+//        findMetadata(on: req.db, uuid: uuid).map { form.metadata = $0 }
+        
+        return req.eventLoop.future()
     }
 
-    init(req: Request) throws {
-        initialize()
-
-        let context = try req.content.decode(Input.self)
-        modelId = context.modelId.emptyToNil
-        title.value = context.title
-        priority.value = context.priority
-        excerpt.value = context.excerpt
-        color.value = context.color
-
-        if let img = context.image, let data = img.data.getData(at: 0, length: img.data.readableBytes), !data.isEmpty {
-            image.data = data
-        }
+    func processAfterFields(req: Request) -> EventLoopFuture<Void> {
+        image.uploadTemporaryFile(req: req)
     }
 
-    func initialize() {
-        priority.value = String(100)
-    }
-
-    func validate(req: Request) -> EventLoopFuture<Bool> {
-        var valid = true
-       
-        if title.value.isEmpty {
-            title.error = "Title is required"
-            valid = false
-        }
-        if Validator.count(...250).validate(title.value).isFailure {
-            title.error = "Title is too long (max 250 characters)"
-            valid = false
-        }
-        if Int(priority.value) == nil {
-            priority.error = "Invalid priority value"
-            valid = false
-        }
-        if modelId == nil && image.data == nil {
-            image.error = "Image is required"
-            valid = false
-        }
-        return req.eventLoop.future(valid)
-    }
-    
     func read(from input: Model)  {
-        modelId = input.id?.uuidString
         title.value = input.title
-        priority.value = String(input.priority)
+        priority.value = input.priority
         excerpt.value = input.excerpt
-        color.value = input.color ?? ""
-        image.value = input.imageKey
+        color.value = input.color
+        image.value.originalKey = input.imageKey
     }
 
     func write(to output: Model) {
-        output.title = title.value
-        output.priority = Int(priority.value)!
-        output.excerpt = excerpt.value
-        output.color = color.value.emptyToNil
-        if !image.value.isEmpty {
-            output.imageKey = image.value
-        }
-        if image.delete {
-            output.imageKey = ""
+        output.title = title.value!
+        output.priority = priority.value!
+        output.excerpt = excerpt.value ?? ""
+        output.color = color.value
+    }
+
+    func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
+        image.save(to: Model.path, req: req).map { key in
+            if let key = key {
+                model.imageKey = key
+            }
         }
     }
 }

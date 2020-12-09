@@ -22,9 +22,9 @@ extension BlogCategoryModel: LeafDataRepresentable {
     }
 }
 
-extension BlogCategoryModel: FormFieldStringOptionRepresentable {
+extension BlogCategoryModel: FormFieldOptionRepresentable {
 
-    var formFieldStringOption: FormFieldStringOption {
+    var formFieldOption: FormFieldOption {
         .init(key: id!.uuidString, label: title)
     }
 }

@@ -29,7 +29,7 @@ struct BlogFrontendView {
         ])
     }
 
-    func posts(page: ViewKit.Page<LeafData>, metadata: FrontendMetadata) -> EventLoopFuture<View> {
+    func posts(page: ListPage<LeafData>, metadata: FrontendMetadata) -> EventLoopFuture<View> {
         render("posts", [
                 "metadata": metadata.leafData,
                 "page": page.leafData,

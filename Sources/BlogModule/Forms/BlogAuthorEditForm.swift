@@ -8,83 +8,53 @@
 import FeatherCore
 
 final class BlogAuthorEditForm: ModelForm {
-
     typealias Model = BlogAuthorModel
 
-    struct Input: Decodable {
-        var modelId: String
-        var name: String
-        var bio: String
-        var image: File?
-    }
-
-    var modelId: String? = nil
-    var name = StringFormField()
-    var bio = StringFormField()
-    var image = FileFormField()
-    var metadata: FrontendMetadata?
+    var modelId: UUID?
+    var name = FormField<String>(key: "name").required().length(max: 250)
+    var bio = FormField<String>(key: "bio")
+    var image = FileFormField(key: "image")
     var notification: String?
-    
+
+    var metadata: FrontendMetadata?
+
     var leafData: LeafData {
         .dictionary([
-            "modelId": modelId,
-            "name": name,
-            "bio": bio,
-            "image": image,
-            "metadata": metadata,
-            "notification": notification,
+            "modelId": modelId?.encodeToLeafData() ?? .string(nil),
+            "fields": fieldsLeafData,
+            "notification": .string(notification),
+            "metadata": metadata?.leafData,
         ])
     }
 
     init() {}
     
-    init(req: Request) throws {
-        let context = try req.content.decode(Input.self)
-        modelId = context.modelId.emptyToNil
-        name.value = context.name
-        bio.value = context.bio
-        if let img = context.image, let data = img.data.getData(at: 0, length: img.data.readableBytes), !data.isEmpty {
-            image.data = data
-        }
+    func initialize(req: Request) -> EventLoopFuture<Void> {
+        //findMetadata(on: req.db, uuid: uuid).map { form.metadata = $0 }
+        return req.eventLoop.future()
+    }
+
+    func validateAfterFields(req: Request) -> EventLoopFuture<Bool> {
+        //image required
+        return req.eventLoop.future(true)
+    }
+
+    func processAfterFields(req: Request) -> EventLoopFuture<Void> {
+        image.uploadTemporaryFile(req: req)
     }
     
-    func validate(req: Request) -> EventLoopFuture<Bool> {
-        var valid = true
-
-        if let data = image.data, data.isEmpty {
-            image.error = "Image is required"
-            valid = false
-        }
-        if name.value.isEmpty {
-            name.error = "Name is required"
-            valid = false
-        }
-        if Validator.count(...250).validate(name.value).isFailure {
-            name.error = "Name is too long (max 250 characters)"
-            valid = false
-        }
-        if modelId == nil && image.data == nil {
-            image.error = "Image is required"
-            valid = false
-        }
-        return req.eventLoop.future(valid)
-    }
-
     func read(from input: Model)  {
-        modelId = input.id?.uuidString
         name.value = input.name
-        image.value = input.imageKey
         bio.value = input.bio
+        image.value.originalKey = input.imageKey
     }
 
     func write(to output: Model) {
-        output.name = name.value
-        if !image.value.isEmpty {
-            output.imageKey = image.value
-        }
-        if image.delete {
-            output.imageKey = ""
-        }
-        output.bio = bio.value
+        output.name = name.value!
+        output.bio = bio.value ?? ""
+    }
+    
+    func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
+        image.save(to: Model.path, req: req).map { model.imageKey = $0! }
     }
 }

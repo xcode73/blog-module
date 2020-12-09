@@ -1,11 +1,23 @@
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "key": "category",
+    "modelId": modelId,
+    "multipart": true,
+    "list": [
+        "title": "Categories",
+        "url": "/admin/blog/categories/"
+    ]
+])
+
 #define(toolbarLeftAfter):
-    #if(fields.modelId != nil):
-    <a href="#if(!fields.metadata.slug.isEmpty()):/#(fields.metadata.slug)/#else:/#endif" target="_blank">#svg("eye")</a>
+    #if(metadata != nil):
+    <a href="#if(!metadata.slug.isEmpty()):/#(fields.metadata.slug)/#else:/#endif" target="_blank">#svg("eye")</a>
     #endif
 #enddefine
 #define(toolbarRightBefore):
-    #if(fields.modelId != nil):
-    <a href="/admin/frontend/metadatas/#(fields.metadata.id)">#svg("feather")</a>
+    #if(metadata != nil):
+    <a href="/admin/frontend/metadatas/#(metadata.id)">#svg("feather")</a>
     #endif
 #enddefine
 #define(fields):
@@ -27,12 +39,4 @@
     #inline("Admin/Fields/Text")
 #enddefine
 
-#let(form = [
-    "list": "categories",
-    "id": formId,
-    "token": formToken,
-    "modelId": fields.modelId,
-    "key": "category",
-    "multipart": true
-])
 #inline("Admin/Form")

@@ -33,29 +33,210 @@ final class BlogModule: ViperModule {
         app.databases.middleware.use(FrontendMetadataMiddleware<BlogAuthorModel>())
         
         /// install
-        app.hooks.register("installer", use: installerHook)
-        app.hooks.register("main-menu-install", use: mainMenuInstallHook)
-        app.hooks.register("static-page-install", use: staticPageInstallHook)
-        
+        app.hooks.register("model-install", use: modelInstallHook)
+        app.hooks.register("system-variables-install", use: systemVariablesInstallHook)
+        app.hooks.register("user-permission-install", use: userPermissionInstallHook)
+        app.hooks.register("frontend-main-menu-install", use: frontendMainMenuInstallHook)
+        app.hooks.register("frontend-page-install", use: frontendPageInstallHook)
+
         /// admin
         app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
         app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
-        
-        /// frontend pages
-        app.hooks.register("home-page", use: homePageHook)
+
+        /// pages
         app.hooks.register("frontend-page", use: frontendPageHook)
-        app.hooks.register("categories-page", use: categoriesPageHook)
-        app.hooks.register("authors-page", use: authorsPageHook)
-        app.hooks.register("posts-page", use: postsPageHook)
+
+        app.hooks.register("blog-home-page", use: homePageHook)
+        app.hooks.register("blog-categories-page", use: categoriesPageHook)
+        app.hooks.register("blog-authors-page", use: authorsPageHook)
+        app.hooks.register("blog-posts-page", use: postsPageHook)
     }
 
     // MARK: - hooks
 
-    func installerHook(args: HookArguments) -> ViperInstaller {
-        BlogInstaller()
+    func modelInstallHook(args: HookArguments) -> EventLoopFuture<Void> {
+        let req = args["req"] as! Request
+
+        let categoryId = UUID()
+        let category = BlogCategoryModel(id: categoryId,
+                          title: "Getting started",
+                          imageKey: "blog/categories/d24868b4-b264-492e-845d-16ed11582cc7.jpg",
+                          excerpt: "Lorem ipsum dolor sit amet")
+        
+        /// we also need a fixed author id & a sample author
+        let authorId = UUID()
+        let author = BlogAuthorModel(id: authorId,
+                        name: "Feather",
+                        imageKey: "blog/authors/0e239e14-1499-44f3-bb46-3be7ea3a099d.jpg",
+                        bio: "Feather is a modern Swift-based CMS powered by Vapor 4.")
+
+        /// we will use some sample posts
+        let posts = [
+            BlogPostModel(title: "Binary Birds",
+                          imageKey: "blog/posts/0ff020a2-3977-484d-b636-11348a67b4f7.jpg",
+                          excerpt: "Feather is a modern Swift-based CMS powered by Vapor 4.",
+                          content: BlogModule.sample(asset: "birds.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Feather API",
+                          imageKey: "blog/posts/010d620f-424c-4a3a-ac6b-f635486052de.jpg",
+                          excerpt: "This post is a showcase about the available content blocks.",
+                          content: BlogModule.sample(asset: "api.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Bring your own theme",
+                          imageKey: "blog/posts/30ca164c-a9e5-40f8-9daa-ffcb4c7ffea8.jpg",
+                          excerpt: "You can build your own themes using HTML & CSS and Tau.",
+                          content: BlogModule.sample(asset: "themes.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Shortcodes and filters",
+                          imageKey: "blog/posts/87da5c18-5013-4672-bd52-487734550723.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "filters.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Content and metadata",
+                          imageKey: "blog/posts/636c4b1a-b280-4da3-9e7a-24538858df4a.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "metadata.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Static pages",
+                          imageKey: "blog/posts/1878d3af-d41a-4177-88d5-6689117cf917.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "pages.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Writing blog posts",
+                          imageKey: "blog/posts/2045c4eb-cf11-4242-beda-7902b325a564.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "posts.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Branding your site",
+                          imageKey: "blog/posts/60676325-ce03-495d-a098-0780c59a4e3a.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "brand.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "A quick tour",
+                          imageKey: "blog/posts/e44dd240-b702-47d8-8be3-fac2265d128a.jpg",
+                          excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                          content: BlogModule.sample(asset: "tour.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+            BlogPostModel(title: "Welcome to Feather",
+                          imageKey: "blog/posts/eb03ed0a-c5e1-48ae-8f9f-f3ac482e5fa4.jpg",
+                          excerpt: "Feather is an open source content management system. It is blazing fast with an easy-to-use admin interface where you can customise almost everything.",
+                          content: BlogModule.sample(asset: "welcome.html"),
+                          categoryId: categoryId,
+                          authorId: authorId),
+        ]
+
+        /// we persist the category, author and posts
+        return req.eventLoop.flatten([
+            /// save category, then publish associated metadata
+            category.create(on: req.db).flatMap { category.publishMetadata(on: req.db) },
+            /// save author, then publish associated metadata
+            author.create(on: req.db).flatMap { author.publishMetadata(on: req.db) },
+            /// save posts
+            posts.create(on: req.db).flatMap { _ in
+                /// after the posts are created we publish the associated metadatas
+                req.eventLoop.flatten(posts.map { $0.publishMetadata(on: req.db) })
+            }
+        ])
+    }
+    
+    func systemVariablesInstallHook(args: HookArguments) -> [[String: Any]] {
+        [
+            [
+                "key": "posts.page.title",
+                "name": "Blog posts page title",
+                "value": "Posts page title",
+                "note": "Title of the posts page",
+            ],
+            [
+                "key": "posts.page.description",
+                "name": "Blog posts page description",
+                "value": "Posts page description",
+                "note": "Description of the posts page",
+            ],
+            [
+                "key": "categories.page.title",
+                "name": "Blog categories page title",
+                "value": "Categories page title",
+                "note": "Title of the categories page",
+            ],
+            [
+                "key": "categories.page.description",
+                "name": "Blog categories page description",
+                "value": "Categories page description",
+                "note": "Description of the posts page",
+            ],
+            [
+                "key": "authors.page.title",
+                "name": "Blog authors page title",
+                "value": "Authors page title",
+                "note": "Title of the authors page",
+            ],
+            [
+                "key": "authors.page.description",
+                "name": "Blog authors page description",
+                "value": "Authors page description",
+                "note": "Description of the authors page",
+            ],
+            [
+                "key": "share.isEnabled",
+                "name": "Share box is enabled",
+                "value": "true",
+                "note": "The share box is only displayed if this variable is true",
+            ],
+            [
+                "key": "share.link.prefix",
+                "name": "Share box link prefix",
+                "value": "Thanks for reading, if you liked this article please",
+                "note": "Appears before the share link",
+            ],
+            [
+                "key": "share.link",
+                "name": "Share box link label",
+                "value": "share it on Twitter",
+                "note": "Share link title, will be placed after share text",
+            ],
+            [
+                "key": "share.link.suffix",
+                "name": "Share box link suffix",
+                "value": ".",
+                "note": "Appears after the share link",
+            ],
+            [
+                "key": "share.author",
+                "name": "Share box author Twitter profile",
+                "value": "tiborbodecs",
+                "note": "Share author",
+            ],
+            [
+                "key": "share.hashtags",
+                "name": "Share box hashtags (coma separated)",
+                "value": "SwiftLang",
+                "note": "Share hashtasgs",
+            ],
+            [
+                "key": "post.author.isEnabled",
+                "name": "Post author is enabled",
+                "value": "true",
+                "note": "Display post author box if this variable is true",
+            ],
+            [
+                "key": "post.footer",
+                "name": "Post footer text",
+                "note": "Display the contents of this value under every post entry",
+            ],
+        ]
     }
 
-    func mainMenuInstallHook(args: HookArguments) -> [[String:Any]] {
+    func frontendMainMenuInstallHook(args: HookArguments) -> [[String:Any]] {
         [
             [
                 "label": "Posts",
@@ -74,21 +255,44 @@ final class BlogModule: ViperModule {
             ],
         ]
     }
-
-    func staticPageInstallHook(args: HookArguments) -> [[String:Any]] {
+    
+    func frontendPageInstallHook(args: HookArguments) -> [[String:Any]] {
         [
             [
                 "title": "Posts",
-                "content": "[posts-page]",
+                "content": "[blog-posts-page]",
             ],
             [
                 "title": "Categories",
-                "content": "[categories-page]",
+                "content": "[blog-categories-page]",
             ],
             [
                 "title": "Authors",
-                "content": "[authors-page]",
+                "content": "[blog-authors-page]",
             ],
+        ]
+    }
+
+    func userPermissionInstallHook(args: HookArguments) -> [[String: Any]] {
+        [
+            /// blog
+            ["key": "blog",                     "name": "Blog module"],
+            /// categories
+            ["key": "blog.categories.list",     "name": "Blog category list"],
+            ["key": "blog.categories.create",   "name": "Blog category create"],
+            ["key": "blog.categories.update",   "name": "Blog category update"],
+            ["key": "blog.categories.delete",   "name": "Blog category delete"],
+            /// authors
+            ["key": "blog.authors.list",        "name": "Blog author list"],
+            ["key": "blog.authors.create",      "name": "Blog author create"],
+            ["key": "blog.authors.update",      "name": "Blog author update"],
+            ["key": "blog.authors.delete",      "name": "Blog author delete"],
+            /// posts
+            ["key": "blog.posts.list",          "name": "Blog post list"],
+            ["key": "blog.posts.create",        "name": "Blog post create"],
+            ["key": "blog.posts.update",        "name": "Blog post update"],
+            ["key": "blog.posts.delete",        "name": "Blog post delete"],
+            
         ]
     }
     
@@ -127,16 +331,13 @@ final class BlogModule: ViperModule {
                     return req.eventLoop.future(nil)
                 }
                 if metadata.model == BlogPostModel.name {
-                    return (router as! BlogRouter).frontend.postView(req, metadata)
-                        .encodeOptionalResponse(for: req)
+                    return (router as! BlogRouter).frontend.postView(req, metadata).encodeOptionalResponse(for: req)
                 }
                 if metadata.model == BlogCategoryModel.name {
-                    return (router as! BlogRouter).frontend.categoryView(req, metadata)
-                        .encodeOptionalResponse(for: req)
+                    return (router as! BlogRouter).frontend.categoryView(req, metadata).encodeOptionalResponse(for: req)
                 }
                 if metadata.model == BlogAuthorModel.name {
-                    return (router as! BlogRouter).frontend.authorView(req, metadata)
-                        .encodeOptionalResponse(for: req)
+                    return (router as! BlogRouter).frontend.authorView(req, metadata).encodeOptionalResponse(for: req)
                 }
                 return req.eventLoop.future(nil)
             }
@@ -195,7 +396,7 @@ final class BlogModule: ViperModule {
         let count = qb.count()
         let items = qb.copy().range(start..<end).all()
 
-        return items.and(count).map { (posts, count) -> ViewKit.Page<LeafData> in
+        return items.and(count).map { (posts, count) -> ListPage<LeafData> in
             let total = Int(ceil(Float(count) / Float(limit)))
             return .init(posts.map { $0.leafDataWithMetadata }, info: .init(current: page, limit: limit, total: total))
         }

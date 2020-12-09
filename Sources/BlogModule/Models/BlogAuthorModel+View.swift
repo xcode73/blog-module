@@ -21,9 +21,9 @@ extension BlogAuthorModel: LeafDataRepresentable {
     }
 }
 
-extension BlogAuthorModel: FormFieldStringOptionRepresentable {
+extension BlogAuthorModel: FormFieldOptionRepresentable {
 
-    var formFieldStringOption: FormFieldStringOption {
+    var formFieldOption: FormFieldOption {
         .init(key: id!.uuidString, label: name)
     }
 }

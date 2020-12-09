@@ -11,7 +11,8 @@ struct BlogAuthorLinkAdminController: ViperAdminViewController {
 
     typealias Module = BlogModule
     typealias Model = BlogAuthorLinkModel
-    typealias EditForm = BlogAuthorLinkEditForm
+    typealias CreateForm = BlogAuthorLinkEditForm
+    typealias UpdateForm = BlogAuthorLinkEditForm
     
     var idParamKey: String { "linkId" }
     
