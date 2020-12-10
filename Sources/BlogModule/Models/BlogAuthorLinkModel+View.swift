@@ -12,7 +12,7 @@ extension BlogAuthorLinkModel: LeafDataRepresentable {
     var leafData: LeafData {
         .dictionary([
             "id": id,
-            "name": name,
+            "label": label,
             "url": url,
             "priority": priority,
         ])

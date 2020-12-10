@@ -9,6 +9,14 @@ import FeatherCore
 
 extension BlogPostModel {
 
+    static func findWithCategoriesAndAuthorsBy(id: UUID, on db: Database) -> EventLoopFuture<BlogPostModel?> {
+        BlogPostModel.query(on: db)
+            .filter(\.$id == id)
+            .with(\.$categories)
+            .with(\.$authors)
+            .first()
+    }
+    
     /// query posts for the home page
     static func home(on req: Request) -> EventLoopFuture<[BlogPostModel]> {
         query(on: req.db)
@@ -17,7 +25,7 @@ extension BlogPostModel {
             .filter(FrontendMetadata.self, \.$date <= Date())
             .sort(FrontendMetadata.self, \.$date, .descending)
             .range(..<17)
-            .with(\.$category)
+            .with(\.$categories)
             .all()
     }
     
@@ -27,15 +35,15 @@ extension BlogPostModel {
             .filter(FrontendMetadata.self, \.$status == .published)
             .filter(FrontendMetadata.self, \.$date <= Date())
             .sort(FrontendMetadata.self, \.$date, .descending)
-            .with(\.$category)
+            .with(\.$categories)
     }
 
     /// find a single post by metadata
     static func findBy(id: UUID, on req: Request) -> EventLoopFuture<BlogPostModel> {
         findMetadata(on: req.db)
             .filter(\.$id == id)
-            .with(\.$category)
-            .with(\.$author) { $0.with(\.$links) }
+            .with(\.$categories)
+            .with(\.$authors) { $0.with(\.$links) }
             .first()
             .unwrap(or: Abort(.notFound))
     }
@@ -45,8 +53,8 @@ extension BlogPostModel {
         findMetadata(on: req.db)
             .filter(FrontendMetadata.self, \.$status == .published)
             .filter(FrontendMetadata.self, \.$date <= Date())
-            .filter(\.$author.$id == id)
-            .with(\.$category)
+//            .filter(\.$authors.$id == id)
+            .with(\.$categories)
             .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
     }
@@ -56,7 +64,7 @@ extension BlogPostModel {
         findMetadata(on: req.db)
             .filter(FrontendMetadata.self, \.$status == .published)
             .filter(FrontendMetadata.self, \.$date <= Date())
-            .filter(\.$category.$id == id)
+//            .filter(\.$category.$id == id)
             .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
     }

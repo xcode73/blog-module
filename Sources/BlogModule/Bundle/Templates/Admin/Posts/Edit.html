@@ -1,11 +1,27 @@
+#let(form = [
+    "id": formId,
+    "token": formToken,
+    "key": "post",
+    "modelId": modelId,
+    "multipart": true,
+    "list": [
+        "title": "Posts",
+        "url": "/admin/blog/posts/"
+    ]
+])
+
 #define(toolbarLeftAfter):
-    <a href="#if(!fields.metadata.slug.isEmpty()):/#(fields.metadata.slug)/#else:/#endif" target="_blank">#svg("eye")</a>
-#enddefine
-#define(toolbarRightBefore):
-    #if(fields.metadata != nil):
-    <a href="/admin/frontend/metadatas/#(fields.metadata.id)">#svg("feather")</a>
+    #if(metadata != nil):
+    <a href="/#(metadata.slug)/" target="_blank">#svg("eye")</a>
     #endif
 #enddefine
+
+#define(toolbarRightBefore):
+    #if(metadata != nil):
+    <a href="/admin/frontend/metadatas/#(metadata.id)">#svg("feather")</a>
+    #endif
+#enddefine
+
 #define(fields):
     #var(field = nil)
 
@@ -18,23 +34,15 @@
     #(field = ["id": "excerpt", "size": "s", "data": fields.excerpt])
     #inline("Admin/Fields/Textarea")
 
-    #(field = ["id": "content", "size": "l", "data": fields.content])
+    #(field = ["id": "content", "size": "xl", "data": fields.content])
     #inline("Admin/Fields/Textarea")
 
-    #(field = ["id": "categoryId", "label": "Category", "data": fields.categoryId])
-    #inline("Admin/Fields/Selection")
+    #(field = ["id": "categories", "data": fields.categories])
+    #inline("Admin/Fields/Checkbox")
 
-    #(field = ["id": "authorId", "label": "Author", "data": fields.authorId])
-    #inline("Admin/Fields/Selection")
+    #(field = ["id": "authors", "data": fields.authors])
+    #inline("Admin/Fields/Checkbox")
 
 #enddefine
 
-#let(form = [
-    "list": "posts",
-    "id": formId,
-    "token": formToken,
-    "modelId": fields.modelId,
-    "key": "post",
-    "multipart": true
-])
 #inline("Admin/Form")

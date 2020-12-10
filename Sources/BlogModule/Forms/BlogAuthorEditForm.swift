@@ -13,10 +13,14 @@ final class BlogAuthorEditForm: ModelForm {
     var modelId: UUID?
     var name = FormField<String>(key: "name").required().length(max: 250)
     var bio = FormField<String>(key: "bio")
-    var image = FileFormField(key: "image")
+    var image = FileFormField(key: "image").required()
     var notification: String?
 
     var metadata: FrontendMetadata?
+    
+    var fields: [FormFieldRepresentable] {
+        [name, bio, image]
+    }
 
     var leafData: LeafData {
         .dictionary([
@@ -30,13 +34,12 @@ final class BlogAuthorEditForm: ModelForm {
     init() {}
     
     func initialize(req: Request) -> EventLoopFuture<Void> {
-        //findMetadata(on: req.db, uuid: uuid).map { form.metadata = $0 }
-        return req.eventLoop.future()
-    }
-
-    func validateAfterFields(req: Request) -> EventLoopFuture<Bool> {
-        //image required
-        return req.eventLoop.future(true)
+        
+        var future = req.eventLoop.future()
+        if let id = modelId {
+            future = Model.findMetadata(id: id, on: req.db).map { [unowned self] in metadata = $0 }
+        }
+        return future
     }
 
     func processAfterFields(req: Request) -> EventLoopFuture<Void> {
@@ -55,6 +58,10 @@ final class BlogAuthorEditForm: ModelForm {
     }
     
     func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
-        image.save(to: Model.path, req: req).map { model.imageKey = $0! }
+        image.save(to: Model.path, req: req).map { key in
+            if let key = key {
+                model.imageKey = key
+            }
+        }
     }
 }

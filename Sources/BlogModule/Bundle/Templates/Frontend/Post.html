@@ -10,8 +10,10 @@
     <div class="content">
         <header class="m">
             <p>
-                <span class="c:underline:accent"#if(post.category.color != nil): style="border-color: #(post.category.color);"#endif>#(post.category.title)</span>
+                #for(category in post.categories):
+                <span class="c:underline:accent"#if(category.color != nil): style="border-color: #(category.color);"#endif>#(category.title)</span>
                 &middot;
+                #endfor
                 #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
                 <time datetime="#(dateString)">#(dateString)</time>
             </p>
@@ -32,8 +34,6 @@
 
 </article>
 
-#inline("Sponsor/Box")
-
 #if($system["share.isEnabled"] != nil && $system["share.isEnabled"] == "true"):
 <div class="content t:center">
     <section id="share" class="m:xl">
@@ -43,18 +43,32 @@
 </div>
 #endif
 
+
+    
+    <div class="content">
+        <section class="m">
+            <h2>Author#if(post.authors.count() > 1):s#endif</h2>
+            #for(author in post.authors):
+            <div class="g311 g:gap:zero m:b" style="justify-items: center; align-items: center;">
+                
+                <div class="g:col1">
+                    <img class="s128 r:circular" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
+                </div>
+                <div class="g:col2">
+                    <h3 class="m:t:s">#(author.name)</h3>
+                    <p>#(author.bio)</p>
+                    #for(link in author.links):
+                    <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
+                    #endfor
+                    </p>
+                </div>
+                
+            </div>
+            #endfor
+        </section>
+    </div>
+
 #if($system["post.author.isEnabled"] != nil && $system["post.author.isEnabled"] == "true"):
-<div class="content t:center">
-    <section class="m:xl">
-        <img class="s128 r:circular" src="#(post.author.imageKey.resolve())" alt="Picture of #(post.author.name)" title="#(post.author.name)">
-        <h3 class="m:top:s">#(post.author.name)</h3>
-        <p>#(post.author.bio)</p>
-        #for(link in post.author.links):
-        <a href="#(link.url)" target="_blank">#(link.name)</a> #if(!isLast): &middot; #endif
-        #endfor
-        </p>
-    </section>
-</div>
 #endif
 
 #($system["post.footer"] ?? "")

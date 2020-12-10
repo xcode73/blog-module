@@ -25,8 +25,10 @@ final class BlogAuthorModel: ViperModel {
     @Field(key: FieldKeys.name) var name: String
     @Field(key: FieldKeys.imageKey) var imageKey: String
     @Field(key: FieldKeys.bio) var bio: String
+
+    /// relations
     @Children(for: \.$author) var links: [BlogAuthorLinkModel]
-    @Children(for: \.$author) var posts: [BlogPostModel]
+    @Siblings(through: BlogPostAuthorModel.self, from: \.$author, to: \.$post) var posts: [BlogPostModel]
     
     init() { }
     

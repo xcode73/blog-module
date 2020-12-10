@@ -13,7 +13,7 @@ final class BlogAuthorLinkModel: ViperModel {
     static let name = "links"
     
     struct FieldKeys {
-        static var name: FieldKey { "name" }
+        static var label: FieldKey { "label" }
         static var url: FieldKey { "url" }
         static var priority: FieldKey { "priority" }
         static var authorId: FieldKey { "author_id" }
@@ -22,7 +22,7 @@ final class BlogAuthorLinkModel: ViperModel {
     // MARK: - fields
 
     @ID() var id: UUID?
-    @Field(key: FieldKeys.name) var name: String
+    @Field(key: FieldKeys.label) var label: String
     @Field(key: FieldKeys.url) var url: String
     @Field(key: FieldKeys.priority) var priority: Int
     @Parent(key: FieldKeys.authorId) var author: BlogAuthorModel
@@ -30,13 +30,13 @@ final class BlogAuthorLinkModel: ViperModel {
     init() { }
     
     init(id: UUID? = nil,
-         name: String,
+         label: String,
          url: String,
          priority: Int = 10,
          authorId: UUID)
     {
         self.id = id
-        self.name = name
+        self.label = label
         self.url = url
         self.priority = priority
         self.$author.id = authorId

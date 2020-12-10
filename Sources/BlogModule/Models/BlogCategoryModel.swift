@@ -26,7 +26,9 @@ final class BlogCategoryModel: ViperModel {
     @Field(key: FieldKeys.excerpt) var excerpt: String
     @Field(key: FieldKeys.color) var color: String?
     @Field(key: FieldKeys.priority) var priority: Int
-    @Children(for: \.$category) var posts: [BlogPostModel]
+    
+    /// posts relation
+    @Siblings(through: BlogPostCategoryModel.self, from: \.$category, to: \.$post) var posts: [BlogPostModel]
     
     init() { }
     

@@ -16,8 +16,8 @@ extension BlogPostModel: LeafDataRepresentable {
             "imageKey": imageKey,
             "excerpt": excerpt,
             "content": content,
-            "category": $category.value != nil ? category : nil,
-            "author": $author.value != nil ? author : nil,
+            "categories": $categories.value != nil ? categories.map(\.leafData) : [],
+            "authors": $authors.value != nil ? authors.map(\.leafData) : [],
         ])
     }
 }

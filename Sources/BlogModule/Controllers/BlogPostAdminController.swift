@@ -15,6 +15,8 @@ struct BlogPostAdminController: ViperAdminViewController {
     typealias CreateForm = BlogPostEditForm
     typealias UpdateForm = BlogPostEditForm
     
+    // MARK: - list
+
     var listAllowedOrders: [FieldKey] = [
         Model.FieldKeys.title,
         "date"
@@ -34,7 +36,7 @@ struct BlogPostAdminController: ViperAdminViewController {
         }
         return queryBuilder.sort(order, sort.direction)
     }
-
+    
     func beforeListPageRender(page: ListPage<BlogPostModel>) -> LeafData {
         .dictionary([
             "items": .array(page.items.map(\.leafDataWithMetadata)),
@@ -42,6 +44,20 @@ struct BlogPostAdminController: ViperAdminViewController {
         ])
     }
 
+    // MARK: - edit
+    
+    func findBy(_ id: UUID, on db: Database) -> EventLoopFuture<Model> {
+        Model.findWithCategoriesAndAuthorsBy(id: id, on: db).unwrap(or: Abort(.notFound, reason: "Post not found"))
+    }
+
+    func afterCreate(req: Request, form: CreateForm, model: Model) -> EventLoopFuture<Model> {
+        findBy(model.id!, on: req.db)
+    }
+
+    func afterUpdate(req: Request, form: UpdateForm, model: Model) -> EventLoopFuture<Model> {
+        findBy(model.id!, on: req.db)
+    }
+    
     func beforeDelete(req: Request, model: Model) -> EventLoopFuture<Model> {
         req.fs.delete(key: model.imageKey).map { model }
     }

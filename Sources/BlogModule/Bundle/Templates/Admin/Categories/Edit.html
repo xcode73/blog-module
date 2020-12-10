@@ -12,7 +12,7 @@
 
 #define(toolbarLeftAfter):
     #if(metadata != nil):
-    <a href="#if(!metadata.slug.isEmpty()):/#(fields.metadata.slug)/#else:/#endif" target="_blank">#svg("eye")</a>
+    <a href="/#(metadata.slug)/" target="_blank">#svg("eye")</a>
     #endif
 #enddefine
 #define(toolbarRightBefore):

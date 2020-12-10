@@ -39,9 +39,11 @@ final class BlogCategoryEditForm: ModelForm {
     func initialize(req: Request) -> EventLoopFuture<Void> {
         priority.value = 100
 
-//        findMetadata(on: req.db, uuid: uuid).map { form.metadata = $0 }
-        
-        return req.eventLoop.future()
+        var future = req.eventLoop.future()
+        if let id = modelId {
+            future = Model.findMetadata(id: id, on: req.db).map { [unowned self] in metadata = $0 }
+        }
+        return future
     }
 
     func processAfterFields(req: Request) -> EventLoopFuture<Void> {

@@ -11,14 +11,19 @@ final class BlogPostEditForm: ModelForm {
     typealias Model = BlogPostModel
 
     var modelId: UUID?
+    var image = FileFormField(key: "image").required()
     var title = FormField<String>(key: "title").required().length(max: 250)
     var excerpt = FormField<String>(key: "excerpt").length(max: 250)
     var content = FormField<String>(key: "content")
-    var categoryId = SelectionFormField<UUID>(key: "categoryId")
-    var authorId = SelectionFormField<UUID>(key: "authorId")
-    var image = FileFormField(key: "image")
+    var categories = ArraySelectionFormField<UUID>(key: "categories")
+    var authors = ArraySelectionFormField<UUID>(key: "authors")
     var notification: String?
+
     var metadata: FrontendMetadata?
+
+    var fields: [FormFieldRepresentable] {
+        [image, title, excerpt, content, categories, authors]
+    }
 
     var leafData: LeafData {
         .dictionary([
@@ -41,17 +46,12 @@ final class BlogPostEditForm: ModelForm {
             BlogCategoryModel.query(on: req.db)
                 .all()
                 .mapEach(\.formFieldOption)
-                .map { [unowned self] in categoryId.options = $0 },
+                .map { [unowned self] in categories.options = $0 },
             BlogAuthorModel.query(on: req.db)
                 .all()
                 .mapEach(\.formFieldOption)
-                .map { [unowned self] in authorId.options = $0 },
+                .map { [unowned self] in authors.options = $0 },
         ])
-    }
-
-    func validateAfterFields(req: Request) -> EventLoopFuture<Bool> {
-        //image required
-        return req.eventLoop.future(true)
     }
 
     func processAfterFields(req: Request) -> EventLoopFuture<Void> {
@@ -63,19 +63,38 @@ final class BlogPostEditForm: ModelForm {
         image.value.originalKey = input.imageKey
         excerpt.value = input.excerpt
         content.value = input.content
-        categoryId.value = input.$category.id
-        authorId.value = input.$author.id
+        categories.values = input.categories.compactMap { $0.id }
+        authors.values = input.authors.compactMap { $0.id }
     }
     
     func write(to output: Model) {
         output.title = title.value!
         output.excerpt = excerpt.value ?? ""
         output.content = content.value ?? ""
-        output.$category.id = categoryId.value!
-        output.$author.id = authorId.value!
     }
 
     func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
-        image.save(to: Model.path, req: req).map { model.imageKey = $0! }
+        image.save(to: Model.path, req: req).map { key in
+            if let key = key {
+                model.imageKey = key
+            }
+        }
+    }
+    
+    func didSave(req: Request, model: Model) -> EventLoopFuture<Void> {
+        var future = req.eventLoop.future()
+        if modelId != nil {
+            future = req.eventLoop.flatten([
+                BlogPostCategoryModel.query(on: req.db).filter(\.$post.$id == modelId!).delete(),
+                BlogPostAuthorModel.query(on: req.db).filter(\.$post.$id == modelId!).delete(),
+            ])
+        }
+        
+        return future.flatMap { [unowned self] in
+            req.eventLoop.flatten([
+                categories.values.map { BlogPostCategoryModel(postId: model.id!, categoryId: $0) }.create(on: req.db),
+                authors.values.map { BlogPostAuthorModel(postId: model.id!, authorId: $0) }.create(on: req.db),
+            ])
+        }
     }
 }

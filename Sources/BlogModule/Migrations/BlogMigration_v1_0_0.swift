@@ -27,6 +27,15 @@ struct BlogMigration_v1_0_0: Migration {
                 .field(BlogAuthorModel.FieldKeys.imageKey, .string, .required)
                 .field(BlogAuthorModel.FieldKeys.bio, .data, .required)
                 .create(),
+
+            db.schema(BlogAuthorLinkModel.schema)
+                .id()
+                .field(BlogAuthorLinkModel.FieldKeys.label, .string, .required)
+                .field(BlogAuthorLinkModel.FieldKeys.url, .string, .required)
+                .field(BlogAuthorLinkModel.FieldKeys.priority, .int, .required)
+                .field(BlogAuthorLinkModel.FieldKeys.authorId, .uuid, .required)
+                .foreignKey(BlogAuthorLinkModel.FieldKeys.authorId, references: BlogAuthorModel.schema, .id)
+                .create(),
             
             db.schema(BlogPostModel.schema)
                 .id()
@@ -34,19 +43,18 @@ struct BlogMigration_v1_0_0: Migration {
                 .field(BlogPostModel.FieldKeys.imageKey, .string, .required)
                 .field(BlogPostModel.FieldKeys.excerpt, .data, .required)
                 .field(BlogPostModel.FieldKeys.content, .data, .required)
-                .field(BlogPostModel.FieldKeys.categoryId, .uuid, .required)
-                .field(BlogPostModel.FieldKeys.authorId, .uuid, .required)
-                .foreignKey(BlogPostModel.FieldKeys.categoryId, references: BlogCategoryModel.schema, .id)
-                .foreignKey(BlogPostModel.FieldKeys.authorId, references: BlogAuthorModel.schema, .id)
                 .create(),
             
-            db.schema(BlogAuthorLinkModel.schema)
+            db.schema(BlogPostCategoryModel.schema)
                 .id()
-                .field(BlogAuthorLinkModel.FieldKeys.name, .string, .required)
-                .field(BlogAuthorLinkModel.FieldKeys.url, .string, .required)
-                .field(BlogAuthorLinkModel.FieldKeys.priority, .int, .required)
-                .field(BlogAuthorLinkModel.FieldKeys.authorId, .uuid, .required)
-                .foreignKey(BlogAuthorLinkModel.FieldKeys.authorId, references: BlogAuthorModel.schema, .id)
+                .field(BlogPostCategoryModel.FieldKeys.postId, .uuid, .required)
+                .field(BlogPostCategoryModel.FieldKeys.categoryId, .uuid, .required)
+                .create(),
+
+            db.schema(BlogPostAuthorModel.schema)
+                .id()
+                .field(BlogPostAuthorModel.FieldKeys.postId, .uuid, .required)
+                .field(BlogPostAuthorModel.FieldKeys.authorId, .uuid, .required)
                 .create(),
         ])
     }

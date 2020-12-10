@@ -17,7 +17,7 @@ struct BlogAuthorLinkAdminController: ViperAdminViewController {
     var idParamKey: String { "linkId" }
     
     var listAllowedOrders: [FieldKey] = [
-        Model.FieldKeys.name,
+        Model.FieldKeys.label,
         Model.FieldKeys.url,
         Model.FieldKeys.priority,
     ]

@@ -12,7 +12,7 @@
         <h1 class="m:t">#(head.title)</h1>
         <p>#(head.description)</p>
         #for(link in author.links):
-        <a href="#(link.url)" target="_blank">#(link.name)</a> #if(!isLast): &middot; #endif
+        <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
         #endfor
         <span><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></span>
     </header>

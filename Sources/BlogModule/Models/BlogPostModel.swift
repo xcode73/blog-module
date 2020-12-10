@@ -17,8 +17,6 @@ final class BlogPostModel: ViperModel {
         static var imageKey: FieldKey { "image_key" }
         static var excerpt: FieldKey { "excerpt" }
         static var content: FieldKey { "content" }
-        static var categoryId: FieldKey { "category_id" }
-        static var authorId: FieldKey { "author_id" }
     }
     
     // MARK: - fields
@@ -28,8 +26,9 @@ final class BlogPostModel: ViperModel {
     @Field(key: FieldKeys.imageKey) var imageKey: String
     @Field(key: FieldKeys.excerpt) var excerpt: String
     @Field(key: FieldKeys.content) var content: String
-    @Parent(key: FieldKeys.categoryId) var category: BlogCategoryModel
-    @Parent(key: FieldKeys.authorId) var author: BlogAuthorModel
+    
+    @Siblings(through: BlogPostCategoryModel.self, from: \.$post, to: \.$category) var categories: [BlogCategoryModel]
+    @Siblings(through: BlogPostAuthorModel.self, from: \.$post, to: \.$author) var authors: [BlogAuthorModel]
 
     init() { }
     
@@ -37,16 +36,12 @@ final class BlogPostModel: ViperModel {
          title: String,
          imageKey: String,
          excerpt: String,
-         content: String,
-         categoryId: UUID,
-         authorId: UUID)
+         content: String)
     {
         self.id = id
         self.title = title
         self.imageKey = imageKey
         self.excerpt = excerpt
         self.content = content
-        self.$category.id = categoryId
-        self.$author.id = authorId
     }
 }
