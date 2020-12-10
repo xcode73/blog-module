@@ -46,7 +46,7 @@ final class BlogModule: ViperModule {
         /// pages
         app.hooks.register("frontend-page", use: frontendPageHook)
 
-        app.hooks.register("blog-home-page", use: homePageHook)
+        app.hooks.register("blog-page", use: homePageHook)
         app.hooks.register("blog-categories-page", use: categoriesPageHook)
         app.hooks.register("blog-authors-page", use: authorsPageHook)
         app.hooks.register("blog-posts-page", use: postsPageHook)
@@ -78,23 +78,25 @@ final class BlogModule: ViperModule {
                                       imageKey: "blog/authors/dodo.jpg",
                                       bio: "The dodo is an extinct flightless bird that was endemic to the island of Mauritius")
         
-        /// https://en.wikipedia.org/wiki/Dodo
-
+        let link1 = BlogAuthorLinkModel(label: "Wikipedia", url: "https://en.wikipedia.org/wiki/Dodo", authorId: author1.id!)
+        let link2 = BlogAuthorLinkModel(label: "Mauritius", url: "https://en.wikipedia.org/wiki/Mauritius", authorId: author1.id!)
+        
         let author2 = BlogAuthorModel(id: UUID(),
                                       name: "Duck",
                                       imageKey: "blog/authors/duck.jpg",
                                       bio: "Ducks are mostly aquatic birds, mostly smaller than the swans and geese, and may be found in both fresh water and sea water.")
         
-        /// https://en.wikipedia.org/wiki/Duck
+        let link3 = BlogAuthorLinkModel(label: "Quack", url: "https://en.wikipedia.org/wiki/Duck", authorId: author2.id!)
         
         let author3 = BlogAuthorModel(id: UUID(),
                                       name: "Peacock",
                                       imageKey: "blog/authors/peacock.jpg",
                                       bio: "Male peafowl are referred to as peacocks, and female peafowl are referred to as peahens")
         
-        /// https://en.wikipedia.org/wiki/Peafowl
+        let link4 = BlogAuthorLinkModel(label: "Peafowl", url: "https://en.wikipedia.org/wiki/Peafowl", authorId: author3.id!)
         
         let authors = [author1, author2, author3]
+        let links = [link1, link2, link3, link4]
 
         /// we will use some sample posts
         
@@ -178,8 +180,10 @@ final class BlogModule: ViperModule {
                 req.eventLoop.flatten(categories.map { $0.publishMetadata(on: req.db) })
             },
             authors.create(on: req.db).flatMap {
-                req.eventLoop.flatten(categories.map { $0.publishMetadata(on: req.db) })
-            },
+                req.eventLoop.flatten(authors.map { $0.publishMetadata(on: req.db) })
+            }
+            .flatMap { links.create(on: req.db) },
+
             posts.create(on: req.db).flatMap { _ in
                 req.eventLoop.flatten(posts.map { $0.publishMetadata(on: req.db) })
             },
@@ -279,25 +283,34 @@ final class BlogModule: ViperModule {
     func frontendMainMenuInstallHook(args: HookArguments) -> [[String:Any]] {
         [
             [
+                "label": "Blog",
+                "url": "/blog/",
+                "priority": 900,
+            ],
+            [
                 "label": "Posts",
                 "url": "/posts/",
-                "priority": 900,
+                "priority": 800,
             ],
             [
                 "label": "Categories",
                 "url": "/categories/",
-                "priority": 800,
+                "priority": 700,
             ],
             [
                 "label": "Authors",
                 "url": "/authors/",
-                "priority": 700,
+                "priority": 600,
             ],
         ]
     }
     
     func frontendPageInstallHook(args: HookArguments) -> [[String:Any]] {
         [
+            [
+                "title": "Blog",
+                "content": "[blog-page]",
+            ],
             [
                 "title": "Posts",
                 "content": "[blog-posts-page]",

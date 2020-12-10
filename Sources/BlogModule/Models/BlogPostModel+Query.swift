@@ -5,6 +5,7 @@
 //  Created by Tibor Bodecs on 2020. 11. 06..
 //
 
+import Fluent
 import FeatherCore
 
 extension BlogPostModel {
@@ -50,23 +51,33 @@ extension BlogPostModel {
     
     /// query posts for the author page
     static func findByAuthor(id: UUID, on req: Request) -> EventLoopFuture<[BlogPostModel]> {
+        /// this is not so efficient, but since we can't filter throught siblings... it'll do the job.
         findMetadata(on: req.db)
             .filter(FrontendMetadata.self, \.$status == .published)
             .filter(FrontendMetadata.self, \.$date <= Date())
-//            .filter(\.$authors.$id == id)
+//            .filter(\.$authors.$id ~~ ids)
             .with(\.$categories)
+            .with(\.$authors)
             .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
+            .map { items in
+                items.filter { $0.authors.map(\.id).contains(id) }
+            }
     }
 
     /// query posts for the category page
     static func findByCategory(id: UUID, on req: Request) -> EventLoopFuture<[BlogPostModel]> {
+        /// this is not so efficient, but since we can't filter throught siblings... it'll do the job.
         findMetadata(on: req.db)
             .filter(FrontendMetadata.self, \.$status == .published)
             .filter(FrontendMetadata.self, \.$date <= Date())
+            .with(\.$categories)
 //            .filter(\.$category.$id == id)
             .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
+            .map { items in
+                items.filter { $0.categories.map(\.id).contains(id) }
+            }
     }
 }
 

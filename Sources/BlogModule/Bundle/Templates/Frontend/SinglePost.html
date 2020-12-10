@@ -6,8 +6,10 @@
         </div>
         <div>
             <p class="m:v:xs">
-                <span class="c:underline:accent"#if(post.category.color != nil || category.color != nil): style="border-color: #(post.category.color ?? category.color ?? "");"#endif>#(post.category.title ?? category.title ?? "")</span>
+                #for(pc in post.categories ?? []):
+                <span class="c:underline:accent"#if(pc.color != nil): style="border-color: #(pc.color);"#endif>#(pc.title)</span>
                     &middot;
+                #endfor
                 #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
                 <time datetime="#(dateString)">#(dateString)</time>
             </p>
