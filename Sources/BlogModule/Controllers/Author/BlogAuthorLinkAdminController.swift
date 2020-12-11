@@ -22,12 +22,10 @@ struct BlogAuthorLinkAdminController: ViperAdminViewController {
         Model.FieldKeys.priority,
     ]
 
-    func beforeList(req: Request, queryBuilder: QueryBuilder<Model>) throws -> QueryBuilder<Model> {
+    func beforeListQuery(req: Request, queryBuilder: QueryBuilder<BlogAuthorLinkModel>) -> QueryBuilder<BlogAuthorLinkModel> {
         guard let id = req.parameters.get("id"), let uuid = UUID(uuidString: id) else {
-            throw Abort(.badRequest)
+            return queryBuilder
         }
-        return queryBuilder
-            .filter(\.$author.$id == uuid)
-            .sort(\Model.$priority, .descending)
+        return queryBuilder.filter(\.$author.$id == uuid).sort(\Model.$priority, .descending)
     }
 }

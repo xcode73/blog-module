@@ -20,8 +20,8 @@ struct BlogCategoryAdminController: ViperAdminViewController {
         Model.FieldKeys.priority,
     ]
 
-    func searchList(using qb: QueryBuilder<Model>, for searchTerm: String) {
-        qb.filter(\.$title ~~ searchTerm)
+    func listQuery(search: String, queryBuilder: QueryBuilder<BlogCategoryModel>, req: Request) {
+        queryBuilder.filter(\.$title ~~ search)
     }
     
     func beforeDelete(req: Request, model: Model) -> EventLoopFuture<Model> {
