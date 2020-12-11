@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/binarybirds/feather-core",
         "state": {
           "branch": null,
-          "revision": "9f146d03e1b4962c597810518200fe8078c6cc2f",
-          "version": "1.0.0-beta.26.2"
+          "revision": "3863cf0f556bf7f704ed4135a10c76e8ed0f7139",
+          "version": "1.0.0-beta.28"
         }
       },
       {
@@ -276,8 +276,8 @@
         "repositoryURL": "https://github.com/vapor/vapor.git",
         "state": {
           "branch": null,
-          "revision": "2b222a632deb580cfd5122f46481df3a69ff99f1",
-          "version": "4.36.0"
+          "revision": "5148f02e42149f73f6616452062cf96b64afbda6",
+          "version": "4.36.2"
         }
       },
       {

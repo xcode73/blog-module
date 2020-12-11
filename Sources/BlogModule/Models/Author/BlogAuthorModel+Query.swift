@@ -18,9 +18,6 @@ extension BlogAuthorModel {
     }
 
     static func findPublished(on req: Request) -> EventLoopFuture<[BlogAuthorModel]> {
-        findMetadata(on: req.db)
-            .filter(FrontendMetadata.self, \.$status == .published)
-            .filter(FrontendMetadata.self, \.$date <= Date())
-            .all()
+        queryPublicMetadata(on: req.db).all()
     }
 }

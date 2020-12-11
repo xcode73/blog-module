@@ -7,15 +7,10 @@
 
 import FeatherCore
 
-extension BlogPostModel: FrontendMetadataChangeDelegate {
+extension BlogPostModel: MetadataRepresentable {
     
-    var slug: String { title.slugify() }
-    
-    func willUpdate(_ metadata: FrontendMetadata) {
-        metadata.slug = slug
-        metadata.title = title
-        metadata.excerpt = excerpt
-        metadata.imageKey = imageKey
+    var metadata: Metadata {
+        .init(slug: title.slugify(), title: title, excerpt: excerpt, imageKey: imageKey)
     }
 }
 

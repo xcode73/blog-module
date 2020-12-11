@@ -1,8 +1,8 @@
 #let(head = [
     "title": category.title,
     "description": category.excerpt,
-    "css": metadata.css,
-    "js": metadata.js
+    "css": category.metadata.css,
+    "js": category.metadata.js
 ])
 
 #define(body):
@@ -21,6 +21,6 @@
         #endfor
     </div>
 </div>
-
 #enddefine
+
 #inline("Frontend/Index")

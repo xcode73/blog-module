@@ -20,8 +20,6 @@ struct BlogRouter: ViperRouter {
     let postAdmin = BlogPostAdminController()
     let postApi = BlogPostApiController()
 
-    let frontend = BlogFrontendController()
-
     func adminRoutesHook(args: HookArguments) {
         let routes = args["routes"] as! RoutesBuilder
 

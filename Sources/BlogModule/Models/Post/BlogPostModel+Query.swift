@@ -20,11 +20,7 @@ extension BlogPostModel {
     
     /// query posts for the home page
     static func home(on req: Request) -> EventLoopFuture<[BlogPostModel]> {
-        query(on: req.db)
-            .join(FrontendMetadata.self, on: \BlogPostModel.$id == \FrontendMetadata.$reference, method: .inner)
-            .filter(FrontendMetadata.self, \.$status == .published)
-            .filter(FrontendMetadata.self, \.$date <= Date())
-            .sort(FrontendMetadata.self, \.$date, .descending)
+        queryPublicMetadata(on: req.db)
             .range(..<17)
             .with(\.$categories)
             .all()
@@ -32,16 +28,13 @@ extension BlogPostModel {
     
     /// public post list
     static func find(on req: Request) -> QueryBuilder<BlogPostModel> {
-        findMetadata(on: req.db)
-            .filter(FrontendMetadata.self, \.$status == .published)
-            .filter(FrontendMetadata.self, \.$date <= Date())
-            .sort(FrontendMetadata.self, \.$date, .descending)
+        queryPublicMetadata(on: req.db)
             .with(\.$categories)
     }
 
     /// find a single post by metadata
     static func findBy(id: UUID, on req: Request) -> EventLoopFuture<BlogPostModel> {
-        findMetadata(on: req.db)
+        queryPublicMetadata(on: req.db)
             .filter(\.$id == id)
             .with(\.$categories)
             .with(\.$authors) { $0.with(\.$links) }
@@ -52,13 +45,10 @@ extension BlogPostModel {
     /// query posts for the author page
     static func findByAuthor(id: UUID, on req: Request) -> EventLoopFuture<[BlogPostModel]> {
         /// this is not so efficient, but since we can't filter throught siblings... it'll do the job.
-        findMetadata(on: req.db)
-            .filter(FrontendMetadata.self, \.$status == .published)
-            .filter(FrontendMetadata.self, \.$date <= Date())
+        queryPublicMetadata(on: req.db)
 //            .filter(\.$authors.$id ~~ ids)
             .with(\.$categories)
             .with(\.$authors)
-            .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
             .map { items in
                 items.filter { $0.authors.map(\.id).contains(id) }
@@ -68,12 +58,9 @@ extension BlogPostModel {
     /// query posts for the category page
     static func findByCategory(id: UUID, on req: Request) -> EventLoopFuture<[BlogPostModel]> {
         /// this is not so efficient, but since we can't filter throught siblings... it'll do the job.
-        findMetadata(on: req.db)
-            .filter(FrontendMetadata.self, \.$status == .published)
-            .filter(FrontendMetadata.self, \.$date <= Date())
+        queryPublicMetadata(on: req.db)
             .with(\.$categories)
 //            .filter(\.$category.$id == id)
-            .sort(FrontendMetadata.self, \.$date, .descending)
             .all()
             .map { items in
                 items.filter { $0.categories.map(\.id).contains(id) }

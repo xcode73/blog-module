@@ -7,16 +7,10 @@
 
 import FeatherCore
 
-/// this object is used when a metadata is created or updated
-extension BlogCategoryModel: FrontendMetadataChangeDelegate {
-    
-    /// the default slug is just a combination of the model name and the slugified title
-    var slug: String { Self.name + "/" + title.slugify() }
-    
-    /// when a category change happens we update the slug and title of the associated metadata
-    func willUpdate(_ metadata: FrontendMetadata) {
-        metadata.slug = slug
-        metadata.title = title
+extension BlogCategoryModel: MetadataRepresentable {
+
+    var metadata: Metadata {
+        .init(slug: Self.name + "/" + title.slugify(), title: title)
     }
 }
 

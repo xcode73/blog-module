@@ -27,19 +27,19 @@ struct BlogPostAdminController: ViperAdminViewController {
     }
 
     func beforeListQuery(req: Request, queryBuilder: QueryBuilder<BlogPostModel>) -> QueryBuilder<BlogPostModel> {
-        queryBuilder.join(FrontendMetadata.self, on: \FrontendMetadata.$reference == \Model.$id, method: .inner)
+        Model.query(on: req.db).joinMetadata()
     }
 
     func listQuery(order: FieldKey, sort: ListSort, queryBuilder: QueryBuilder<BlogPostModel>, req: Request) -> QueryBuilder<BlogPostModel> {
         if order == "date" {
-            return queryBuilder.sort(FrontendMetadata.self, \.$date, sort.direction)
+            return queryBuilder.sortMetadataByDate(sort.direction)
         }
         return queryBuilder.sort(order, sort.direction)
     }
     
     func beforeListPageRender(page: ListPage<BlogPostModel>) -> LeafData {
         .dictionary([
-            "items": .array(page.items.map(\.leafDataWithMetadata)),
+            "items": .array(page.items.map(\.leafDataWithJoinedMetadata)),
             "info": page.info.leafData
         ])
     }

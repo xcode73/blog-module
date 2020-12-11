@@ -16,7 +16,7 @@ final class BlogAuthorEditForm: ModelForm {
     var image = FileFormField(key: "image").required()
     var notification: String?
 
-    var metadata: FrontendMetadata?
+    var metadata: Metadata?
     
     var fields: [FormFieldRepresentable] {
         [name, bio, image]
@@ -37,7 +37,7 @@ final class BlogAuthorEditForm: ModelForm {
         
         var future = req.eventLoop.future()
         if let id = modelId {
-            future = Model.findMetadata(id: id, on: req.db).map { [unowned self] in metadata = $0 }
+            future = Model.findMetadataBy(id: id, on: req.db).map { [unowned self] in metadata = $0 }
         }
         return future
     }

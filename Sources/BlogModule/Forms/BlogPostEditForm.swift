@@ -19,7 +19,7 @@ final class BlogPostEditForm: ModelForm {
     var authors = ArraySelectionFormField<UUID>(key: "authors")
     var notification: String?
 
-    var metadata: FrontendMetadata?
+    var metadata: Metadata?
 
     var fields: [FormFieldRepresentable] {
         [image, title, excerpt, content, categories, authors]
@@ -39,7 +39,7 @@ final class BlogPostEditForm: ModelForm {
     func initialize(req: Request) -> EventLoopFuture<Void> {
         var future = req.eventLoop.future()
         if let id = modelId {
-            future = Model.findMetadata(id: id, on: req.db).map { [unowned self] in metadata = $0 }
+            future = Model.findMetadataBy(id: id, on: req.db).map { [unowned self] in metadata = $0 }
         }
         return req.eventLoop.flatten([
             future,
