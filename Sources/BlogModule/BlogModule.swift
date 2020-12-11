@@ -39,8 +39,11 @@ final class BlogModule: ViperModule {
         app.hooks.register("frontend-main-menu-install", use: frontendMainMenuInstallHook)
         app.hooks.register("frontend-page-install", use: frontendPageInstallHook)
 
-        /// admin
+        /// routes
         app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
+        app.hooks.register("api", use: (router as! BlogRouter).privateApiRoutesHook)
+        app.hooks.register("public-api", use: (router as! BlogRouter).publicApiRoutesHook)
+        
         app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
 
         /// pages

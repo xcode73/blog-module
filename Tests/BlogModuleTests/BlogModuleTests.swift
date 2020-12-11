@@ -10,10 +10,6 @@ import XCTest
 
 final class BlogModuleTests: XCTestCase {
     
-    static var allTests = [
-        ("testExample", testExample),
-    ]
-    
     func testExample() {
         XCTAssertTrue(true)
     }
