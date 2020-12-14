@@ -34,11 +34,11 @@
 
 </article>
 
-#if($system["share.isEnabled"] != nil && $system["share.isEnabled"] == "true"):
+#if($system.variables["share.isEnabled"] != nil && $system.variables["share.isEnabled"] == "true"):
 <div class="content t:center">
     <section id="share" class="m:xl">
         <hr>
-        <p>#($system["share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system["share.author"] ?? "")&hashtags=#($system["share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system["share.link"] ?? "Share on Twitter")</a> #($system["share.link.suffix"] ?? "")</p>
+        <p>#($system.variables["share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system.variables["share.author"] ?? "")&hashtags=#($system.variables["share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system.variables["share.link"] ?? "Share on Twitter")</a> #($system.variables["share.link.suffix"] ?? "")</p>
     </section>
 </div>
 #endif
@@ -68,10 +68,10 @@
         </section>
     </div>
 
-#if($system["post.author.isEnabled"] != nil && $system["post.author.isEnabled"] == "true"):
+#if($system.variables["post.author.isEnabled"] != nil && $system.variables["post.author.isEnabled"] == "true"):
 #endif
 
-#($system["post.footer"] ?? "")
+#($system.variables["post.footer"] ?? "")
 
 #enddefine
 #inline("Frontend/Index")

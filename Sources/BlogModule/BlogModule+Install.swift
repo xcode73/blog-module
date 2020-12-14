@@ -150,6 +150,18 @@ extension BlogModule {
     func systemVariablesInstallHook(args: HookArguments) -> [[String: Any]] {
         [
             [
+                "key": "blog.home.page.title",
+                "name": "Blog home page title",
+                "value": "Blog page title",
+                "note": "Title of the blog home page",
+            ],
+            [
+                "key": "blog.home.page.description",
+                "name": "Blog home page description",
+                "value": "Blog page description",
+                "note": "Description of the blog home page",
+            ],
+            [
                 "key": "posts.page.title",
                 "name": "Blog posts page title",
                 "value": "Posts page title",
