@@ -283,24 +283,10 @@ extension BlogModule {
 
     func userPermissionInstallHook(args: HookArguments) -> [[String: Any]] {
         [
-            /// blog
-            ["key": "blog",                     "name": "Blog module"],
-            /// categories
-            ["key": "blog.categories.list",     "name": "Blog category list"],
-            ["key": "blog.categories.create",   "name": "Blog category create"],
-            ["key": "blog.categories.update",   "name": "Blog category update"],
-            ["key": "blog.categories.delete",   "name": "Blog category delete"],
-            /// authors
-            ["key": "blog.authors.list",        "name": "Blog author list"],
-            ["key": "blog.authors.create",      "name": "Blog author create"],
-            ["key": "blog.authors.update",      "name": "Blog author update"],
-            ["key": "blog.authors.delete",      "name": "Blog author delete"],
-            /// posts
-            ["key": "blog.posts.list",          "name": "Blog post list"],
-            ["key": "blog.posts.create",        "name": "Blog post create"],
-            ["key": "blog.posts.update",        "name": "Blog post update"],
-            ["key": "blog.posts.delete",        "name": "Blog post delete"],
-            
-        ]
+            ["key": "blog", "name": "Blog module"],
+        ] +
+        BlogCategoryModel.permissions +
+        BlogAuthorModel.permissions +
+        BlogPostModel.permissions
     }
 }

@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-sqlite-driver", from: "4.0.0"),
         .package(url: "https://github.com/binarybirds/liquid-local-driver", from: "1.2.0-beta"),
 
-        .package(url: "https://github.com/binarybirds/spec.git", from: "1.1.0"),
+        .package(url: "https://github.com/binarybirds/spec.git", from: "1.2.0-beta"),
     ],
     targets: [
         .target(name: "BlogApi"),
@@ -38,6 +38,7 @@ let package = Package(
         ]),
         .testTarget(name: "BlogModuleTests", dependencies: [
             .target(name: "BlogModule"),
+
         ]),
         .testTarget(name: "IntegrationTests", dependencies: [
             .target(name: "Feather"),

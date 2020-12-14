@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/binarybirds/feather-core",
         "state": {
           "branch": null,
-          "revision": "3863cf0f556bf7f704ed4135a10c76e8ed0f7139",
-          "version": "1.0.0-beta.28"
+          "revision": "244533c9172bd16663faec15720373aa7d4ae43e",
+          "version": "1.0.0-beta.29.1"
         }
       },
       {
@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/binarybirds/spec.git",
         "state": {
           "branch": null,
-          "revision": "fcdb546690908d834750c53509893210f3917813",
-          "version": "1.1.0"
+          "revision": "74ec16a463499b61f5e081c9bdaa724bcdb1be3e",
+          "version": "1.2.0-beta.1"
         }
       },
       {

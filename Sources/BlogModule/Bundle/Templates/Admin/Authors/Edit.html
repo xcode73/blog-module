@@ -1,7 +1,8 @@
 #let(form = [
     "id": formId,
     "token": formToken,
-    "key": "author",
+    "title": "Author",
+    "key": "blog.authors",
     "modelId": modelId,
     "multipart": true,
     "list": [
@@ -10,19 +11,15 @@
     ]
 ])
 
-#define(toolbarLeftAfter):
-    #if(metadata != nil):
-    <a href="/#(metadata.slug)/" target="_blank">#svg("eye")</a>
-    #endif
-#enddefine
 #define(toolbarRightBefore):
     #if(modelId != nil):
-    <a href="/admin/blog/authors/#(modelId)/links">#svg("link-2")</a>
+    <a href="/admin/blog/authors/#(modelId)/links/">#svg("link-2")</a>
     #endif
     #if(metadata != nil):
-    <a href="/admin/frontend/metadatas/#(metadata.id)">#svg("feather")</a>
+    <a href="/admin/frontend/metadatas/#(metadata.id)/update/">#svg("feather")</a>
     #endif
 #enddefine
+
 #define(fields):
     #var(field = nil)
 
