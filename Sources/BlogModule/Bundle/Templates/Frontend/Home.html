@@ -6,6 +6,25 @@
 
 ])
 #define(css):
+.post-cell {
+    grid-column: span 6;
+}
+@media screen and (min-width: 600px) {
+    .post-cell {
+        grid-column: span 3;
+    }
+    .post-cell-1 {
+        grid-column: span 6;
+    }
+}
+@media screen and (min-width: 900px) {
+    .post-cell {
+        grid-column: span 2;
+    }
+    .post-cell-1, .post-cell-2 {
+        grid-column: span 3;
+    }
+}
 
 #enddefine
 #define(body):
@@ -15,14 +34,10 @@
         <p>#(head.description)</p>
     </header>
 
-    <div class="g321 g:gap:col g:gap:row:xl">
+    <div class="g6 g:gap:col g:gap:row:xl">
     #for((index, post) in posts):
         #var(size = 1)
-        #var(class = "post-cell-" + index + 1)
-        #if(index < 2):
-            #var(size = 1)
-        #endif
-        
+        #var(class = "post-cell post-cell-" + index + 1)
         #inline("Blog/Frontend/SinglePost")
     #endfor
     </div>

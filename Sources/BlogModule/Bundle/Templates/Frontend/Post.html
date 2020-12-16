@@ -44,7 +44,7 @@
 #endif
 
 
-    
+#if(!post.authors.isEmpty()):
     <div class="content">
         <section class="m">
             <h2>Author#if(post.authors.count() > 1):s#endif</h2>
@@ -67,6 +67,7 @@
             #endfor
         </section>
     </div>
+#endif
 
 #if($system.variables["post.author.isEnabled"] != nil && $system.variables["post.author.isEnabled"] == "true"):
 #endif

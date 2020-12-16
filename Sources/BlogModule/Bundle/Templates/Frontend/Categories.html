@@ -15,9 +15,11 @@
         #for(category in categories):
         <div class="g:col1 t:center">
             <a href="/#(category.metadata.slug)">
-                <img class="s128 r:xs" src="#(category.imageKey.resolve())">
+                <img class="s128 r:xs c:border:primary"#if(category.color != nil): style="border-color: #(category.color);"#endif src="#(category.imageKey.resolve())">
             </a>
-            <h3 class="m:t"><a href="/#(category.metadata.slug)">#(category.title)</a></h3>
+            <h3 class="m:t">
+                <a href="/#(category.metadata.slug)">#(category.title)</a>
+            </h3>
             <p>#(category.excerpt)</p>
         </div>
         #endfor
