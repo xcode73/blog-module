@@ -34,17 +34,17 @@
 
 </article>
 
-#if($system.variables["share.isEnabled"] != nil && $system.variables["share.isEnabled"] == "true"):
+#if($system.variables["blog.post.share.isEnabled"] != nil && $system.variables["blog.post.share.isEnabled"] == "true"):
 <div class="content t:center">
     <section id="share" class="m:xl">
         <hr>
-        <p>#($system.variables["share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system.variables["share.author"] ?? "")&hashtags=#($system.variables["share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system.variables["share.link"] ?? "Share on Twitter")</a> #($system.variables["share.link.suffix"] ?? "")</p>
+        <p>#($system.variables["blog.post.share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system.variables["blog.post.share.author'"] ?? "")&hashtags=#($system.variables["blog.post.share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system.variables["blog.post.share.link"] ?? "Share on Twitter")</a> #($system.variables["blog.post.share.link.suffix"] ?? "")</p>
     </section>
 </div>
 #endif
 
-
-#if(!post.authors.isEmpty()):
+#if($system.variables["blog.post.author.box.isEnabled"] != nil && $system.variables["blog.post.author.box.isEnabled"] == "true"):
+    #if(!post.authors.isEmpty()):
     <div class="content">
         <section class="m">
             <h2>Author#if(post.authors.count() > 1):s#endif</h2>
@@ -67,12 +67,10 @@
             #endfor
         </section>
     </div>
+    #endif
 #endif
 
-#if($system.variables["post.author.isEnabled"] != nil && $system.variables["post.author.isEnabled"] == "true"):
-#endif
-
-#($system.variables["post.footer"] ?? "")
+#($system.variables["blog.post.footer"] ?? "")
 
 #enddefine
 #inline("Frontend/Index")
