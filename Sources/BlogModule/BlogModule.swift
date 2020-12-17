@@ -86,7 +86,7 @@ final class BlogModule: ViperModule {
     func authorFrontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
 
-        return BlogAuthorModel.queryPublicMetadata(path: req.url.path, on: req.db)
+        return BlogAuthorModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
             .with(\.$links)
             .first()
             .flatMap { author  in
@@ -106,7 +106,7 @@ final class BlogModule: ViperModule {
     func categoryFrontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
 
-        return BlogCategoryModel.queryPublicMetadata(path: req.url.path, on: req.db)
+        return BlogCategoryModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
             .first()
             .flatMap { category  in
                 guard let category = category else {
@@ -125,7 +125,7 @@ final class BlogModule: ViperModule {
     func postFrontendPageHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args["req"] as! Request
 
-        return BlogPostModel.queryPublicMetadata(path: req.url.path, on: req.db)
+        return BlogPostModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
             .with(\.$categories)
             .with(\.$authors) { $0.with(\.$links) }
             .first()
@@ -155,7 +155,7 @@ final class BlogModule: ViperModule {
         let req = args["req"] as! Request
         let metadata = args["page-metadata"] as! Metadata
         
-        return BlogCategoryModel.queryPublicMetadata(on: req.db)
+        return BlogCategoryModel.queryJoinPublicMetadata(on: req.db)
             .all()
             .flatMap { BlogFrontendView(req).categories($0, metadata: metadata) }
             .encodeOptionalResponse(for: req)

@@ -37,7 +37,7 @@ final class BlogAuthorEditForm: ModelForm {
         
         var future = req.eventLoop.future()
         if let id = modelId {
-            future = Model.findMetadataBy(id: id, on: req.db).map { [unowned self] in metadata = $0 }
+            future = Model.findMetadata(reference: id, on: req.db).map { [unowned self] in metadata = $0 }
         }
         return future
     }
