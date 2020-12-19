@@ -299,6 +299,7 @@ extension BlogModule {
         ] +
         BlogCategoryModel.permissions +
         BlogAuthorModel.permissions +
+        BlogAuthorLinkModel.permissions +
         BlogPostModel.permissions
     }
 }

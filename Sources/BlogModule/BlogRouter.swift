@@ -31,9 +31,9 @@ struct BlogRouter: ViperRouter {
         authorAdmin.setupRoutes(on: modulePath, as: BlogAuthorModel.pathComponent)
 
         let adminAuthor = modulePath.grouped(BlogAuthorModel.pathComponent, authorAdmin.idPathComponent)
-        authorLinkAdmin.setupRoutes(on: adminAuthor, as: BlogAuthorLinkModel.pathComponent)
+        authorLinkAdmin.setupRoutes(on: adminAuthor, as: "links")
     }
-    
+
     func publicApiRoutesHook(args: HookArguments) {
         let routes = args["routes"] as! RoutesBuilder
         

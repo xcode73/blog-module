@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import Spec
+//import Spec
 @testable import Feather
 
 final class BlogApiTests: XCTestCase {
