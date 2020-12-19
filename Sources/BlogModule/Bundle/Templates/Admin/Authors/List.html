@@ -3,8 +3,12 @@
     "key": "blog.authors"
 ])
 
-#var(columns = "64px 1fr 64px")
+#var(columns = "64px 1fr")
 #var(actions = 0)
+#if(UserHasPermission("blog.author.links.list")):
+    #(columns += " 64px")
+    #(actions += 1)
+#endif
 #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
     #(columns += " 64px")
     #(actions += 1)
@@ -33,7 +37,9 @@ tr {
         #inline("Admin/SortLink")
     </th>
 
+    #if(UserHasPermission("blog.author.links.list")):
     <th class="td:center td:compact:hidden">Links</th>
+    #endif
 
     #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
     <th class="td:center td:compact:hidden">Edit</th>
@@ -49,18 +55,29 @@ tr {
     #for(item in list.items):
     <tr>
         <td class="td:center td:compact:col2">
-            <a href="#($req.url.path)#(item.id)/"><img class="s64 r:s" src="#(item.imageKey.resolve())" alt="#(item.name)"></a>
+            #if(UserHasPermission("blog.authors.get")):
+                <a href="#($req.url.path)#(item.id)/">
+                    <img class="s64 r:s" src="#(item.imageKey.resolve())" alt="#(item.name)">
+                </a>
+            #else:
+                <img class="s64 r:s" src="#(item.imageKey.resolve())" alt="#(item.name)">
+            #endif
         </td>
 
         <td class="td:left m:h:s td:compact:col2 td:compact:separator">
-            <a href="#($req.url.path)#(item.id)/">
+            #if(UserHasPermission("blog.authors.get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.name)</a>
+            #else:
                 #(item.name)
-            </a>
+            #endif
         </td>
 
+        #if(UserHasPermission("blog.author.links.list")):
         <td class="td:center">
             <a href="#($req.url.path)#(item.id)/links/">#svg("link-2")</a>
         </td>
+        #endif
+
         #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
         <td class="td:center#if(actions < 2): td:compact:col2#endif">
             <a href="#($req.url.path)#(item.id)/update">#svg("edit-2")</a>

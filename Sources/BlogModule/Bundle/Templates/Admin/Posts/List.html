@@ -51,18 +51,31 @@ tr {
     #for(item in list.items):
     <tr>
         <td class="td:center td:compact:col2">
-            <a href="#($req.url.path)#(item.id)/"><img class="s:w128 r:xs" src="#(item.imageKey.resolve())" alt="#(item.title)"></a>
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">
+                    <img class="s:w128 r:xs" src="#(item.imageKey.resolve())" alt="#(item.title)">
+                </a>
+            #else:
+                <img class="s:w128 r:xs" src="#(item.imageKey.resolve())" alt="#(item.title)">
+            #endif
+            
         </td>
 
         <td class="td:left m:h:s td:compact:col2">
-            <a href="#($req.url.path)#(item.id)/">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.title)</a>
+            #else:
                 #(item.title)
-            </a>
+            #endif
         </td>
         <td class="td:left m:h:s td:compact:col2 td:compact:separator">
-            <a href="#($req.url.path)#(item.id)/">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">
+                    #Date(timeStamp: item.metadata.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)
+                </a>
+            #else:
                 #Date(timeStamp: item.metadata.date, fixedFormat: $app.dateFormats.full, timeZone: $app.timezone)
-            </a>
+            #endif
         </td>
         
         #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):

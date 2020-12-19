@@ -64,18 +64,22 @@ final class BlogModule: ViperModule {
         [
             "name": "Blog",
             "icon": "book",
+            "permission": "blog.module.access",
             "items": LeafData.array([
                 [
                     "url": "/admin/blog/posts/",
                     "label": "Posts",
+                    "permission": "blog.posts.list",
                 ],
                 [
                     "url": "/admin/blog/categories/",
                     "label": "Categories",
+                    "permission": "blog.categories.list",
                 ],
                 [
                     "url": "/admin/blog/authors/",
                     "label": "Authors",
+                    "permission": "blog.authors.list",
                 ],
             ])
         ]

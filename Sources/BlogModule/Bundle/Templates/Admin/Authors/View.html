@@ -8,7 +8,9 @@
 ])
 
 #define(toolbarRightBefore):
+    #if(UserHasPermission("blog.author.links.list")):
     <a href="/admin/blog/authors/#(model.id)/links/">#svg("link-2")</a>
+    #endif
 #enddefine
 
 #define(details):

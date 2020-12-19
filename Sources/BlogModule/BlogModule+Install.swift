@@ -294,9 +294,7 @@ extension BlogModule {
     }
 
     func userPermissionInstallHook(args: HookArguments) -> [[String: Any]] {
-        [
-            ["key": "blog", "name": "Blog module"],
-        ] +
+        BlogModule.permissions +
         BlogCategoryModel.permissions +
         BlogAuthorModel.permissions +
         BlogAuthorLinkModel.permissions +

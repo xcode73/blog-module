@@ -55,14 +55,18 @@ tr {
         </td>
 
         <td class="td:left m:h:s td:compact:col2">
-            <a href="#($req.url.path)#(item.id)/">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.title)</a>
+            #else:
                 #(item.title)
-            </a>
+            #endif
         </td>
         <td class="td:left m:h:s td:compact:col2 td:compact:separator">
-            <a href="#($req.url.path)#(item.id)/">
+            #if(UserHasPermission(table.key + ".get")):
+                <a href="#($req.url.path)#(item.id)/">#(item.priority)</a>
+            #else:
                 #(item.priority)
-            </a>
+            #endif
         </td>
         
         #if((table.edit ?? true) && UserHasPermission(table.key + ".update")):
