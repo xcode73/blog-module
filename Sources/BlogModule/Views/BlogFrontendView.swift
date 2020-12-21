@@ -64,7 +64,7 @@ struct BlogFrontendView {
         ])
     }
     
-    func post(_ post: BlogPostModel) -> EventLoopFuture<View> {
-        render("post", ["post": post.leafDataWithJoinedMetadata])
+    func post(_ post: LeafData) -> EventLoopFuture<View> {
+        render("post", ["post": post])
     }
 }

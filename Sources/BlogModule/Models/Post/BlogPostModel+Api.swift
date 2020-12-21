@@ -6,7 +6,7 @@
 //
 
 import FeatherCore
-import BlogApi
+import BlogModuleApi
 
 extension BlogPostListItem: Content { }
 extension BlogPost: ValidatableContent {}

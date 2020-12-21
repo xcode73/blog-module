@@ -137,7 +137,10 @@ final class BlogModule: ViperModule {
                 guard let post = post else {
                     return req.eventLoop.future(nil)
                 }
-                return BlogFrontendView(req).post(post).encodeOptionalResponse(for: req)
+                /// render the post with the filtered content
+                var ctx = post.leafDataWithJoinedMetadata.dictionary!
+                ctx["content"] = .string(post.filter(post.content, req: req))
+                return BlogFrontendView(req).post(ctx.leafData).encodeOptionalResponse(for: req)
             }
     }
     
