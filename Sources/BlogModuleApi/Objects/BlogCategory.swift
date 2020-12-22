@@ -11,15 +11,15 @@ public struct BlogCategory: Codable {
 
     public var id: UUID?
     public var title: String
-    public var imageKey: String
-    public var excerpt: String
+    public var imageKey: String?
+    public var excerpt: String?
     public var color: String?
     public var priority: Int
     
     public init(id: UUID? = nil,
                 title: String,
-                imageKey: String,
-                excerpt: String,
+                imageKey: String?,
+                excerpt: String?,
                 color: String? = nil,
                 priority: Int = 100) {
         self.id = id

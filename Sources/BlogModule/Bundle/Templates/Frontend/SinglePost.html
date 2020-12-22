@@ -1,7 +1,7 @@
 <div class="post-cell g:col#(size ?? 1)#if(class != nil): #(class ?? "")#endif">
     <a href="/#(post.metadata.slug)">
         <div class="container r:xs">
-            <img class="block w:full" src="#if(post.imageKey != nil):#(post.imageKey.resolve())#else:/images/placeholder.jpg#endif">
+            <img class="block w:full" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
             <div class="overlay"><span class="h3">Read now</span></div>
         </div>
         <div>

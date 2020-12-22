@@ -34,9 +34,9 @@ final class BlogPostModel: ViperModel {
     
     init(id: UUID? = nil,
          title: String,
-         imageKey: String?,
-         excerpt: String?,
-         content: String?)
+         imageKey: String? = nil,
+         excerpt: String? = nil,
+         content: String? = nil)
     {
         self.id = id
         self.title = title

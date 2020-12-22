@@ -19,7 +19,7 @@
 #define(fields):
     #var(field = nil)
 
-    #(field = ["id": "image", "class": "small", "data": fields.image, "required": true, "accept": "image/jpeg"])
+    #(field = ["id": "image", "class": "small", "data": fields.image, "accept": "image/*"])
     #inline("Admin/Fields/File")
 
     #(field = ["id": "title", "required": true, "data": fields.title])

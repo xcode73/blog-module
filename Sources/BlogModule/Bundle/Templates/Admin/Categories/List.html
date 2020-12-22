@@ -51,7 +51,7 @@ tr {
     #for(item in list.items):
     <tr>
         <td class="td:center td:compact:col2">
-            <a href="#($req.url.path)#(item.id)/"><img class="s64 r:s" src="#(item.imageKey.resolve())" alt="#(item.title)"></a>
+            <a href="#($req.url.path)#(item.id)/"><img class="s64 r:s" src="#(item.imageKey.resolve() ?? "/images/placeholder.jpg")" alt="#(item.title)"></a>
         </td>
 
         <td class="td:left m:h:s td:compact:col2">

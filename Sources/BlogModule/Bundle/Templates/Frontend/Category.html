@@ -8,7 +8,9 @@
 #define(body):
 <div id="posts" class="m">
     <header class="t:center m:b:xl">
-        <img class="s128 r:xs c:border:primary"#if(category.color != nil): style="border-color: #(category.color);"#endif src="#(category.imageKey.resolve())">
+        <img
+            class="s128 r:xs c:border:primary"#if(category.color != nil): style="border-color: #(category.color);"#endif
+            src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
         <h1 class="m:t">#(head.title)</h1>
         <p>#(head.description)</p>
         <p><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>

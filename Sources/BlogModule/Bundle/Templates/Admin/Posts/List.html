@@ -56,7 +56,7 @@ tr {
                     <img class="s:w128 r:xs" src="#if(item.imageKey != nil):#(item.imageKey.resolve())#else:/images/placeholder.jpg#endif" alt="#(item.title)">
                 </a>
             #else:
-                <img class="s:w128 r:xs" src="#if(item.imageKey != nil):#(item.imageKey.resolve())#else:/images/placeholder.jpg#endif" alt="#(item.title)">
+                <img class="s:w128 r:xs" src="#(item.imageKey.resolve() ?? "/images/placeholder.jpg")" alt="#(item.title)">
             #endif
             
         </td>

@@ -16,7 +16,7 @@ final class BlogCategoryEditForm: ModelForm {
     var excerpt = FormField<String>(key: "excerpt")
     var color = FormField<String>(key: "color")
     var priority = FormField<Int>(key: "priority").required().min(0).max(9999)
-    var image = FileFormField(key: "image").required()
+    var image = FileFormField(key: "image")
     var notification: String?
     
     var metadata: Metadata?
@@ -66,9 +66,12 @@ final class BlogCategoryEditForm: ModelForm {
     }
 
     func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
-        image.save(to: Model.path, req: req).map { key in
+        image.save(to: Model.path, req: req).map { [unowned self] key in
             if let key = key {
                 model.imageKey = key
+            }
+            if image.value.delete {
+                model.imageKey = nil
             }
         }
     }

@@ -27,7 +27,7 @@
             <img
                 class="block r:xs w:full"
                 style="box-shadow: 0 8px 38px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.12);"
-                src="#if(post.imageKey != nil):#(post.imageKey.resolve())#else:/images/placeholder.jpg#endif">
+                src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
         </section>
     </div>
 

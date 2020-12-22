@@ -22,8 +22,8 @@ final class BlogCategoryModel: ViperModel {
 
     @ID() var id: UUID?
     @Field(key: FieldKeys.title) var title: String
-    @Field(key: FieldKeys.imageKey) var imageKey: String
-    @Field(key: FieldKeys.excerpt) var excerpt: String
+    @Field(key: FieldKeys.imageKey) var imageKey: String?
+    @Field(key: FieldKeys.excerpt) var excerpt: String?
     @Field(key: FieldKeys.color) var color: String?
     @Field(key: FieldKeys.priority) var priority: Int
     
@@ -34,8 +34,8 @@ final class BlogCategoryModel: ViperModel {
     
     init(id: UUID? = nil,
          title: String,
-         imageKey: String,
-         excerpt: String,
+         imageKey: String? = nil,
+         excerpt: String? = nil,
          color: String? = nil,
          priority: Int = 100)
     {
