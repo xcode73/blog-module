@@ -53,10 +53,10 @@ tr {
         <td class="td:center td:compact:col2">
             #if(UserHasPermission(table.key + ".get")):
                 <a href="#($req.url.path)#(item.id)/">
-                    <img class="s:w128 r:xs" src="#(item.imageKey.resolve())" alt="#(item.title)">
+                    <img class="s:w128 r:xs" src="#if(item.imageKey != nil):#(item.imageKey.resolve())#else:/images/placeholder.jpg#endif" alt="#(item.title)">
                 </a>
             #else:
-                <img class="s:w128 r:xs" src="#(item.imageKey.resolve())" alt="#(item.title)">
+                <img class="s:w128 r:xs" src="#if(item.imageKey != nil):#(item.imageKey.resolve())#else:/images/placeholder.jpg#endif" alt="#(item.title)">
             #endif
             
         </td>

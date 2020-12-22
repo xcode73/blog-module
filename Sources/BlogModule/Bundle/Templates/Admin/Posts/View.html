@@ -12,7 +12,7 @@
         <dd class="m:h:zero m:b">#(model.id)</dd>
 
         <dt>Image</dt>
-        <dd class="m:h:zero m:b"><img src="#(model.imageKey.resolve())" class="s256"></dd>
+        <dd class="m:h:zero m:b"><img src="#if(model.imageKey != nil):#(model.imageKey.resolve())#else:/images/placeholder.jpg#endif" class="s:w256"></dd>
 
         <dt>Title</dt>
         <dd class="m:h:zero m:b">#(model.title)</dd>

@@ -23,9 +23,9 @@ final class BlogPostModel: ViperModel {
 
     @ID() var id: UUID?
     @Field(key: FieldKeys.title) var title: String
-    @Field(key: FieldKeys.imageKey) var imageKey: String
-    @Field(key: FieldKeys.excerpt) var excerpt: String
-    @Field(key: FieldKeys.content) var content: String
+    @Field(key: FieldKeys.imageKey) var imageKey: String?
+    @Field(key: FieldKeys.excerpt) var excerpt: String?
+    @Field(key: FieldKeys.content) var content: String?
     
     @Siblings(through: BlogPostCategoryModel.self, from: \.$post, to: \.$category) var categories: [BlogCategoryModel]
     @Siblings(through: BlogPostAuthorModel.self, from: \.$post, to: \.$author) var authors: [BlogAuthorModel]
@@ -34,9 +34,9 @@ final class BlogPostModel: ViperModel {
     
     init(id: UUID? = nil,
          title: String,
-         imageKey: String,
-         excerpt: String,
-         content: String)
+         imageKey: String?,
+         excerpt: String?,
+         content: String?)
     {
         self.id = id
         self.title = title

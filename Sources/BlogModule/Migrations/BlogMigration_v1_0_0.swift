@@ -40,9 +40,9 @@ struct BlogMigration_v1_0_0: Migration {
             db.schema(BlogPostModel.schema)
                 .id()
                 .field(BlogPostModel.FieldKeys.title, .string, .required)
-                .field(BlogPostModel.FieldKeys.imageKey, .string, .required)
-                .field(BlogPostModel.FieldKeys.excerpt, .data, .required)
-                .field(BlogPostModel.FieldKeys.content, .data, .required)
+                .field(BlogPostModel.FieldKeys.imageKey, .string)
+                .field(BlogPostModel.FieldKeys.excerpt, .data)
+                .field(BlogPostModel.FieldKeys.content, .data)
                 .create(),
             
             db.schema(BlogPostCategoryModel.schema)

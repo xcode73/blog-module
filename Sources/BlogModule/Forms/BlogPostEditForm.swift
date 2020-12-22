@@ -11,7 +11,7 @@ final class BlogPostEditForm: ModelForm {
     typealias Model = BlogPostModel
 
     var modelId: UUID?
-    var image = FileFormField(key: "image").required()
+    var image = FileFormField(key: "image")
     var title = FormField<String>(key: "title").required().length(max: 250)
     var excerpt = FormField<String>(key: "excerpt").length(max: 250)
     var content = FormField<String>(key: "content")
@@ -74,9 +74,12 @@ final class BlogPostEditForm: ModelForm {
     }
 
     func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
-        image.save(to: Model.path, req: req).map { key in
+        image.save(to: Model.path, req: req).map { [unowned self] key in
             if let key = key {
                 model.imageKey = key
+            }
+            if image.value.delete {
+                model.imageKey = nil
             }
         }
     }
