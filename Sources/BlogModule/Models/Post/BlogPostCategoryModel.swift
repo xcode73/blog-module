@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  BlogPostCategoryModel.swift
+//  BlogModule
 //
 //  Created by Tibor Bodecs on 2020. 12. 10..
 //

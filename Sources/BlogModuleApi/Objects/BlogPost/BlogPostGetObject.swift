@@ -1,30 +1,30 @@
 //
-//  File.swift
-//  
+//  BlogPostRouter.swift
+//  BlogPost
 //
-//  Created by Tibor Bodecs on 2020. 12. 11..
+//  Created by Tibor Bödecs on 2020. 12. 22..
 //
 
 import Foundation
 
-public struct BlogPost: Codable {
+public struct BlogPostGetObject: Codable {
 
-    public var id: UUID?
+    public var id: UUID
     public var title: String
     public var imageKey: String?
     public var excerpt: String?
     public var content: String?
 
-    public var categories: [BlogCategory]
-    public var authors: [BlogAuthor]
+    public var categories: [BlogCategoryListObject]
+    public var authors: [BlogAuthorListObject]
     
-    public init(id: UUID? = nil,
+    public init(id: UUID,
                 title: String,
                 imageKey: String?,
                 excerpt: String?,
                 content: String?,
-                categories: [BlogCategory] = [],
-                authors: [BlogAuthor] = []) {
+                categories: [BlogCategoryListObject] = [],
+                authors: [BlogAuthorListObject] = []) {
         self.id = id
         self.title = title
         self.imageKey = imageKey
@@ -33,4 +33,5 @@ public struct BlogPost: Codable {
         self.categories = categories
         self.authors = authors
     }
+
 }

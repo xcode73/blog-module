@@ -1,20 +1,20 @@
 //
-//  File.swift
-//  
+//  BlogPostRouter.swift
+//  BlogPost
 //
-//  Created by Tibor Bodecs on 2020. 12. 11..
+//  Created by Tibor Bödecs on 2020. 12. 22..
 //
 
 import Foundation
 
-public struct BlogPostListItem: Codable {
+public struct BlogPostListObject: Codable {
 
-    public var id: UUID?
+    public var id: UUID
     public var title: String
     public var imageKey: String?
     public var excerpt: String?
 
-    public init(id: UUID? = nil,
+    public init(id: UUID,
                 title: String,
                 imageKey: String?,
                 excerpt: String?) {
@@ -23,5 +23,5 @@ public struct BlogPostListItem: Codable {
         self.imageKey = imageKey
         self.excerpt = excerpt
     }
-}
 
+}

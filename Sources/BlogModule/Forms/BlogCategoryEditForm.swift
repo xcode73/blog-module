@@ -67,12 +67,10 @@ final class BlogCategoryEditForm: ModelForm {
 
     func willSave(req: Request, model: Model) -> EventLoopFuture<Void> {
         image.save(to: Model.path, req: req).map { [unowned self] key in
-            if let key = key {
+            if image.value.delete || key != nil {
                 model.imageKey = key
             }
-            if image.value.delete {
-                model.imageKey = nil
-            }
+            image.value.delete = false
         }
     }
 }

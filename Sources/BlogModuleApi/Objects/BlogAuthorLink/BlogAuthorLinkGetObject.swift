@@ -1,26 +1,28 @@
 //
-//  File.swift
-//  
+//  BlogAuthorLinkRouter.swift
+//  BlogAuthorLink
 //
-//  Created by Tibor Bodecs on 2020. 12. 11..
+//  Created by Tibor Bödecs on 2020. 12. 22..
 //
 
 import Foundation
 
-public struct BlogAuthorLink: Codable {
+public struct BlogAuthorLinkGetObject: Codable {
 
-    public var id: UUID?
+    public var id: UUID
     public var label: String
     public var url: String
     public var priority: Int
     
-    public init(id: UUID? = nil,
+    public init(id: UUID,
                 label: String,
                 url: String,
-                priority: Int = 100) {
+                priority: Int)
+    {
         self.id = id
         self.label = label
         self.url = url
         self.priority = priority
     }
+
 }
