@@ -8,7 +8,7 @@
 import FeatherCore
 
 extension BlogPostModel: MetadataRepresentable {
-    
+
     var metadata: Metadata {
         .init(slug: title.slugify(), title: title, excerpt: excerpt, imageKey: imageKey)
     }

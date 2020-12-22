@@ -10,7 +10,7 @@ import FeatherCore
 extension BlogCategoryModel: MetadataRepresentable {
 
     var metadata: Metadata {
-        .init(slug: Self.name + "/" + title.slugify(), title: title)
+        .init(slug: Self.name + "/" + title.slugify(), title: title, imageKey: imageKey)
     }
 }
 
