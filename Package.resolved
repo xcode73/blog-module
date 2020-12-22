@@ -39,7 +39,7 @@
       },
       {
         "package": "feather-core",
-        "repositoryURL": "https://github.com/binarybirds/feather-core",
+        "repositoryURL": "https://github.com/FeatherCMS/feather-core",
         "state": {
           "branch": null,
           "revision": "d9bea823f3270ea4ce380c77e3357d03207a7029",
@@ -224,15 +224,6 @@
           "branch": null,
           "revision": "5a352330c09a323e59ebd99afdf4ca3964c217bc",
           "version": "1.9.1"
-        }
-      },
-      {
-        "package": "vapor",
-        "repositoryURL": "https://github.com/vapor/vapor",
-        "state": {
-          "branch": null,
-          "revision": "5148f02e42149f73f6616452062cf96b64afbda6",
-          "version": "4.36.2"
         }
       },
       {
