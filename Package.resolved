@@ -2,24 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "admin-module",
-        "repositoryURL": "https://github.com/feather-modules/admin",
-        "state": {
-          "branch": null,
-          "revision": "2894d0a46151ad5d64b92a804508c3ad87f09b18",
-          "version": "1.0.0-beta.2"
-        }
-      },
-      {
-        "package": "api-module",
-        "repositoryURL": "https://github.com/feather-modules/api",
-        "state": {
-          "branch": null,
-          "revision": "13e2836f2a610f87e4638f9ff081f6432b56979b",
-          "version": "1.0.0-beta.2"
-        }
-      },
-      {
         "package": "async-http-client",
         "repositoryURL": "https://github.com/swift-server/async-http-client.git",
         "state": {
@@ -80,24 +62,6 @@
           "branch": null,
           "revision": "86ebecdb98981b7a242746209b4335770bf0bd11",
           "version": "1.10.2"
-        }
-      },
-      {
-        "package": "fluent-sqlite-driver",
-        "repositoryURL": "https://github.com/vapor/fluent-sqlite-driver",
-        "state": {
-          "branch": null,
-          "revision": "6f29f6f182c812075f09c7575c18ac5535c26824",
-          "version": "4.0.1"
-        }
-      },
-      {
-        "package": "frontend-module",
-        "repositoryURL": "https://github.com/feather-modules/frontend",
-        "state": {
-          "branch": null,
-          "revision": "fb6620bf0ef661fda0ac76b7375181ea8b7edfa7",
-          "version": "1.0.0-beta.6"
         }
       },
       {
@@ -164,15 +128,6 @@
         }
       },
       {
-        "package": "liquid-local-driver",
-        "repositoryURL": "https://github.com/binarybirds/liquid-local-driver",
-        "state": {
-          "branch": null,
-          "revision": "83b74c43f6445e7feed666139ada23b28719b920",
-          "version": "1.2.0-beta.8"
-        }
-      },
-      {
         "package": "routing-kit",
         "repositoryURL": "https://github.com/vapor/routing-kit.git",
         "state": {
@@ -182,39 +137,12 @@
         }
       },
       {
-        "package": "spec",
-        "repositoryURL": "https://github.com/binarybirds/spec.git",
-        "state": {
-          "branch": null,
-          "revision": "74ec16a463499b61f5e081c9bdaa724bcdb1be3e",
-          "version": "1.2.0-beta.1"
-        }
-      },
-      {
         "package": "sql-kit",
         "repositoryURL": "https://github.com/vapor/sql-kit.git",
         "state": {
           "branch": null,
           "revision": "ea9928b7f4a801b175a00b982034d9c54ecb6167",
           "version": "3.7.0"
-        }
-      },
-      {
-        "package": "sqlite-kit",
-        "repositoryURL": "https://github.com/vapor/sqlite-kit.git",
-        "state": {
-          "branch": null,
-          "revision": "2ec279b9c845cec254646834b66338551a024561",
-          "version": "4.0.2"
-        }
-      },
-      {
-        "package": "sqlite-nio",
-        "repositoryURL": "https://github.com/vapor/sqlite-nio.git",
-        "state": {
-          "branch": null,
-          "revision": "6481dd0b01112d082dd7eb362782126e81964138",
-          "version": "1.1.0"
         }
       },
       {
@@ -296,33 +224,6 @@
           "branch": null,
           "revision": "5a352330c09a323e59ebd99afdf4ca3964c217bc",
           "version": "1.9.1"
-        }
-      },
-      {
-        "package": "system-module",
-        "repositoryURL": "https://github.com/feather-modules/system",
-        "state": {
-          "branch": null,
-          "revision": "3dbb336333c60d852bcda99b37bbd4714e50d4d3",
-          "version": "1.0.0-beta.5"
-        }
-      },
-      {
-        "package": "user-module",
-        "repositoryURL": "https://github.com/feather-modules/user",
-        "state": {
-          "branch": null,
-          "revision": "814a4163ae32704985c6cc7aa2e8e7bc78dc94bc",
-          "version": "1.0.0-beta.3"
-        }
-      },
-      {
-        "package": "vapor",
-        "repositoryURL": "https://github.com/vapor/vapor.git",
-        "state": {
-          "branch": null,
-          "revision": "5148f02e42149f73f6616452062cf96b64afbda6",
-          "version": "4.36.2"
         }
       },
       {
