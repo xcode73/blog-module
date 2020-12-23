@@ -129,6 +129,19 @@ extension BlogModule {
             BlogPostCategoryModel(postId: post2.id!, categoryId: category2.id!),
         ]
 
+        let postItems: [[[String: Any]]] = req.invokeAll("blog-post-install")
+        let blogPostModels = postItems.flatMap { $0 }.compactMap { dict -> BlogPostModel? in
+            guard
+                let title = dict["title"] as? String, !title.isEmpty
+            else {
+                return nil
+            }
+            let imageKey = dict["imageKey"] as? String
+            let excerpt = dict["excerpt"] as? String
+            let content = dict["content"] as? String
+            return BlogPostModel(id: UUID(), title: title, imageKey: imageKey, excerpt: excerpt, content: content)
+        }
+
         return req.eventLoop.flatten([
             /// first create and publish categories, authors and posts and publish associated metadata objects...
             categories.create(on: req.db).flatMap {
@@ -139,7 +152,7 @@ extension BlogModule {
             }
             .flatMap { links.create(on: req.db) },
 
-            posts.create(on: req.db).flatMap { _ in
+            (posts + blogPostModels).create(on: req.db).flatMap { _ in
                 req.eventLoop.flatten(posts.map { $0.publishMetadata(on: req.db) })
             },
             postAuthors.create(on: req.db),

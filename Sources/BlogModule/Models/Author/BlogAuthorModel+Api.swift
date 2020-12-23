@@ -43,7 +43,8 @@ extension BlogAuthorModel: ApiContentRepresentable {
     }
 
     var getContent: BlogAuthorGetObject {
-        .init(id: id!, name: name, imageKey: imageKey, bio: bio, links: [])
+        let linkObjects = $links.value != nil ? links : []
+        return .init(id: id!, name: name, imageKey: imageKey, bio: bio, links: linkObjects.map(\.listContent))
     }
 
     func create(_ input: BlogAuthorCreateObject) throws {
