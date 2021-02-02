@@ -1,0 +1,46 @@
+.post-cell .container {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+}
+.post-cell .overlay, .post-cell img {
+    transition: all .2s ease-in-out;
+}
+.post-cell .overlay {
+    background: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    text-align: center;
+    box-shadow: inset 0px 0px 16px 32px rgba(0, 0, 0, 1);
+}
+.post-cell .overlay span {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-shadow: none;
+}
+.post-cell:hover {
+    cursor: pointer;
+}
+.post-cell:hover .overlay {
+    opacity: 0.5;
+}
+.post-cell:hover img {
+    filter: blur(15px);
+}
+.post-cell a p {
+    color: #333;
+}
+@media (prefers-color-scheme: dark) {
+    .post-cell a p {
+        color: #e0e0e0;
+    }
+}

@@ -44,6 +44,8 @@ final class BlogModule: ViperModule {
         app.hooks.register("api", use: (router as! BlogRouter).privateApiRoutesHook)
         app.hooks.register("public-api", use: (router as! BlogRouter).publicApiRoutesHook)
         
+        /// leaf
+        app.hooks.register("leaf-frontend-css", use: leafFrontendCssHook)
         app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
 
         /// pages
@@ -59,6 +61,11 @@ final class BlogModule: ViperModule {
 
     // MARK: - hooks
 
+    func leafFrontendCssHook(args: HookArguments) -> LeafDataRepresentable {
+        [
+            "name": "blog",
+        ]
+    }
 
     func leafAdminMenuHook(args: HookArguments) -> LeafDataRepresentable {
         [

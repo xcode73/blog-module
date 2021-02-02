@@ -52,10 +52,16 @@ if isLocalTestMode {
         ]),
         .testTarget(name: "BlogModuleTests", dependencies: [
             .target(name: "BlogModule"),
-        ]),
-        .testTarget(name: "IntegrationTests", dependencies: [
-            .target(name: "Feather"),
-
+            
+            .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+            .product(name: "LiquidLocalDriver", package: "liquid-local-driver"),
+            
+            .product(name: "SystemModule", package: "system-module"),
+            .product(name: "UserModule", package: "user-module"),
+            .product(name: "ApiModule", package: "api-module"),
+            .product(name: "AdminModule", package: "admin-module"),
+            .product(name: "FrontendModule", package: "frontend-module"),
+            
             .product(name: "Spec", package: "spec"),
         ]),
     ])
