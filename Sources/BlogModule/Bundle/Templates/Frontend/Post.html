@@ -7,8 +7,8 @@
 #define(body):
 
 <article id="post">
-    <div class="content">
-        <header class="m">
+    <div class="container">
+        <header class="margin">
             <p>
                 #for(category in post.categories):
                 <span class="c:underline:accent"#if(category.color != nil): style="border-color: #(category.color);"#endif>#(category.title)</span>
@@ -17,29 +17,24 @@
                 #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
                 <time datetime="#(dateString)">#(dateString)</time>
             </p>
-            <h1 class="m:t">#(post.title)</h1>
-            <p>#(post.excerpt)</p>
+            <h1 class="margin-top-zero">#(post.title)</h1>
+            <p class="margin-top-zero">#(post.excerpt)</p>
         </header>
     </div>
 
-    <div class="content:full">
-        <section class="m">
-            <img
-                class="block r:xs w:full"
-                style="box-shadow: 0 8px 38px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.12);"
-                src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
-        </section>
+    <div class="margin">
+        <img class="size-full border-radius shadow-full" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
     </div>
 
-    <div id="content" class="content:full">
+    <div id="content">
         #(post.content)
     </div>
 
 </article>
 
 #if($system.variables["blog.post.share.isEnabled"] != nil && $system.variables["blog.post.share.isEnabled"] == "true"):
-<div class="content t:center">
-    <section id="share" class="m:xl">
+<div class="container">
+    <section id="share" class="margin">
         <hr>
         <p>#($system.variables["blog.post.share.link.prefix"] ?? "") <a href="https://twitter.com/intent/tweet?via=#($system.variables["blog.post.share.author'"] ?? "")&hashtags=#($system.variables["blog.post.share.hashtags"] ?? "")&url=#($app.baseUrl)#($req.url.path)" target="_blank">#($system.variables["blog.post.share.link"] ?? "Share on Twitter")</a> #($system.variables["blog.post.share.link.suffix"] ?? "")</p>
     </section>
@@ -48,8 +43,8 @@
 
 #if($system.variables["blog.post.author.box.isEnabled"] != nil && $system.variables["blog.post.author.box.isEnabled"] == "true"):
     #if(!post.authors.isEmpty()):
-    <div class="content">
-        <section class="m">
+    <div class="container">
+        <section class="margin">
             <h2>Author#if(post.authors.count() > 1):s#endif</h2>
             #for(author in post.authors):
             <div class="g311 g:gap:zero m:b" style="justify-items: center; align-items: center;">

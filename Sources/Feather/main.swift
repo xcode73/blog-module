@@ -43,7 +43,7 @@ try feather.configure([
 
 /// reset resources folder if we're in debug mode
 if feather.app.isDebug {
-    try feather.reset(resourcesOnly: false)
+    try feather.reset(resourcesOnly: true)
 }
 
 try feather.start()

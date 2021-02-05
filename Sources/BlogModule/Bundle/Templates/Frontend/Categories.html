@@ -4,26 +4,27 @@
     "css": metadata.css,
     "js": metadata.js
 ])
+
 #define(body):
 <div id="categories" class="container">
     <div class="margin">
-        <header class="t:center m:b:xl">
-            <h1 class="m:t">#(head.title)</h1>
+        <header class="margin-bottom-xl">
+            <h1>#(head.title)</h1>
             <p>#(head.description)</p>
         </header>
 
-        <section class="g1 g:gap:col g:gap:row:xl">
+        <section>
             #for(category in categories):
-            <div class="g:col1 t:center">
+            <div class="margin-bottom-xl background padding border-radius shadow-l">
                 <a href="/#(category.metadata.slug)">
                     <img
-                        class="s128 r:xs c:border:primary"#if(category.color != nil): style="border-color: #(category.color);"#endif
+                        class="size border-radius-xs border"#if(category.color != nil): style="border-color: #(category.color);"#endif
                         src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
                 </a>
-                <h3 class="m:t">
+                <h2 class="margin-top-zero">
                     <a href="/#(category.metadata.slug)">#(category.title)</a>
-                </h3>
-                <p>#(category.excerpt)</p>
+                </h2>
+                <p class="margin-top-zero">#(category.excerpt)</p>
             </div>
             #endfor
         </section>
