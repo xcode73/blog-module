@@ -14,11 +14,13 @@
 
         <section>
             #for(author in authors):
-                <div class="margin-bottom-xl background padding border-radius shadow-l">
+                <div class="margin-bottom-xl background padding border-radius-xs shadow-xl">
+                    #if(author.imageKey != nil):
                     <a href="/#(author.metadata.slug)">
-                        <img class="size border-radius-full border border-color-6" src="#(author.imageKey.resolve() ?? "/images/placeholder.jpg")">
+                        <img class="size border-radius-full border border-color-6" src="#(author.imageKey.resolve())">
                     </a>
-                    <h3 class="margin-top-zero"><a href="/#(author.metadata.slug)">#(author.name)</a></h3>
+                    #endif
+                    <h2 class="margin-top-zero"><a href="/#(author.metadata.slug)">#(author.name)</a></h2>
                     <p class="margin-top-zero margin-bottom">#(author.bio)</p>
                 </div>
             #endfor

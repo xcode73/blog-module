@@ -15,12 +15,12 @@
 
         <section>
             #for(category in categories):
-            <div class="margin-bottom-xl background padding border-radius shadow-l">
+            <div class="margin-bottom-xl background padding border-radius-xs shadow-xl">
+                #if(category.imageKey != nil):
                 <a href="/#(category.metadata.slug)">
-                    <img
-                        class="size border-radius-xs border"#if(category.color != nil): style="border-color: #(category.color);"#endif
-                        src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
+                    <img class="size border-radius-xs border"#if(category.color != nil): style="border-color: #(category.color);"#endif src="#(category.imageKey.resolve())">
                 </a>
+                #endif
                 <h2 class="margin-top-zero">
                     <a href="/#(category.metadata.slug)">#(category.title)</a>
                 </h2>

@@ -1,9 +1,11 @@
-<div class="post-cell background padding shadow-xl border-radius-s margin-bottom">
+<div class="post-cell background shadow-xl border-radius-xs margin-bottom" style="overflow: hidden;">
     <a href="/#(post.metadata.slug)">
-
-        <img class="block border-radius-s shadow size-width-full" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
-         
-        <h2 class="h3 margin-top-s">#(post.title)</h2>
+        #if(post.imageKey != nil):
+        <img class="block size-width-full" src="#(post.imageKey.resolve())">
+        #endif
+        
+        <div class="padding">
+        <h2 class="h3 margin-top-zero">#(post.title)</h2>
         <p class="margin-top-s margin-bottom">#(post.excerpt)</p>
 
         #for(pc in post.categories ?? []):
@@ -13,6 +15,7 @@
         <div class="margin-top-s color-gray">
             #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
             <time datetime="#(dateString)">#(dateString)</time>
+        </div>
         </div>
     </a>
 </div>
