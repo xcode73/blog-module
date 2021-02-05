@@ -23,7 +23,7 @@
     </div>
 
     <div class="margin">
-        <img class="size-full border-radius shadow-full" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
+        <img class="size-full border-radius-xs shadow-xl" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
     </div>
 
     <div id="content">
@@ -47,7 +47,7 @@
     <section class="margin">
         <h2 class="margin-bottom">Author#if(post.authors.count() > 1):s#endif</h2>
         #for(author in post.authors):
-        <div class="background padding margin-bottom border-radius shadow">
+        <div class="background padding margin-bottom-xl border-radius-xs shadow-xl">
             <img class="size border border-color-6 border-radius-full" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
         
             <h3 class="margin-top-zero">#(author.name)</h3>
