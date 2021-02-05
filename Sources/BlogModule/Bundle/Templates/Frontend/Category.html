@@ -10,16 +10,15 @@
     <div class="margin">
         <header class="margin-bottom-xl">
             <img
-                class="size border"#if(category.color != nil): style="border-color: #(category.color);"#endif
+                class="size border-radius-s border"#if(category.color != nil): style="border-color: #(category.color);"#endif
                 src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
             <h1 class="margin-top-zero">#(head.title)</h1>
             <p class="margin-top-zero">#(head.description)</p>
-            <p><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+            <p class="color-gray"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
         </header>
 
-        <section class="grid-321 grid-gap">
+        <section class="margin-bottom-xl">
             #for(post in posts):
-            #var(size = 1)
             #inline("Blog/Frontend/SinglePost")
             #endfor
         </section>

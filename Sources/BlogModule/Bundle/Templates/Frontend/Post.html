@@ -6,7 +6,7 @@
 ])
 #define(body):
 
-<article id="post">
+<!--<article id="post">-->
     <div class="container">
         <header class="margin">
             <p>
@@ -41,31 +41,26 @@
 </div>
 #endif
 
-#if($system.variables["blog.post.author.box.isEnabled"] != nil && $system.variables["blog.post.author.box.isEnabled"] == "true"):
-    #if(!post.authors.isEmpty()):
-    <div class="container">
-        <section class="margin">
-            <h2>Author#if(post.authors.count() > 1):s#endif</h2>
-            #for(author in post.authors):
-            <div class="g311 g:gap:zero m:b" style="justify-items: center; align-items: center;">
-                
-                <div class="g:col1">
-                    <img class="s128 r:circular" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
-                </div>
-                <div class="g:col2">
-                    <h3 class="m:t:s">#(author.name)</h3>
-                    <p>#(author.bio)</p>
-                    #for(link in author.links):
-                    <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
-                    #endfor
-                    </p>
-                </div>
-                
-            </div>
+#if($system.variables["blog.post.author.box.isEnabled"] != nil && $system.variables["blog.post.author.box.isEnabled"] == "true" && !post.authors.isEmpty()):
+    
+<div class="container">
+    <section class="margin">
+        <h2 class="margin-bottom">Author#if(post.authors.count() > 1):s#endif</h2>
+        #for(author in post.authors):
+        <div class="background padding margin-bottom border-radius shadow">
+            <img class="size border border-color-6 border-radius-full" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
+        
+            <h3 class="margin-top-zero">#(author.name)</h3>
+            <p class="margin-top-zero margin-bottom">#(author.bio)</p>
+            #for(link in author.links):
+            <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
             #endfor
-        </section>
+            </p>
+        </div>
+        #endfor
+    </section>
     </div>
-    #endif
+
 #endif
 
 #($system.variables["blog.post.footer"] ?? "")

@@ -15,13 +15,12 @@
             #for(link in author.links):
             <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
             #endfor
-            <p><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+            <p class="color-gray"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
         </header>
 
-        <section class="grid-321 grid-gap">
+        <section class="margin-bottom-xl">
             #for(post in posts):
-                #let(size = 1)
-                #inline("Blog/Frontend/SinglePost")
+            #inline("Blog/Frontend/SinglePost")
             #endfor
         </section>
     </div>
