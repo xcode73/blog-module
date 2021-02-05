@@ -12,23 +12,22 @@
             <p>#(head.description)</p>
         </header>
         
-        <form class="margin-vertical" id="search-form" action="#($req.url.path)" method="get">
+        <form class="margin-top margin-bottom-xl" id="search-form" action="#($req.url.path)" method="get">
             #if(Request(query: "limit") != nil):
             <input type="hidden" id="limit" name="limit" value="#Request(query: "limit")">
             #endif
             <input type="text" id="search" name="search" placeholder="Search..." value="#Request(query: "search")">
         </form>
 
-        <div>
-        #for(post in page.items):
-            #var(size = 1)
-            #inline("Blog/Frontend/SinglePost")
-        #endfor
-        </div>
-
+        <section>
         #if(page.items.isEmpty()):
             #inline("Admin/Empty")
+        #else:
+            #for(post in page.items):
+                #inline("Blog/Frontend/SinglePost")
+            #endfor
         #endif
+        </section>
 
         <div id="pagination" class="text-align-center">
             #inline("Frontend/Pagination")
