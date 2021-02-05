@@ -11,11 +11,11 @@ public struct BlogAuthorListObject: Codable {
 
     public var id: UUID
     public var name: String
-    public var imageKey: String
+    public var imageKey: String?
 
     public init(id: UUID,
                 name: String,
-                imageKey: String)
+                imageKey: String?)
     {
         self.id = id
         self.name = name

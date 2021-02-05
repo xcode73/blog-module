@@ -24,7 +24,7 @@ struct BlogMigration_v1_0_0: Migration {
             db.schema(BlogAuthorModel.schema)
                 .id()
                 .field(BlogAuthorModel.FieldKeys.name, .string, .required)
-                .field(BlogAuthorModel.FieldKeys.imageKey, .string, .required)
+                .field(BlogAuthorModel.FieldKeys.imageKey, .string)
                 .field(BlogAuthorModel.FieldKeys.bio, .data)
                 .create(),
 

@@ -19,6 +19,10 @@ struct BlogAuthorAdminController: ViperAdminViewController {
     ]
     
     func beforeDelete(req: Request, model: Model) -> EventLoopFuture<Model> {
-        req.fs.delete(key: model.imageKey).map { model }
+        var future = req.eventLoop.future(model)
+        if let key = model.imageKey {
+            future = req.fs.delete(key: key).map { model }
+        }
+        return future
     }
 }

@@ -10,11 +10,11 @@ import Foundation
 public struct BlogAuthorCreateObject: Codable {
 
     public var name: String
-    public var imageKey: String
+    public var imageKey: String?
     public var bio: String?
     
     public init(name: String,
-                imageKey: String,
+                imageKey: String? = nil,
                 bio: String? = nil)
     {
         self.name = name

@@ -13,7 +13,7 @@ final class BlogAuthorEditForm: ModelForm {
     var modelId: UUID?
     var name = FormField<String>(key: "name").required().length(max: 250)
     var bio = FormField<String>(key: "bio")
-    var image = FileFormField(key: "image").required()
+    var image = FileFormField(key: "image")
     var notification: String?
 
     var metadata: Metadata?

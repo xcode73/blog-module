@@ -17,9 +17,11 @@ struct BlogPostAdminController: ViperAdminViewController {
     
     // MARK: - list
 
+    var listDefaultSort: ListSort = .desc
+
     var listAllowedOrders: [FieldKey] = [
+        "date",
         Model.FieldKeys.title,
-        "date"
     ]
 
     func listQuery(search: String, queryBuilder: QueryBuilder<BlogPostModel>, req: Request) {

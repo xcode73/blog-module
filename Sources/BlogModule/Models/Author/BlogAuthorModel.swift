@@ -23,7 +23,7 @@ final class BlogAuthorModel: ViperModel {
 
     @ID() var id: UUID?
     @Field(key: FieldKeys.name) var name: String
-    @Field(key: FieldKeys.imageKey) var imageKey: String
+    @Field(key: FieldKeys.imageKey) var imageKey: String?
     @Field(key: FieldKeys.bio) var bio: String?
 
     /// relations
@@ -34,7 +34,7 @@ final class BlogAuthorModel: ViperModel {
     
     init(id: UUID? = nil,
          name: String,
-         imageKey: String,
+         imageKey: String?,
          bio: String?)
     {
         self.id = id
