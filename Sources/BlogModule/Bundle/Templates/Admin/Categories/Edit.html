@@ -21,19 +21,19 @@
     #var(field = nil)
 
     #(field = ["id": "image", "class": "small", "data": fields.image, "accept": "image/*"])
-    #inline("Admin/Fields/File")
+    #inline("Common/Fields/File")
 
     #(field = ["id": "title", "required": true, "data": fields.title])
-    #inline("Admin/Fields/Text")
+    #inline("Common/Fields/Text")
 
     #(field = ["id": "excerpt", "size": "s", "data": fields.excerpt])
-    #inline("Admin/Fields/Textarea")
+    #inline("Common/Fields/Textarea")
 
     #(field = ["id": "color", "more": "e.g #cafe00", "data": fields.color])
-    #inline("Admin/Fields/Text")
+    #inline("Common/Fields/Text")
 
     #(field = ["id": "priority", "required": true, "data": fields.priority])
-    #inline("Admin/Fields/Text")
+    #inline("Common/Fields/Text")
 #enddefine
 
 #inline("Admin/Form")

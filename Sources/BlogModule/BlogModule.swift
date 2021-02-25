@@ -31,28 +31,24 @@ final class BlogModule: ViperModule {
         app.databases.middleware.use(MetadataModelMiddleware<BlogPostModel>())
         app.databases.middleware.use(MetadataModelMiddleware<BlogCategoryModel>())
         app.databases.middleware.use(MetadataModelMiddleware<BlogAuthorModel>())
-        
         /// install
         app.hooks.register("model-install", use: modelInstallHook)
         app.hooks.register("system-variables-install", use: systemVariablesInstallHook)
         app.hooks.register("user-permission-install", use: userPermissionInstallHook)
         app.hooks.register("frontend-main-menu-install", use: frontendMainMenuInstallHook)
         app.hooks.register("frontend-page-install", use: frontendPageInstallHook)
-
         /// routes
-        app.hooks.register("admin", use: (router as! BlogRouter).adminRoutesHook)
-        app.hooks.register("api", use: (router as! BlogRouter).privateApiRoutesHook)
-        app.hooks.register("public-api", use: (router as! BlogRouter).publicApiRoutesHook)
-        
+        app.hooks.register("admin-routes", use: (router as! BlogRouter).adminRoutesHook)
+        app.hooks.register("api-routes", use: (router as! BlogRouter).privateApiRoutesHook)
+        app.hooks.register("public-api-routes", use: (router as! BlogRouter).publicApiRoutesHook)
+        app.hooks.register("frontend-route", use: authorFrontendPageHook)
+        app.hooks.register("frontend-route", use: categoryFrontendPageHook)
+        app.hooks.register("frontend-route", use: postFrontendPageHook)
         /// leaf
-        app.hooks.register("leaf-frontend-css", use: leafFrontendCssHook)
         app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
-
-        /// pages
-        app.hooks.register("frontend-page", use: authorFrontendPageHook)
-        app.hooks.register("frontend-page", use: categoryFrontendPageHook)
-        app.hooks.register("frontend-page", use: postFrontendPageHook)
-
+        /// css
+        app.hooks.register("css", use: cssHook)
+        ///page hooks
         app.hooks.register("blog-page", use: homePageHook)
         app.hooks.register("blog-categories-page", use: categoriesPageHook)
         app.hooks.register("blog-authors-page", use: authorsPageHook)
@@ -61,9 +57,11 @@ final class BlogModule: ViperModule {
 
     // MARK: - hooks
 
-    func leafFrontendCssHook(args: HookArguments) -> LeafDataRepresentable {
+    func cssHook(args: HookArguments) -> [[String: Any]] {
         [
-            "name": "blog",
+            [
+                "name": "blog",
+            ],
         ]
     }
 

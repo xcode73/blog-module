@@ -6,19 +6,6 @@
 //
 
 import XCTest
-import XCTVapor
-import Spec
-import FeatherCore
-
-import FluentSQLiteDriver
-import LiquidLocalDriver
-
-import SystemModule
-import UserModule
-import ApiModule
-import AdminModule
-import FrontendModule
-
 @testable import BlogModule
 
 final class BlogModuleTests: XCTestCase {
@@ -49,8 +36,8 @@ final class BlogModuleTests: XCTestCase {
 //        
 //        return feather
 //    }
-
-    func testBlogPostList() throws {
+//
+//    func testBlogPostList() throws {
 //        let feather = try configFeather()
 //        defer { feather.stop() }
 //
@@ -60,12 +47,12 @@ final class BlogModuleTests: XCTestCase {
 //            .expect(.json)
 //            .expect { value in
 //                print(value.body.string)
-////                XCTAssertTrue(value.body.string.contains("Welcome"))
+//                XCTAssertTrue(value.body.string.contains("Welcome"))
 //            }
 //            .test(.inMemory)
-    }
-
-    func testBlogPostList2() {
+//    }
+//
+//    func testBlogPostList2() {
 //        try app
 //            .describe("Blog API should return posts")
 //            .get("/api/blog/")
@@ -78,6 +65,5 @@ final class BlogModuleTests: XCTestCase {
 //                token = content.value
 //            }
 //            .test(.inMemory)
-    }
-
+//    }
 }
