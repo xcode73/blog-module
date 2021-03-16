@@ -7,9 +7,9 @@
 
 import FeatherCore
 
-extension BlogAuthorLinkModel: LeafDataRepresentable {
+extension BlogAuthorLinkModel: TemplateDataRepresentable {
     
-    var leafData: LeafData {
+    var templateData: TemplateData {
         .dictionary([
             "id": id,
             "label": label,

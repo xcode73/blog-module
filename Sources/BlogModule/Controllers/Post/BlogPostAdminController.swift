@@ -39,10 +39,10 @@ struct BlogPostAdminController: ViperAdminViewController {
         return queryBuilder.sort(order, sort.direction)
     }
     
-    func beforeListPageRender(page: ListPage<BlogPostModel>) -> LeafData {
+    func beforeListPageRender(page: ListPage<BlogPostModel>) -> TemplateData {
         .dictionary([
-            "items": .array(page.items.map(\.leafDataWithJoinedMetadata)),
-            "info": page.info.leafData
+            "items": .array(page.items.map(\.templateDataWithJoinedMetadata)),
+            "info": page.info.templateData
         ])
     }
 

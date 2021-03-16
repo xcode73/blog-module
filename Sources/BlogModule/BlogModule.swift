@@ -65,12 +65,12 @@ final class BlogModule: ViperModule {
         ]
     }
 
-    func leafAdminMenuHook(args: HookArguments) -> LeafDataRepresentable {
+    func leafAdminMenuHook(args: HookArguments) -> TemplateDataRepresentable {
         [
             "name": "Blog",
             "icon": "book",
             "permission": "blog.module.access",
-            "items": LeafData.array([
+            "items": TemplateData.array([
                 [
                     "url": "/admin/blog/posts/",
                     "label": "Posts",
@@ -143,9 +143,9 @@ final class BlogModule: ViperModule {
                     return req.eventLoop.future(nil)
                 }
                 /// render the post with the filtered content
-                var ctx = post.leafDataWithJoinedMetadata.dictionary!
+                var ctx = post.templateDataWithJoinedMetadata.dictionary!
                 ctx["content"] = .string(post.filter(post.content ?? "", req: req))
-                return BlogFrontendView(req).post(ctx.leafData).encodeOptionalResponse(for: req)
+                return BlogFrontendView(req).post(ctx.templateData).encodeOptionalResponse(for: req)
             }
     }
     
@@ -204,9 +204,9 @@ final class BlogModule: ViperModule {
         let count = qb.count()
         let items = qb.copy().range(start..<end).all()
 
-        return items.and(count).map { (posts, count) -> ListPage<LeafData> in
+        return items.and(count).map { (posts, count) -> ListPage<TemplateData> in
             let total = Int(ceil(Float(count) / Float(limit)))
-            return .init(posts.map { $0.leafDataWithJoinedMetadata }, info: .init(current: page, limit: limit, total: total))
+            return .init(posts.map { $0.templateDataWithJoinedMetadata }, info: .init(current: page, limit: limit, total: total))
         }
         .flatMap { BlogFrontendView(req).posts(page: $0, metadata: metadata) }
         .encodeOptionalResponse(for: req)

@@ -22,12 +22,12 @@ final class BlogAuthorEditForm: ModelForm {
         [name, bio, image]
     }
 
-    var leafData: LeafData {
+    var templateData: TemplateData {
         .dictionary([
-            "modelId": modelId?.encodeToLeafData() ?? .string(nil),
-            "fields": fieldsLeafData,
+            "modelId": modelId?.encodeToTemplateData() ?? .string(nil),
+            "fields": fieldsTemplateData,
             "notification": .string(notification),
-            "metadata": metadata?.leafData,
+            "metadata": metadata?.templateData,
         ])
     }
 
