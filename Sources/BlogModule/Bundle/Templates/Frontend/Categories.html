@@ -7,28 +7,26 @@
 
 #define(body):
 <div id="categories" class="container">
-    <div class="margin">
-        <header class="margin-bottom-xl">
-            <h1>#(head.title)</h1>
-            <p>#(head.description)</p>
-        </header>
 
-        <section>
-            #for(category in categories):
-            <div class="margin-bottom-xl background padding border-radius-xs shadow-xl">
+    <header class="lead">
+        <h1>#(head.title)</h1>
+        <p>#(head.description)</p>
+    </header>
+
+    <section>
+        #for(category in categories):
+        <a href="/#(category.metadata.slug)" class="card">
+            <div class="content">
                 #if(category.imageKey != nil):
-                <a href="/#(category.metadata.slug)">
-                    <img class="size border-radius-xs border"#if(category.color != nil): style="border-color: #(category.color);"#endif src="#(category.imageKey.resolve())">
-                </a>
+                <img style="width: 4rem;" src="#(category.imageKey.resolve())">
                 #endif
-                <h2 class="margin-top-zero">
-                    <a href="/#(category.metadata.slug)">#(category.title)</a>
-                </h2>
-                <p class="margin-top-zero">#(category.excerpt)</p>
+                <h2#if(category.color != nil): style="color: #(category.color);"#endif>#(category.title)</h2>
+                <p>#(category.excerpt)</p>
             </div>
-            #endfor
-        </section>
-    </div>
+        </a>
+        #endfor
+    </section>
+
 </div>
 #enddefine
 #inline("Frontend/Index")

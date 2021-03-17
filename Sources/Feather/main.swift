@@ -43,7 +43,7 @@ try feather.configure([
 
 if feather.app.isDebug {
     try feather.resetPublicFiles()
-    try feather.copyTemplatesIfNeeded()
+//    try feather.copyTemplatesIfNeeded()
 }
 
 try feather.start()

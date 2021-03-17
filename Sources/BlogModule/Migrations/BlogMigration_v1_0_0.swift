@@ -15,7 +15,7 @@ struct BlogMigration_v1_0_0: Migration {
                 .id()
                 .field(BlogCategoryModel.FieldKeys.title, .string, .required)
                 .field(BlogCategoryModel.FieldKeys.imageKey, .string)
-                .field(BlogCategoryModel.FieldKeys.excerpt, .data)
+                .field(BlogCategoryModel.FieldKeys.excerpt, .string)
                 .field(BlogCategoryModel.FieldKeys.color, .string)
                 .field(BlogCategoryModel.FieldKeys.priority, .int, .required)
                 .unique(on: BlogCategoryModel.FieldKeys.title)
@@ -25,7 +25,7 @@ struct BlogMigration_v1_0_0: Migration {
                 .id()
                 .field(BlogAuthorModel.FieldKeys.name, .string, .required)
                 .field(BlogAuthorModel.FieldKeys.imageKey, .string)
-                .field(BlogAuthorModel.FieldKeys.bio, .data)
+                .field(BlogAuthorModel.FieldKeys.bio, .string)
                 .create(),
 
             db.schema(BlogAuthorLinkModel.schema)
@@ -41,8 +41,8 @@ struct BlogMigration_v1_0_0: Migration {
                 .id()
                 .field(BlogPostModel.FieldKeys.title, .string, .required)
                 .field(BlogPostModel.FieldKeys.imageKey, .string)
-                .field(BlogPostModel.FieldKeys.excerpt, .data)
-                .field(BlogPostModel.FieldKeys.content, .data)
+                .field(BlogPostModel.FieldKeys.excerpt, .string)
+                .field(BlogPostModel.FieldKeys.content, .string)
                 .create(),
             
             db.schema(BlogPostCategoryModel.schema)

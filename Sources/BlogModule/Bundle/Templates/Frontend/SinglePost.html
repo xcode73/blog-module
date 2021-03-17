@@ -1,21 +1,24 @@
-<div class="post-cell background shadow-xl border-radius-xs margin-bottom-xl" style="overflow: hidden;">
-    <a href="/#(post.metadata.slug)">
-        #if(post.imageKey != nil):
-        <img class="block size-width-full" src="#(post.imageKey.resolve())">
-        #endif
-        
-        <div class="padding">
-        <h2 class="h3 margin-top-zero">#(post.title)</h2>
-        <p class="margin-top-s margin-bottom">#(post.excerpt)</p>
+<a href="/#(post.metadata.slug)" class="card">
+    #if(post.imageKey != nil):
+    <img src="#(post.imageKey.resolve())">
+    #endif
+    
+    <div class="content">
+        <div class="text">
+            <h2>#(post.title)</h2>
+            <p>#(post.excerpt)</p>
+        </div>
 
-        #for(pc in post.categories ?? []):
-        <span class="color-white shadow margin-right-xs "#if(pc.color != nil): style="background-color: #(pc.color); padding: 4px 8px; border-radius: 8px;"#endif>#(pc.title)</span>
-        #endfor
-        
-        <div class="margin-top-s color-gray">
+        <div class="meta">
+            
             #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
-            <time datetime="#(dateString)">#(dateString)</time>
+            <time datetime="#(dateString)" class="date">#(dateString)</time>
+
+            <div class="tags">
+            #for(pc in post.categories ?? []):
+                <span#if(pc.color != nil): style="color: #(pc.color);"#endif>#(pc.title)</span>#if(!isLast): &middot;#endif
+            #endfor
+            </div>
         </div>
-        </div>
-    </a>
-</div>
+    </div>
+</a>

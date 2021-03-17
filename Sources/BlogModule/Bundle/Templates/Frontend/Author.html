@@ -6,24 +6,23 @@
 ])
 #define(body):
 
-<div id="author" class="container">
-    <div class="margin">
-        <header class="margin-bottom-xl">
-            <img class="size border border-color-6 border-radius-full" src="#(author.imageKey.resolve() ?? "/images/placeholder.jpg")" alt="Picture of #(author.name)" title="#(author.name)">
-            <h1 class="margin-top-zero">#(head.title)</h1>
-            <p class="margin-top-zero">#(head.description)</p>
-            #for(link in author.links):
-            <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
-            #endfor
-            <p class="color-gray"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
-        </header>
+<div class="container">
+    <header class="lead">
+        <img class="profile" src="#(author.imageKey.resolve() ?? "/images/placeholder.jpg")" alt="Picture of #(author.name)" title="#(author.name)">
+        <h1>#(head.title)</h1>
+        <p>#(head.description)</p>
+        #for(link in author.links):
+        <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
+        #endfor
+        
+    </header>
 
-        <section class="margin-bottom-xl">
-            #for(post in posts):
-            #inline("Blog/Frontend/SinglePost")
-            #endfor
-        </section>
-    </div>
+    <section>
+        <p class="note"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+        #for(post in posts):
+        #inline("Blog/Frontend/SinglePost")
+        #endfor
+    </section>
 </div>
 
 #enddefine

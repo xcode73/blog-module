@@ -44,8 +44,8 @@ final class BlogModule: ViperModule {
         app.hooks.register("frontend-route", use: authorFrontendPageHook)
         app.hooks.register("frontend-route", use: categoryFrontendPageHook)
         app.hooks.register("frontend-route", use: postFrontendPageHook)
-        /// leaf
-        app.hooks.register("leaf-admin-menu", use: leafAdminMenuHook)
+        /// template
+        app.hooks.register("template-admin-menu", use: templateAdminMenuHook)
         /// css
         app.hooks.register("css", use: cssHook)
         ///page hooks
@@ -65,7 +65,7 @@ final class BlogModule: ViperModule {
         ]
     }
 
-    func leafAdminMenuHook(args: HookArguments) -> TemplateDataRepresentable {
+    func templateAdminMenuHook(args: HookArguments) -> TemplateDataRepresentable {
         [
             "name": "Blog",
             "icon": "book",
