@@ -16,14 +16,15 @@ defer { app.shutdown() }
 Feather.useSQLiteDatabase(app)
 Feather.useLocalFileStorage(app)
 
+app.feather.use([
+    BlogBuilder().build()
+])
+
 if app.isDebug {
     try Feather.resetPublicFiles(app)
     try Feather.copyTemplatesIfNeeded(app)
 }
 
-app.feather.use([
-    BlogBuilder().build()
-])
 
 try Feather.boot(app)
 

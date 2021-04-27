@@ -12,7 +12,7 @@ final class BlogModule: FeatherModule {
 
     static let moduleKey: String = "blog"
     
-    static var bundleUrl: URL? {
+    var bundleUrl: URL? {
         Bundle.module.resourceURL?.appendingPathComponent("Bundle")
     }
 
