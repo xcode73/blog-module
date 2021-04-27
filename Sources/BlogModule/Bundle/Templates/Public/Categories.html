@@ -1,0 +1,31 @@
+#let(head = [
+    "title": $variables.blogCategoriesPageTitle ?? "",
+    "excerpt": $variables.blogCategoriesPageExcerpt ?? ""
+])
+
+#define(body):
+<div id="categories" class="container">
+
+    <header class="lead">
+        <h1>#(head.title)</h1>
+        <p>#(head.excerpt)</p>
+    </header>
+
+    <section>
+        #for(category in categories):
+        <a href="/#(category.metadata.slug)" class="card">
+            <div class="content">
+                #if(category.imageKey != nil):
+                <img style="width: 4rem;" src="#(category.imageKey.resolve())">
+                #endif
+                <h2#if(category.color != nil): style="color: #(category.color);"#endif>#(category.title)</h2>
+                <p>#(category.excerpt)</p>
+            </div>
+        </a>
+        #endfor
+    </section>
+
+</div>
+#enddefine
+#inline("Frontend/Index")
+

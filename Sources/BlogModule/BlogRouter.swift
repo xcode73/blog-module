@@ -7,75 +7,39 @@
 
 import FeatherCore
 
-struct BlogRouter: ViperRouter {
+struct BlogRouter: RouteCollection {
 
-    let authorAdmin = BlogAuthorAdminController()
-    let authorApi = BlogAuthorApiController()
-    
-    let authorLinkAdmin = BlogAuthorLinkAdminController()
-    
-    let categoryAdmin = BlogCategoryAdminController()
-    let categoryApi = BlogCategoryApiController()
-    
-    let postAdmin = BlogPostAdminController()
-    let postApi = BlogPostApiController()
+    let postController = BlogPostController()
+    let categoryController = BlogCategoryController()
+    let authorController = BlogAuthorController()
+    let authorLinkController = BlogAuthorLinkController()
+
+    func boot(routes: RoutesBuilder) throws {
+        
+    }
 
     func adminRoutesHook(args: HookArguments) {
-        let routes = args["routes"] as! RoutesBuilder
-
-        let modulePath = routes.grouped(BlogModule.pathComponent)
-
-        postAdmin.setupRoutes(on: modulePath, as: BlogPostModel.pathComponent)
-        categoryAdmin.setupRoutes(on: modulePath, as: BlogCategoryModel.pathComponent)
-
-        authorAdmin.setupRoutes(on: modulePath, as: BlogAuthorModel.pathComponent)
-
-        let adminAuthor = modulePath.grouped(BlogAuthorModel.pathComponent, authorAdmin.idPathComponent)
-        authorLinkAdmin.setupRoutes(on: adminAuthor, as: "links")
-    }
-
-    func publicApiRoutesHook(args: HookArguments) {
-        let routes = args["routes"] as! RoutesBuilder
+        let adminRoutes = args.routes
         
-        let modulePath = routes.grouped(BlogModule.pathComponent)
+        adminRoutes.get("blog", use: SystemAdminMenuController(key: "blog").moduleView)
 
-        let postPath = modulePath.grouped(BlogPostModel.pathComponent)
-        postApi.setupListRoute(on: postPath)
-        postApi.setupGetRoute(on: postPath)
-
-        let categoryPath = modulePath.grouped(BlogCategoryModel.pathComponent)
-        categoryApi.setupListRoute(on: categoryPath)
-        categoryApi.setupGetRoute(on: categoryPath)
-        
-        let authorPath = modulePath.grouped(BlogAuthorModel.pathComponent)
-        authorApi.setupListRoute(on: authorPath)
-        authorApi.setupGetRoute(on: authorPath)
+        adminRoutes.register(postController)
+        adminRoutes.register(categoryController)
+        adminRoutes.register(authorController)
+        adminRoutes.register(authorLinkController)
     }
     
-    func privateApiRoutesHook(args: HookArguments) {
-        let routes = args["routes"] as! RoutesBuilder
+    func apiRoutesHook(args: HookArguments) {
+//        let publicApiRoutes = args.routes
+    }
+    
+    func apiAdminRoutesHook(args: HookArguments) {
+        let apiRoutes = args.routes
 
-        let modulePath = routes.grouped(BlogModule.pathComponent)
-        
-        authorApi.setupListRoute(on: routes.grouped("test"))
-
-        let postPath = modulePath.grouped(BlogPostModel.pathComponent)
-        postApi.setupCreateRoute(on: postPath)
-        postApi.setupUpdateRoute(on: postPath)
-        postApi.setupPatchRoute(on: postPath)
-        postApi.setupDeleteRoute(on: postPath)
-        
-        let categoryPath = modulePath.grouped(BlogCategoryModel.pathComponent)
-        categoryApi.setupCreateRoute(on: categoryPath)
-        categoryApi.setupUpdateRoute(on: categoryPath)
-        categoryApi.setupPatchRoute(on: categoryPath)
-        categoryApi.setupDeleteRoute(on: categoryPath)
-        
-        let authorPath = modulePath.grouped(BlogAuthorModel.pathComponent)
-        authorApi.setupCreateRoute(on: authorPath)
-        authorApi.setupUpdateRoute(on: authorPath)
-        authorApi.setupPatchRoute(on: authorPath)
-        authorApi.setupDeleteRoute(on: authorPath)
+        apiRoutes.registerApi(postController)
+        apiRoutes.registerApi(categoryController)
+        apiRoutes.registerApi(authorController)
+        apiRoutes.registerApi(authorLinkController)
     }
     
 }

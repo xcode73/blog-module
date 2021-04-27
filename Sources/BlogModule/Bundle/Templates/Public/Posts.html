@@ -1,0 +1,36 @@
+#let(head = [
+    "title": $variables.blogPostsPageTitle ?? "",
+    "excerpt": $variables.blogPostsPageExcerpt ?? ""
+])
+#define(body):
+<div id="posts" class="container">
+    
+    <header class="lead">
+        <h1>#(head.title)</h1>
+        <p>#(head.excerpt)</p>
+    </header>
+
+    <section>
+        <form id="search-form" action="#($req.url.path)" method="get">
+            #if(Request(query: "limit") != nil):
+            <input type="hidden" id="limit" name="limit" value="#Request(query: "limit")">
+            #endif
+            <input type="text" id="search" name="search" placeholder="Search..." value="#Request(query: "search")">
+        </form>
+    </section>
+
+    <section>
+    #if(posts.isEmpty()):
+        #inline("System/Admin/Empty")
+    #else:
+        #for(post in posts):
+            #inline("Blog/SinglePost")
+        #endfor
+    #endif
+    </section>
+
+    #inline("Common/Pagination")
+</div>
+#enddefine
+
+#inline("Frontend/Index")

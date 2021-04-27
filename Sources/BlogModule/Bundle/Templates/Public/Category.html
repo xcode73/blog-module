@@ -1,0 +1,27 @@
+#let(head = [
+    "title": category.title,
+    "excerpt": category.excerpt,
+    "css": category.metadata.css,
+    "js": category.metadata.js
+])
+
+#define(body):
+<div class="container">
+
+    <header class="lead">
+        <img class="profile" src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
+        <h1#if(category.color != nil): style="color: #(category.color);"#endif>#(head.title)</h1>
+        <p>#(head.excerpt)</p>
+    </header>
+
+    <section>
+        <p class="note"><strong>#(posts.count()) post#if(posts.count() > 1):s#endif</strong></p>
+
+        #for(post in posts):
+        #inline("Blog/Frontend/SinglePost")
+        #endfor
+    </section>
+</div>
+#enddefine
+
+#inline("Frontend/Index")

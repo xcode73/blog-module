@@ -12,9 +12,9 @@ public func createBlogModule() -> UnsafeMutableRawPointer {
     return Unmanaged.passRetained(BlogBuilder()).toOpaque()
 }
 
-public final class BlogBuilder: ViperBuilder {
+public final class BlogBuilder: FeatherModuleBuilder {
 
-    public override func build() -> ViperModule {
+    public override func build() -> FeatherModule {
         BlogModule()
     }
 }
