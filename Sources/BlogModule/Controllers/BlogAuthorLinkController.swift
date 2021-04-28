@@ -42,31 +42,31 @@ struct BlogAuthorLinkController: FeatherController {
     }
 
     func listContext(req: Request, table: Table, pages: Pagination) -> ListContext {
-        let menuId = BlogAuthorModel.getIdParameter(req: req)!
+        let authorId = BlogAuthorModel.getIdParameter(req: req)!
 
         return ListContext(info: Model.info(req), table: table, pages: pages, nav: [
-            BlogAuthorModel.adminLink(for: menuId),
+            BlogAuthorModel.adminLink(for: authorId),
         ], breadcrumb: [
             Module.adminLink,
             BlogAuthorModel.adminLink,
-            BlogAuthorModel.adminLink(for: menuId),
+            BlogAuthorModel.adminLink(for: authorId),
             .init(label: "Links", url: req.url.path.safePath()),
         ])
     }
     
     func beforeCreate(req: Request, model: Model) -> EventLoopFuture<Model> {
-        guard let menuId = BlogAuthorModel.getIdParameter(req: req) else {
+        guard let authorId = BlogAuthorModel.getIdParameter(req: req) else {
             return req.eventLoop.future(error: Abort(.badRequest))
         }
-        model.$author.id = menuId
+        model.$author.id = authorId
         return req.eventLoop.future(model)
     }
 
     func beforeListQuery(req: Request, queryBuilder: QueryBuilder<Model>) -> QueryBuilder<Model> {
-        guard let menuId = BlogAuthorModel.getIdParameter(req: req) else {
+        guard let authorId = BlogAuthorModel.getIdParameter(req: req) else {
             return queryBuilder
         }
-        return queryBuilder.filter(\.$author.$id == menuId)
+        return queryBuilder.filter(\.$author.$id == authorId)
     }
     
     func detailFields(req: Request, model: Model) -> [DetailContext.Field] {
@@ -79,12 +79,12 @@ struct BlogAuthorLinkController: FeatherController {
     }
 
     func getContext(req: Request, model: Model) -> DetailContext {
-        let menuId = BlogAuthorModel.getIdParameter(req: req)!
+        let authorId = BlogAuthorModel.getIdParameter(req: req)!
         return .init(model: Model.info(req), fields: detailFields(req: req, model: model), nav: [], bc: [
             Module.adminLink,
             BlogAuthorModel.adminLink,
-            BlogAuthorModel.adminLink(for: menuId),
-            Model.adminLink(authorId: menuId),
+            BlogAuthorModel.adminLink(for: authorId),
+            Model.adminLink(authorId: authorId),
             .init(label: "View", url: req.url.path.safePath()),
         ])
     }
@@ -94,37 +94,13 @@ struct BlogAuthorLinkController: FeatherController {
     }
     
     func deleteContext(req: Request, id: String, token: String, model: Model) -> DeleteContext {
-        let menuId = BlogAuthorModel.getIdParameter(req: req)!
+        let authorId = BlogAuthorModel.getIdParameter(req: req)!
         return .init(model: Model.info(req), id: id, token: token, context: deleteContext(req: req, model: model), bc: [
             Module.adminLink,
             BlogAuthorModel.adminLink,
-            BlogAuthorModel.adminLink(for: menuId),
-            Model.adminLink(authorId: menuId),
+            BlogAuthorModel.adminLink(for: authorId),
+            Model.adminLink(authorId: authorId),
             .init(label: "Delete", url: req.url.path.safePath()),
         ])
     }
 }
-
-
-//struct BlogAuthorLinkAdminController: FeatherController {
-//
-//    typealias Module = BlogModule
-//    typealias Model = BlogAuthorLinkModel
-//    typealias CreateForm = BlogAuthorLinkEditForm
-//    typealias UpdateForm = BlogAuthorLinkEditForm
-//    
-//    var idParamKey: String { "linkId" }
-//    
-//    var listAllowedOrders: [FieldKey] = [
-//        Model.FieldKeys.label,
-//        Model.FieldKeys.url,
-//        Model.FieldKeys.priority,
-//    ]
-//
-//    func beforeListQuery(req: Request, queryBuilder: QueryBuilder<BlogAuthorLinkModel>) -> QueryBuilder<BlogAuthorLinkModel> {
-//        guard let id = req.parameters.get("id"), let uuid = UUID(uuidString: id) else {
-//            return queryBuilder
-//        }
-//        return queryBuilder.filter(\.$author.$id == uuid).sort(\Model.$priority, .descending)
-//    }
-//}
