@@ -24,10 +24,10 @@ final class BlogModule: FeatherModule {
         app.databases.middleware.use(MetadataModelMiddleware<BlogAuthorModel>())
         /// install
         app.hooks.register(.installPermissions, use: installPermissionsHook)
-//        app.hooks.register("model-install", use: modelInstallHook)
-//        app.hooks.register("system-variables-install", use: systemVariablesInstallHook)
-//        app.hooks.register("frontend-main-menu-install", use: frontendMainMenuInstallHook)
-//        app.hooks.register("frontend-page-install", use: frontendPageInstallHook)
+        app.hooks.register(.installVariables, use: installVariablesHook)
+        app.hooks.register(.installModels, use: installModelsHook)
+        app.hooks.register(.installMainMenuItems, use: installMainMenuItemsHook)
+        app.hooks.register(.installPages, use: installPagesHook)
         /// routes
         let router = BlogRouter()
         try router.boot(routes: app.routes)
