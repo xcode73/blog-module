@@ -49,12 +49,24 @@ final class BlogPostModel: FeatherModel {
     
     // MARK: - query
 
+    static func defaultSort() -> FieldSort {
+        .desc
+    }
+
     static func allowedOrders() -> [FieldKey] {
         [
-//            "date", // Metadata
+            "date", // Metadata
             FieldKeys.title,
         ]
     }
+
+    static func sort(queryBuilder: QueryBuilder<BlogPostModel>, order: FieldKey, direction: DatabaseQuery.Sort.Direction) -> QueryBuilder<BlogPostModel> {
+        if order == "date" {
+            return queryBuilder.sortMetadataByDate(direction)
+        }
+        return queryBuilder.sort(order, direction)
+    }
+
     
     static func search(_ term: String) -> [ModelValueFilter<BlogCategoryModel>] {
         [
