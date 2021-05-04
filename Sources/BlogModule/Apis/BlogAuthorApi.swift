@@ -15,6 +15,8 @@ extension BlogAuthorUpdateObject: Content {}
 extension BlogAuthorPatchObject: Content {}
 
 struct BlogAuthorApi: FeatherApiRepresentable {
+    
+    
     typealias Model = BlogAuthorModel
     
     typealias ListObject = BlogAuthorListObject
@@ -43,8 +45,8 @@ struct BlogAuthorApi: FeatherApiRepresentable {
         return req.eventLoop.future()
     }
     
-    func validateCreate(_ req: Request) -> EventLoopFuture<Bool> {
-        req.eventLoop.future(true)
+    func validateCreate(_ req: Request) -> EventLoopFuture<[ValidationError]> {
+        req.eventLoop.future([])
     }
     
     func validateUpdate(_ req: Request) -> EventLoopFuture<Bool> {
