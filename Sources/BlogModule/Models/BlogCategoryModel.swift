@@ -14,7 +14,7 @@ final class BlogCategoryModel: FeatherModel {
     static let modelKey: String = "categories"
     static let name: FeatherModelName = .init(singular: "Category", plural: "Categories")
     
-    struct FieldKeys {
+    struct FieldKeys: TimestampFieldKeys {
         static var title: FieldKey { "title" }
         static var imageKey: FieldKey { "image_key" }
         static var excerpt: FieldKey { "excerpt" }
@@ -28,6 +28,13 @@ final class BlogCategoryModel: FeatherModel {
     @Field(key: FieldKeys.excerpt) var excerpt: String?
     @Field(key: FieldKeys.color) var color: String?
     @Field(key: FieldKeys.priority) var priority: Int
+    
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
+        key: FieldKeys.updated_at, on: .update, format: .`default`) var updatedAt: Date?
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
+        key: FieldKeys.created_at, on: .create, format: .`default`) var createdAt: Date?
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
+        key: FieldKeys.deleted_at, on: .delete, format: .`default`) var deletedAt: Date?
     
     /// posts relation
     @Siblings(through: BlogPostCategoryModel.self, from: \.$category, to: \.$post) var posts: [BlogPostModel]

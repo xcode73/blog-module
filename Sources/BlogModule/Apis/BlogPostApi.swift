@@ -24,11 +24,19 @@ struct BlogPostApi: FeatherApiRepresentable {
     typealias PatchObject = BlogPostPatchObject
     
     func mapList(model: Model) -> ListObject {
-        .init(id: model.id!, title: model.title, imageKey: model.imageKey, excerpt: model.excerpt)
+        .init(id: model.id!, title: model.title, imageKey: model.imageKey, excerpt: model.excerpt, updated_at: model.updatedAt, created_at: model.createdAt, deleted_at: model.deletedAt)
     }
     
     func mapGet(model: Model) -> GetObject {
-        .init(id: model.id!, title: model.title, imageKey: model.imageKey, excerpt: model.excerpt, content: model.content, categories: [], authors: [])
+         var apiCategories = [BlogCategoryApi.ListObject]()
+         for catmodel in model.categories {
+            apiCategories.append(BlogCategoryApi().mapList(model: catmodel))
+         }
+         var apiAuthors = [BlogAuthorApi.ListObject]()
+         for authmodel in model.authors {
+             apiAuthors.append(BlogAuthorApi().mapList(model: authmodel))
+         }
+        return GetObject.init(id: model.id!, title: model.title, imageKey: model.imageKey, excerpt: model.excerpt, content: model.content, updated_at: model.updatedAt, created_at: model.createdAt, categories: apiCategories, authors: apiAuthors)
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {

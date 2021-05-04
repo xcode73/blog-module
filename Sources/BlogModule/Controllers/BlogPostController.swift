@@ -65,3 +65,38 @@ struct BlogPostController: FeatherController {
         model.title
     }
 }
+
+/// Overide default Route Builder
+extension BlogPostController {
+    
+    func listApiTimestamp(_ req: Request) throws -> EventLoopFuture<Response> {
+        let start: Date = req.query["start"] ?? Date(timeIntervalSince1970: 0)
+        let end: Date = req.query["end"] ?? Date()
+        let paginated =  listLoader
+            .paginate(req, start: start, end: end, withDeleted: true).map { pc -> PaginationContainer<ListApi.ListObject> in
+                let api = ListApi()
+                let items = pc.map { api.mapList(model: $0) }
+                return items
+            }
+        var headers = HTTPHeaders()
+        headers.add(name: "X-Timestamp", value: "\(Int(Date().timeIntervalSince1970))")
+        return paginated.encodeResponse(status: .accepted, headers: headers, for: req)
+    }
+    
+    func setupListApiRoute(on builder: RoutesBuilder) {
+        builder.get(use: listApiTimestamp)
+    }
+
+}
+
+/// Support for start / end db filtering
+extension ListLoader where T: BlogPostModel {
+   
+    internal func paginate(_ req: Request, start: Date, end: Date, withDeleted deleted: Bool = false) -> EventLoopFuture<PaginationContainer<T>> {
+        let qb = qbAll(req, withDeleted: deleted)
+            .filter(\.$updatedAt >= start)
+            .filter(\.$updatedAt <= end)
+        return paginate(req, qb)
+    }
+
+}
