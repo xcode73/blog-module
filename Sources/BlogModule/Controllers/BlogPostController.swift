@@ -22,7 +22,7 @@ struct BlogPostController: FeatherController {
     typealias PatchApi = BlogPostApi
     typealias DeleteApi = BlogPostApi
 
-    let dateFormatter = Application.dateFormatter(dateStyle: .short, timeStyle: .short)
+    let dateFormatter = Application.dateFormatter()
 
     func findBy(_ id: UUID, on db: Database) -> EventLoopFuture<Model> {
         Model.findWithCategoriesAndAuthorsBy(id: id, on: db).unwrap(or: Abort(.notFound, reason: "Post not found"))

@@ -11,7 +11,7 @@ extension BlogModule {
     
     func installPermissionsHook(args: HookArguments) -> [PermissionCreateObject] {
         var permissions: [PermissionCreateObject] = [
-            BlogModule.hookInstallPermission(for: .custom("admin"))
+            Self.hookInstallPermission(for: .custom("admin"))
         ]
         permissions += BlogAuthorModel.hookInstallPermissions()
         permissions += BlogAuthorLinkModel.hookInstallPermissions()
