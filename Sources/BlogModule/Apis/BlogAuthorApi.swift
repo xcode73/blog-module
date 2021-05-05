@@ -25,26 +25,51 @@ struct BlogAuthorApi: FeatherApiRepresentable {
     typealias PatchObject = AuthorPatchObject
     
     func mapList(model: Model) -> ListObject {
-        .init(id: model.id!, name: model.name, imageKey: model.imageKey, updated_at: model.updatedAt, created_at: model.createdAt, deleted_at: model.deletedAt)
+        .init(id: model.id!,
+              name: model.name,
+              imageKey: model.imageKey,
+              updated_at: model.updatedAt,
+              created_at: model.createdAt,
+              deleted_at: model.deletedAt)
     }
     
     func mapGet(model: Model) -> GetObject {
-        .init(id: model.id!, name: model.name, imageKey: model.imageKey, bio: model.bio, updated_at: model.updatedAt, created_at: model.createdAt, links: [])
+        .init(id: model.id!,
+              name: model.name,
+              imageKey: model.imageKey,
+              bio: model.bio,
+              updated_at: model.updatedAt,
+              created_at: model.createdAt,
+              links: (model.$links.value ?? []).map { BlogAuthorLinkApi().mapList(model: $0) })
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {
+        model.name = input.name
+        model.imageKey = input.imageKey
+        model.bio = input.bio
         return req.eventLoop.future()
     }
         
     func mapUpdate(_ req: Request, model: Model, input: UpdateObject) -> EventLoopFuture<Void> {
+        model.name = input.name
+        model.imageKey = input.imageKey
+        model.bio = input.bio
         return req.eventLoop.future()
     }
 
     func mapPatch(_ req: Request, model: Model, input: PatchObject) -> EventLoopFuture<Void> {
+        model.name = input.name ?? model.name
+        model.imageKey = input.imageKey ?? model.imageKey
+        model.bio = input.bio ?? model.bio
         return req.eventLoop.future()
     }
     
     func validators(optional: Bool) -> [AsyncValidator] {
-        []
+        [
+            KeyedContentValidator<String>.required("name", optional: optional),
+            KeyedContentValidator<String>("name", "Name must be unique", optional: optional, nil) { value, req in
+                Model.isUniqueBy(\.$name == value, req: req)
+            }
+        ]
     }
 }
