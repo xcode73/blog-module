@@ -34,13 +34,14 @@ struct BlogAuthorApi: FeatherApiRepresentable {
     }
     
     func mapGet(model: Model) -> GetObject {
-        .init(id: model.id!,
+        let linkApi = BlogAuthorLinkApi()
+        return .init(id: model.id!,
               name: model.name,
               imageKey: model.imageKey,
               bio: model.bio,
               updated_at: model.updatedAt,
               created_at: model.createdAt,
-              links: (model.$links.value ?? []).map { BlogAuthorLinkApi().mapList(model: $0) })
+              links: (model.$links.value ?? []).map { linkApi.mapList(model: $0) })
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {

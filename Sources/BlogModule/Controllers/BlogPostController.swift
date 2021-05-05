@@ -72,15 +72,14 @@ extension BlogPostController {
     func listApiTimestamp(_ req: Request) throws -> EventLoopFuture<Response> {
         let start: Date = req.query["start"] ?? Date(timeIntervalSince1970: 0)
         let end: Date = req.query["end"] ?? Date()
-        let paginated =  listLoader
-            .paginate(req, start: start, end: end, withDeleted: true).map { pc -> PaginationContainer<ListApi.ListObject> in
+        let paginated =  listLoader.paginate(req, start: start, end: end, withDeleted: true).map { pc -> PaginationContainer<ListApi.ListObject> in
                 let api = ListApi()
                 let items = pc.map { api.mapList(model: $0) }
                 return items
             }
         var headers = HTTPHeaders()
         headers.add(name: "X-Timestamp", value: "\(Int(Date().timeIntervalSince1970))")
-        return paginated.encodeResponse(status: .accepted, headers: headers, for: req)
+        return paginated.encodeResponse(status: .ok, headers: headers, for: req)
     }
     
     func setupListApiRoute(on builder: RoutesBuilder) {
