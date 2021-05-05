@@ -45,6 +45,14 @@ struct BlogAuthorController: FeatherController {
             .init(label: "Bio", value: model.bio ?? ""),
         ]
     }
+    
+    func findBy(_ id: UUID, on db: Database) -> EventLoopFuture<Model> {
+        Model.query(on: db)
+            .filter(\.$id == id)
+            .with(\.$links)
+            .first()
+            .unwrap(or: Abort(.notFound))
+    }
    
     func getContext(req: Request, model: Model) -> DetailContext {
         .init(model: Model.info(req), fields: detailFields(req: req, model: model), nav: [
