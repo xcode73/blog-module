@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogCategoryGetObject: Codable {
+public struct CategoryGetObject: Codable {
 
     public var id: UUID
     public var title: String

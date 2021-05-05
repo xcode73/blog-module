@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogAuthorCreateObject: Codable {
+public struct AuthorCreateObject: Codable {
 
     public var name: String
     public var imageKey: String?

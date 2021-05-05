@@ -1,16 +1,16 @@
 // swift-tools-version:5.3
 import PackageDescription
 
-let isLocalTestMode = false
+let isLocalTestMode = fase
 
 var deps: [Package.Dependency] = [
     .package(url: "https://github.com/feathercms/feather-core", .branch("main")), //from: "1.0.0-beta"),
 ]
 
 var targets: [Target] = [
-    .target(name: "BlogModuleApi"),
+    .target(name: "BlogApi"),
     .target(name: "BlogModule", dependencies: [
-        .target(name: "BlogModuleApi"),
+        .target(name: "BlogApi"),
         .product(name: "FeatherCore", package: "feather-core"),
     ],
     resources: [
@@ -36,6 +36,7 @@ if isLocalTestMode {
         ]),
         .testTarget(name: "BlogModuleTests", dependencies: [
             .target(name: "BlogModule"),
+            .product(name: "FeatherTest", package: "feather-core")
         ]),
     ])
 }
@@ -47,7 +48,7 @@ let package = Package(
     ],
     products: [
         .library(name: "BlogModule", targets: ["BlogModule"]),
-        .library(name: "BlogModuleApi", targets: ["BlogModuleApi"]),
+        .library(name: "BlogApi", targets: ["BlogApi"]),
     ],
     dependencies: deps,
     targets: targets

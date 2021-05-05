@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct BlogAuthorLinkListObject: Codable {
+public struct AuthorLinkGetObject: Codable {
 
     public var id: UUID
     public var label: String
     public var url: String
     public var priority: Int
-
+    
     public init(id: UUID,
                 label: String,
                 url: String,

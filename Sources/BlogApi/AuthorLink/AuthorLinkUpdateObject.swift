@@ -1,5 +1,5 @@
 //
-//  BlogAuthorLinkModule.swift
+//  BlogAuthorLinkRouter.swift
 //  BlogAuthorLink
 //
 //  Created by Tibor Bödecs on 2020. 12. 22..
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogAuthorLinkCreateObject: Codable {
+public struct AuthorLinkUpdateObject: Codable {
 
     public var label: String
     public var url: String

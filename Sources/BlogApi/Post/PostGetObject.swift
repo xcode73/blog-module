@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogPostGetObject: Codable {
+public struct PostGetObject: Codable {
 
     public var id: UUID
     public var title: String
@@ -17,8 +17,8 @@ public struct BlogPostGetObject: Codable {
     public var updated_at: Date?
     public var created_at: Date?
 
-    public var categories: [BlogCategoryListObject]
-    public var authors: [BlogAuthorListObject]
+    public var categories: [CategoryListObject]
+    public var authors: [AuthorListObject]
     
     public init(id: UUID,
                 title: String,
@@ -27,8 +27,8 @@ public struct BlogPostGetObject: Codable {
                 content: String?,
                 updated_at: Date?,
                 created_at: Date?,
-                categories: [BlogCategoryListObject] = [],
-                authors: [BlogAuthorListObject] = []) {
+                categories: [CategoryListObject] = [],
+                authors: [AuthorListObject] = []) {
         self.id = id
         self.title = title
         self.imageKey = imageKey

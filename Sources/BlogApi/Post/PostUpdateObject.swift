@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogPostUpdateObject: Codable {
+public struct PostUpdateObject: Codable {
 
     public var title: String
     public var imageKey: String?

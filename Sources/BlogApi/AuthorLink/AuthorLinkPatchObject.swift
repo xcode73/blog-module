@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogAuthorLinkPatchObject: Codable {
+public struct AuthorLinkPatchObject: Codable {
 
     public var label: String?
     public var url: String?

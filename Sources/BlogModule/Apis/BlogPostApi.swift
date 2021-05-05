@@ -6,22 +6,22 @@
 //
 
 import FeatherCore
-import BlogModuleApi
+import BlogApi
 
-extension BlogPostListObject: Content {}
-extension BlogPostGetObject: Content {}
-extension BlogPostCreateObject: Content {}
-extension BlogPostUpdateObject: Content {}
-extension BlogPostPatchObject: Content {}
+extension PostListObject: Content {}
+extension PostGetObject: Content {}
+extension PostCreateObject: Content {}
+extension PostUpdateObject: Content {}
+extension PostPatchObject: Content {}
 
 struct BlogPostApi: FeatherApiRepresentable {
     typealias Model = BlogPostModel
     
-    typealias ListObject = BlogPostListObject
-    typealias GetObject = BlogPostGetObject
-    typealias CreateObject = BlogPostCreateObject
-    typealias UpdateObject = BlogPostUpdateObject
-    typealias PatchObject = BlogPostPatchObject
+    typealias ListObject = PostListObject
+    typealias GetObject = PostGetObject
+    typealias CreateObject = PostCreateObject
+    typealias UpdateObject = PostUpdateObject
+    typealias PatchObject = PostPatchObject
     
     func mapList(model: Model) -> ListObject {
         .init(id: model.id!, title: model.title, imageKey: model.imageKey, excerpt: model.excerpt, updated_at: model.updatedAt, created_at: model.createdAt, deleted_at: model.deletedAt)
@@ -51,15 +51,7 @@ struct BlogPostApi: FeatherApiRepresentable {
         return req.eventLoop.future()
     }
     
-    func validateCreate(_ req: Request) -> EventLoopFuture<[ValidationError]> {
-        req.eventLoop.future([])
-    }
-    
-    func validateUpdate(_ req: Request) -> EventLoopFuture<Bool> {
-        req.eventLoop.future(true)
-    }
-    
-    func validatePatch(_ req: Request) -> EventLoopFuture<Bool> {
-        req.eventLoop.future(true)
+    func validators(optional: Bool) -> [AsyncValidator] {
+        []
     }
 }

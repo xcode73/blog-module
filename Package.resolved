@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/feathercms/feather-core",
         "state": {
           "branch": "main",
-          "revision": "3b759c0f505355c7572bdd0e2f73c95d8709bb42",
+          "revision": "d39c0f477ff1dba0541e260261e847ee2688ff52",
           "version": null
         }
       },
@@ -258,8 +258,8 @@
         "repositoryURL": "https://github.com/vapor/vapor",
         "state": {
           "branch": null,
-          "revision": "ad3fb7f87d47eaca4d97bf515c0d7e93093b38ad",
-          "version": "4.44.4"
+          "revision": "07a105b295a0b191e69761feede58edb2ebeb580",
+          "version": "4.45.0"
         }
       },
       {

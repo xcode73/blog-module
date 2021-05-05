@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct BlogCategoryUpdateObject: Codable {
+public struct CategoryUpdateObject: Codable {
 
     public var title: String
     public var imageKey: String?
@@ -16,10 +16,10 @@ public struct BlogCategoryUpdateObject: Codable {
     public var priority: Int
 
     public init(title: String,
-                imageKey: String?,
-                excerpt: String?,
-                color: String?,
-                priority: Int)
+                imageKey: String? = nil,
+                excerpt: String? = nil,
+                color: String? = nil,
+                priority: Int = 0)
     {
         self.title = title
         self.imageKey = imageKey

@@ -7,18 +7,20 @@
 
 import Foundation
 
-public struct BlogAuthorUpdateObject: Codable {
+public struct AuthorPatchObject: Codable {
 
-    public var name: String
+    public var name: String?
     public var imageKey: String?
     public var bio: String?
-
-    public init(name: String,
-                imageKey: String?,
+    
+    public init(name: String? = nil,
+                imageKey: String? = nil,
                 bio: String? = nil)
     {
         self.name = name
         self.imageKey = imageKey
         self.bio = bio
     }
+
+
 }

@@ -7,31 +7,32 @@
 
 import Foundation
 
-public struct BlogAuthorListObject: Codable {
+public struct AuthorGetObject: Codable {
 
     public var id: UUID
-    public var name: String?
+    public var name: String
     public var imageKey: String?
+    public var bio: String?
     public var updated_at: Date?
     public var created_at: Date?
-    public var deleted_at: Date?
+    
+    public var links: [AuthorLinkListObject]?
     
     public init(id: UUID,
-                name: String?,
+                name: String,
                 imageKey: String?,
+                bio: String?,
                 updated_at: Date?,
                 created_at: Date?,
-                deleted_at: Date?
-                ) {
+                links: [AuthorLinkListObject])
+    {
         self.id = id
-        self.deleted_at = deleted_at
-        self.updated_at = updated_at
-        self.created_at = created_at
-        // In case the object is deleted, we only retrun ID and timestamps data
-        guard deleted_at == nil else {
-            return
-        }
         self.name = name
         self.imageKey = imageKey
+        self.bio = bio
+        self.updated_at = updated_at
+        self.created_at = created_at
+        self.links = links.count > 0 ? links : nil
     }
+
 }
