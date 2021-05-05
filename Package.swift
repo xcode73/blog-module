@@ -1,7 +1,7 @@
 // swift-tools-version:5.3
 import PackageDescription
 
-let isLocalTestMode = fase
+let isLocalTestMode = false
 
 var deps: [Package.Dependency] = [
     .package(url: "https://github.com/feathercms/feather-core", .branch("main")), //from: "1.0.0-beta"),
