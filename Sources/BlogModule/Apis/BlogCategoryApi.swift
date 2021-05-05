@@ -29,9 +29,9 @@ struct BlogCategoryApi: FeatherApiRepresentable {
               imageKey: model.imageKey,
               color: model.color,
               priority: model.priority,
-              updated_at: model.updatedAt,
-              created_at: model.createdAt,
-              deleted_at: model.deletedAt)
+              updatedAt: model.updatedAt,
+              createdAt: model.createdAt,
+              deletedAt: model.deletedAt)
     }
     
     func mapGet(model: Model) -> GetObject {
@@ -41,8 +41,8 @@ struct BlogCategoryApi: FeatherApiRepresentable {
               excerpt: model.excerpt,
               color: model.color,
               priority: model.priority,
-              updated_at: model.updatedAt,
-              created_at: model.createdAt)
+              updatedAt: model.updatedAt,
+              createdAt: model.createdAt)
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {

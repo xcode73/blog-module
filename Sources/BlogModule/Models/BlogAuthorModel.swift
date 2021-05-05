@@ -27,12 +27,9 @@ final class BlogAuthorModel: FeatherModel {
     @Field(key: FieldKeys.imageKey) var imageKey: String?
     @Field(key: FieldKeys.bio) var bio: String?
     
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(
-        key: FieldKeys.updated_at, on: .update, format: .`default`) var updatedAt: Date?
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(
-        key: FieldKeys.created_at, on: .create, format: .`default`) var createdAt: Date?
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(
-        key: FieldKeys.deleted_at, on: .delete, format: .`default`) var deletedAt: Date?
+    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.updatedAt, on: .update, format: .`default`) var updatedAt: Date?
+    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.createdAt, on: .create, format: .`default`) var createdAt: Date?
+    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.deletedAt, on: .delete, format: .`default`) var deletedAt: Date?
     
     /// relations
     @Children(for: \.$author) var links: [BlogAuthorLinkModel]

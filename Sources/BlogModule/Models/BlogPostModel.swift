@@ -28,13 +28,10 @@ final class BlogPostModel: FeatherModel {
     @Field(key: FieldKeys.imageKey) var imageKey: String?
     @Field(key: FieldKeys.excerpt) var excerpt: String?
     @Field(key: FieldKeys.content) var content: String?
-    
-    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(
-        key: FieldKeys.updated_at, on: .update, format: .`default`) var updatedAt: Date?
-    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(
-        key: FieldKeys.created_at, on: .create, format: .`default`) var createdAt: Date?
-    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(
-        key: FieldKeys.deleted_at, on: .delete, format: .`default`) var deletedAt: Date?
+
+    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(key: FieldKeys.updatedAt, on: .update, format: .`default`) var updatedAt: Date?
+    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(key: FieldKeys.createdAt, on: .create, format: .`default`) var createdAt: Date?
+    @TimestampProperty<BlogPostModel, DefaultTimestampFormat>(key: FieldKeys.deletedAt, on: .delete, format: .`default`) var deletedAt: Date?
     
     @Siblings(through: BlogPostCategoryModel.self, from: \.$post, to: \.$category) var categories: [BlogCategoryModel]
     @Siblings(through: BlogPostAuthorModel.self, from: \.$post, to: \.$author) var authors: [BlogAuthorModel]

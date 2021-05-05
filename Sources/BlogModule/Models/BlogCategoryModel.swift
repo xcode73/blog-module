@@ -29,12 +29,9 @@ final class BlogCategoryModel: FeatherModel {
     @Field(key: FieldKeys.color) var color: String?
     @Field(key: FieldKeys.priority) var priority: Int
     
-    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
-        key: FieldKeys.updated_at, on: .update, format: .`default`) var updatedAt: Date?
-    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
-        key: FieldKeys.created_at, on: .create, format: .`default`) var createdAt: Date?
-    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(
-        key: FieldKeys.deleted_at, on: .delete, format: .`default`) var deletedAt: Date?
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(key: FieldKeys.updatedAt, on: .update, format: .`default`) var updatedAt: Date?
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(key: FieldKeys.createdAt, on: .create, format: .`default`) var createdAt: Date?
+    @TimestampProperty<BlogCategoryModel, DefaultTimestampFormat>(key: FieldKeys.deletedAt, on: .delete, format: .`default`) var deletedAt: Date?
     
     /// posts relation
     @Siblings(through: BlogPostCategoryModel.self, from: \.$category, to: \.$post) var posts: [BlogPostModel]

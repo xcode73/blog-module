@@ -28,9 +28,9 @@ struct BlogAuthorApi: FeatherApiRepresentable {
         .init(id: model.id!,
               name: model.name,
               imageKey: model.imageKey,
-              updated_at: model.updatedAt,
-              created_at: model.createdAt,
-              deleted_at: model.deletedAt)
+              updatedAt: model.updatedAt,
+              createdAt: model.createdAt,
+              deletedAt: model.deletedAt)
     }
     
     func mapGet(model: Model) -> GetObject {
@@ -39,8 +39,8 @@ struct BlogAuthorApi: FeatherApiRepresentable {
               name: model.name,
               imageKey: model.imageKey,
               bio: model.bio,
-              updated_at: model.updatedAt,
-              created_at: model.createdAt,
+              updatedAt: model.updatedAt,
+              createdAt: model.createdAt,
               links: (model.$links.value ?? []).map { linkApi.mapList(model: $0) })
     }
     

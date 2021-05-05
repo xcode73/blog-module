@@ -14,8 +14,8 @@ public struct PostGetObject: Codable {
     public var imageKey: String?
     public var excerpt: String?
     public var content: String?
-    public var updated_at: Date?
-    public var created_at: Date?
+    public var updatedAt: Date?
+    public var createdAt: Date?
 
     public var categories: [CategoryListObject]
     public var authors: [AuthorListObject]
@@ -25,8 +25,8 @@ public struct PostGetObject: Codable {
                 imageKey: String?,
                 excerpt: String?,
                 content: String?,
-                updated_at: Date?,
-                created_at: Date?,
+                updatedAt: Date?,
+                createdAt: Date?,
                 categories: [CategoryListObject] = [],
                 authors: [AuthorListObject] = []) {
         self.id = id
@@ -34,8 +34,8 @@ public struct PostGetObject: Codable {
         self.imageKey = imageKey
         self.excerpt = excerpt
         self.content = content
-        self.updated_at = updated_at
-        self.created_at = created_at
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
         self.categories = categories
         self.authors = authors
     }

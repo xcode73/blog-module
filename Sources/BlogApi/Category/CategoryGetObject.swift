@@ -15,8 +15,8 @@ public struct CategoryGetObject: Codable {
     public var excerpt: String?
     public var color: String?
     public var priority: Int
-    public var updated_at: Date?
-    public var created_at: Date?
+    public var updatedAt: Date?
+    public var createdAt: Date?
     
     public init(id: UUID,
                 title: String,
@@ -24,8 +24,8 @@ public struct CategoryGetObject: Codable {
                 excerpt: String?,
                 color: String?,
                 priority: Int,
-                updated_at: Date?,
-                created_at: Date?
+                updatedAt: Date?,
+                createdAt: Date?
                 ) {
         self.id = id
         self.title = title
@@ -33,7 +33,7 @@ public struct CategoryGetObject: Codable {
         self.excerpt = excerpt
         self.color = color
         self.priority = priority
-        self.updated_at = updated_at
-        self.created_at = created_at
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
     }
 }

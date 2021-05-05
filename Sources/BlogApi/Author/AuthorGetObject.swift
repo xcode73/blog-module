@@ -13,8 +13,8 @@ public struct AuthorGetObject: Codable {
     public var name: String
     public var imageKey: String?
     public var bio: String?
-    public var updated_at: Date?
-    public var created_at: Date?
+    public var updatedAt: Date?
+    public var createdAt: Date?
     
     public var links: [AuthorLinkListObject]?
     
@@ -22,16 +22,16 @@ public struct AuthorGetObject: Codable {
                 name: String,
                 imageKey: String?,
                 bio: String?,
-                updated_at: Date?,
-                created_at: Date?,
+                updatedAt: Date?,
+                createdAt: Date?,
                 links: [AuthorLinkListObject])
     {
         self.id = id
         self.name = name
         self.imageKey = imageKey
         self.bio = bio
-        self.updated_at = updated_at
-        self.created_at = created_at
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
         self.links = links.count > 0 ? links : nil
     }
 
