@@ -15,7 +15,7 @@
         <a href="/#(author.metadata.slug)" class="card">
             <div class="content">
                 #if(author.imageKey != nil):
-                    <img class="profile" src="#(author.imageKey.resolve())">
+                    <img class="profile" style="border-radius: 50%;" src="#(author.imageKey.resolve())">
                 #endif
                 <h2>#(author.name)</h2>
                 <p>#(author.bio)</p>

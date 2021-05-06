@@ -153,61 +153,61 @@ extension BlogModule {
                                   title: "Binary Birds",
                                   imageKey: "blog/posts/0ff020a2-3977-484d-b636-11348a67b4f7.jpg",
                                   excerpt: "Feather is a modern Swift-based CMS powered by Vapor 4.",
-                                  content: "birds.html")
+                                  content: sample(named: "Lorem.html"))
 
         let post2 = BlogPostModel(id: UUID(),
                                   title: "Feather API",
                                   imageKey: "blog/posts/010d620f-424c-4a3a-ac6b-f635486052de.jpg",
                                   excerpt: "This post is a showcase about the available content blocks.",
-                                  content: "api")
+                                  content: sample(named: "Lorem.html"))
 
         let post3 = BlogPostModel(id: UUID(),
                                   title: "Bring your own theme",
                                   imageKey: "blog/posts/30ca164c-a9e5-40f8-9daa-ffcb4c7ffea8.jpg",
                                   excerpt: "You can build your own themes using HTML & CSS and Tau.",
-                                  content: "themes")
+                                  content: sample(named: "Lorem.html"))
 
         let post4 = BlogPostModel(id: UUID(),
                                   title: "Shortcodes and filters",
                                   imageKey: "blog/posts/87da5c18-5013-4672-bd52-487734550723.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "filters")
+                                  content: sample(named: "Lorem.html"))
 
         let post5 = BlogPostModel(id: UUID(),
                                   title: "Content and metadata",
                                   imageKey: "blog/posts/636c4b1a-b280-4da3-9e7a-24538858df4a.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "content")
+                                  content: sample(named: "Lorem.html"))
 
         let post6 = BlogPostModel(id: UUID(),
                                   title: "Static pages",
                                   imageKey: "blog/posts/1878d3af-d41a-4177-88d5-6689117cf917.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "pages")
+                                  content: sample(named: "Lorem.html"))
 
         let post7 = BlogPostModel(id: UUID(),
                                   title: "Writing blog posts",
                                   imageKey: "blog/posts/2045c4eb-cf11-4242-beda-7902b325a564.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "posts")
+                                  content: sample(named: "Lorem.html"))
 
         let post8 = BlogPostModel(id: UUID(),
                                   title: "Branding your site",
                                   imageKey: "blog/posts/60676325-ce03-495d-a098-0780c59a4e3a.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "brand")
+                                  content: sample(named: "Lorem.html"))
 
         let post9 = BlogPostModel(id: UUID(),
                                   title: "A quick tour",
                                   imageKey: "blog/posts/e44dd240-b702-47d8-8be3-fac2265d128a.jpg",
                                   excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
-                                  content: "tour")
+                                  content: sample(named: "Lorem.html"))
 
         let post10 = BlogPostModel(id: UUID(),
                                    title: "Welcome to Feather",
                                    imageKey: "blog/posts/eb03ed0a-c5e1-48ae-8f9f-f3ac482e5fa4.jpg",
                                    excerpt: "Feather is an open source content management system. It is blazing fast with an easy-to-use admin interface where you can customise almost everything.",
-                                   content: "welcome")
+                                   content: sample(named: "Lorem.html"))
 
         let posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9, post10]
 

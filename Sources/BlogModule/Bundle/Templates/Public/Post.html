@@ -8,22 +8,22 @@
 
 <article id="post">
     <div class="container">
-        <header class="margin">
+        <header class="lead">
             <p>
                 #for(category in post.categories):
-                <span class="c:underline:accent"#if(category.color != nil): style="border-color: #(category.color);"#endif>#(category.title)</span>
+                <span class=""#if(category.color ?? false): style="color: #(category.color);"#endif>#(category.title)</span>
                 &middot;
                 #endfor
                 #let(dateString = Date(timeStamp: post.metadata.date, fixedFormat: $app.dateFormats.date, timeZone: $app.timezone))
                 <time datetime="#(dateString)">#(dateString)</time>
             </p>
-            <h1 class="margin-top-zero">#(post.title)</h1>
-            <p class="margin-top-zero">#(post.excerpt)</p>
+            <h1>#(post.title)</h1>
+            <p>#(post.excerpt)</p>
         </header>
     </div>
 
-    <div class="margin">
-        <img class="size-full border-radius-xs shadow-xl" src="#(post.imageKey.resolve() ?? "/images/placeholder.jpg")">
+    <div class="">
+        <img style="border-radius: 8px;" src="#(post.imageKey.resolve() ?? "/img/placeholder.jpg")">
     </div>
 
     <div id="content">
@@ -41,17 +41,17 @@
 </div>
 #endif
 
-#if(($variables.blogPostAuthorBox ?? false) && !post.authors.isEmpty()):
+#if(($variables.blogPostAuthorBoxIsEnabled ?? false) && !post.authors.isEmpty()):
     
 <div class="container">
-    <section class="margin">
-        <h2 class="margin-bottom">Author#if(post.authors.count() > 1):s#endif</h2>
+    <section>
+        <h2>Author#if(post.authors.count() > 1):s#endif</h2>
         #for(author in post.authors):
-        <div class="background padding margin-bottom-xl border-radius-xs shadow-xl">
-            <img class="size border border-color-6 border-radius-full" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
+        <div>
+            <img class="profile" src="#(author.imageKey.resolve())" alt="Picture of #(author.name)" title="#(author.name)">
         
-            <h3 class="margin-top-zero">#(author.name)</h3>
-            <p class="margin-top-zero margin-bottom">#(author.bio)</p>
+            <h3>#(author.name)</h3>
+            <p>#(author.bio)</p>
             #for(link in author.links):
             <a href="#(link.url)" target="_blank">#(link.label)</a> #if(!isLast): &middot; #endif
             #endfor

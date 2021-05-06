@@ -14,7 +14,7 @@ struct BlogWebController {
     func authorResponseHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args.req
 
-        return BlogAuthorModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
+        return BlogAuthorModel.queryJoinVisibleMetadata(path: req.url.path, on: req.db)
             .with(\.$links)
             .first()
             .flatMap { author  in
@@ -38,7 +38,7 @@ struct BlogWebController {
     func categoryResponseHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args.req
         
-        return BlogCategoryModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
+        return BlogCategoryModel.queryJoinVisibleMetadata(path: req.url.path, on: req.db)
             .first()
             .flatMap { category  in
                 guard let category = category else {
@@ -61,7 +61,7 @@ struct BlogWebController {
     func postResponseHook(args: HookArguments) -> EventLoopFuture<Response?> {
         let req = args.req
 
-        return BlogPostModel.queryJoinPublicMetadata(path: req.url.path, on: req.db)
+        return BlogPostModel.queryJoinVisibleMetadata(path: req.url.path, on: req.db)
             .with(\.$categories)
             .with(\.$authors) { $0.with(\.$links) }
             .first()

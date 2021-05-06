@@ -9,7 +9,7 @@
 <div class="container">
 
     <header class="lead">
-        <img class="profile" src="#(category.imageKey.resolve() ?? "/images/placeholder.jpg")">
+        <img class="profile" style="border: none; border-radius: 0;" src="#(category.imageKey.resolve() ?? "/img/placeholder.jpg")">
         <h1#if(category.color != nil): style="color: #(category.color);"#endif>#(head.title)</h1>
         <p>#(head.excerpt)</p>
     </header>
