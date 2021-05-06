@@ -53,7 +53,7 @@ final class BlogModule: FeatherModule {
 
     func adminMenuHook(args: HookArguments) -> HookObjects.AdminMenu {
         .init(key: "blog",
-              item: .init(icon: "blog", link: Self.adminLink, permission: Self.permission(for: .custom("admin")).identifier),
+              item: .init(icon: "file-text", link: Self.adminLink, permission: Self.permission(for: .custom("admin")).identifier),
               children: [
                 .init(link: BlogPostModel.adminLink, permission: BlogPostModel.permission(for: .list).identifier),
                 .init(link: BlogCategoryModel.adminLink, permission: BlogCategoryModel.permission(for: .list).identifier),
