@@ -7,16 +7,12 @@
 
 import FeatherCore
 
-struct BlogRouter: RouteCollection {
+struct BlogRouter: FeatherRouter {
 
     let postController = BlogPostController()
     let categoryController = BlogCategoryController()
     let authorController = BlogAuthorController()
     let authorLinkController = BlogAuthorLinkController()
-
-    func boot(routes: RoutesBuilder) throws {
-        
-    }
 
     func adminRoutesHook(args: HookArguments) {
         let adminRoutes = args.routes
@@ -27,10 +23,6 @@ struct BlogRouter: RouteCollection {
         adminRoutes.register(categoryController)
         adminRoutes.register(authorController)
         adminRoutes.register(authorLinkController)
-    }
-    
-    func apiRoutesHook(args: HookArguments) {
-//        let publicApiRoutes = args.routes
     }
     
     func apiAdminRoutesHook(args: HookArguments) {
