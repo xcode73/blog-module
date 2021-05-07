@@ -7,7 +7,7 @@
 
 import Fluent
 
-struct BlogMigration_v1_0_0: Migration {
+struct BlogMigration_v1: Migration {
 
     func prepare(on db: Database) -> EventLoopFuture<Void> {
         db.eventLoop.flatten([

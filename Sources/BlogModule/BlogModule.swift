@@ -15,7 +15,7 @@ final class BlogModule: FeatherModule {
     static var bundleUrl: URL? { Bundle.module.resourceURL?.appendingPathComponent("Bundle") }
 
     func boot(_ app: Application) throws {
-        app.migrations.add(BlogMigration_v1_0_0())
+        app.migrations.add(BlogMigration_v1())
         /// frontend middleware
         app.databases.middleware.use(MetadataModelMiddleware<BlogPostModel>())
         app.databases.middleware.use(MetadataModelMiddleware<BlogCategoryModel>())
