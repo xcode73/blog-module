@@ -29,7 +29,7 @@ final class BlogModule: FeatherModule {
         app.hooks.register(.installPages, use: installPagesHook)
         /// routes
         let router = BlogRouter()
-        try router.bootAndregisterHooks(app)
+        try router.bootAndRegisterHooks(app)
         /// admin
         app.hooks.register(.adminMenu, use: adminMenuHook)
         /// frontend
@@ -44,7 +44,7 @@ final class BlogModule: FeatherModule {
     }
 
     // MARK: - hooks
-
+    
     func adminMenuHook(args: HookArguments) -> HookObjects.AdminMenu {
         .init(key: "blog",
               item: .init(icon: "file-text", link: Self.adminLink, priority: 1100, permission: Self.permission(for: .custom("admin")).identifier),
