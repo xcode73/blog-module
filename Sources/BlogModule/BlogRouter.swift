@@ -25,6 +25,15 @@ struct BlogRouter: FeatherRouter {
         adminRoutes.register(authorLinkController)
     }
     
+    func apiRoutesHook(args: HookArguments) {
+        let apiRoutes = args.routes
+
+        apiRoutes.registerPublicApi(postController)
+        apiRoutes.registerPublicApi(categoryController)
+        apiRoutes.registerPublicApi(authorController)
+//        apiRoutes.registerPublicApi(authorLinkController)
+    }
+    
     func apiAdminRoutesHook(args: HookArguments) {
         let apiRoutes = args.routes
 

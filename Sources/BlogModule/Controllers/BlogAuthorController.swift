@@ -7,7 +7,7 @@
 
 import FeatherCore
 
-struct BlogAuthorController: FeatherController {
+struct BlogAuthorController: PublicFeatherController {
 
     typealias Module = BlogModule
     typealias Model = BlogAuthorModel
