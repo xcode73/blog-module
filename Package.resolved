@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/feathercms/feather-core",
         "state": {
           "branch": "main",
-          "revision": "ec008f2996317c65d0b941f1f4ff6e7e1895f8da",
+          "revision": "18641c7279baf5e9a0bc78f7afd3f2ecaddf8bd6",
           "version": null
         }
       },
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/vapor/fluent-kit.git",
         "state": {
           "branch": null,
-          "revision": "b985e3e6e75843cfdc0c4daf75e50d0dae211202",
-          "version": "1.11.1"
+          "revision": "ea23e12404dc3a598dd8f3084650550d2b6b1ac5",
+          "version": "1.12.0"
         }
       },
       {
@@ -258,8 +258,8 @@
         "repositoryURL": "https://github.com/vapor/vapor",
         "state": {
           "branch": null,
-          "revision": "ea60bf2ee23379d295d3262409cdf7f1a2428ed4",
-          "version": "4.45.1"
+          "revision": "1e1a59542c8cbfe2e800883825c35063f3c36161",
+          "version": "4.45.2"
         }
       },
       {

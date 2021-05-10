@@ -10,28 +10,23 @@ import Foundation
 public struct AuthorListObject: Codable {
 
     public var id: UUID
-    public var name: String?
+    public var name: String
     public var imageKey: String?
-    public var updatedAt: Date?
     public var createdAt: Date?
+    public var updatedAt: Date?
     public var deletedAt: Date?
     
     public init(id: UUID,
-                name: String?,
-                imageKey: String?,
-                updatedAt: Date?,
-                createdAt: Date?,
-                deletedAt: Date?
-                ) {
+                name: String,
+                imageKey: String? = nil,
+                createdAt: Date? = nil,
+                updatedAt: Date? = nil,
+                deletedAt: Date? = nil) {
         self.id = id
-        self.deletedAt = deletedAt
-        self.updatedAt = updatedAt
-        self.createdAt = createdAt
-        // In case the object is deleted, we only retrun ID and timestamps data
-        guard deletedAt == nil else {
-            return
-        }
         self.name = name
         self.imageKey = imageKey
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.deletedAt = deletedAt
     }
 }

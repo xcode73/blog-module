@@ -10,7 +10,7 @@ import Foundation
 public struct CategoryListObject: Codable {
 
     public var id: UUID
-    public var title: String?
+    public var title: String
     public var imageKey: String?
     public var color: String?
     public var priority: Int?
@@ -19,26 +19,21 @@ public struct CategoryListObject: Codable {
     public var deletedAt: Date?
     
     public init(id: UUID,
-                title: String?,
+                title: String,
                 imageKey: String?,
                 color: String?,
                 priority: Int?,
-                updatedAt: Date?,
-                createdAt: Date?,
-                deletedAt: Date?
-                ) {
+                createdAt: Date? = nil,
+                updatedAt: Date? = nil,
+                deletedAt: Date? = nil) {
         self.id = id
-        self.deletedAt = deletedAt
-        self.updatedAt = updatedAt
-        self.createdAt = createdAt
-        // In case the object is deleted, we only retrun ID and timestamps data
-        guard deletedAt == nil else {
-            return
-        }
         self.title = title
         self.imageKey = imageKey
         self.color = color
         self.priority = priority
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.deletedAt = deletedAt
     }
 
 }

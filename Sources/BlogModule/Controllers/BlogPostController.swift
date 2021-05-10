@@ -7,7 +7,7 @@
 
 import FeatherCore
 
-struct BlogPostController: PublicFeatherController {
+struct BlogPostController: FeatherController {
 
     typealias Module = BlogModule
     typealias Model = BlogPostModel
@@ -37,10 +37,6 @@ struct BlogPostController: PublicFeatherController {
         })
     }
 
-    func beforeListQuery(req: Request, queryBuilder: QueryBuilder<Model>) -> QueryBuilder<Model> {
-        Model.query(on: req.db).joinMetadata()
-    }
-
     func listContext(req: Request, table: Table, pages: Pagination) -> ListContext {
         .init(info: Model.info(req), table: table, pages: pages)
     }
@@ -64,26 +60,4 @@ struct BlogPostController: PublicFeatherController {
     func deleteContext(req: Request, model: Model) -> String {
         model.title
     }
-}
-
-/// Overide default Route Builder
-extension BlogPostController {
-
-    func listPublicApi(_ req: Request) throws -> EventLoopFuture<PaginationContainer<ListApi.ListObject> > {
-        let qb = listLoader
-            .qbFromMeta(req, withDeleted: true)
-            .filter(
-                \.$updatedAt >= req.query["start"]
-                    ?? Date(timeIntervalSince1970: 0))
-            .filter(
-                \.$updatedAt <= req.query["end"]
-                    ?? Date())
-
-        return listLoader.paginate(req, qb).map { pc -> PaginationContainer<ListApi.ListObject> in
-                let api = ListApi()
-                let items = pc.map { api.mapList(model: $0) }
-                return items
-            }
-    }
-
 }

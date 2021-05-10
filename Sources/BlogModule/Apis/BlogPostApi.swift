@@ -28,11 +28,11 @@ struct BlogPostApi: FeatherApiRepresentable {
               title: model.title,
               imageKey: model.imageKey,
               excerpt: model.excerpt,
-              updatedAt: model.updatedAt,
               createdAt: model.createdAt,
+              updatedAt: model.updatedAt,
               deletedAt: model.deletedAt)
     }
-    
+
     func mapGet(model: Model) -> GetObject {
         let categoryApi = BlogCategoryApi()
         let authorApi = BlogAuthorApi()
@@ -41,10 +41,11 @@ struct BlogPostApi: FeatherApiRepresentable {
                      imageKey: model.imageKey,
                      excerpt: model.excerpt,
                      content: model.content,
-                     updatedAt: model.updatedAt,
-                     createdAt: model.createdAt,
                      categories: (model.$categories.value ?? []).map { categoryApi.mapList(model: $0) },
-                     authors: (model.$authors.value ?? []).map { authorApi.mapList(model: $0) })
+                     authors: (model.$authors.value ?? []).map { authorApi.mapList(model: $0) },
+                     createdAt: model.createdAt,
+                     updatedAt: model.updatedAt,
+                     deletedAt: model.deletedAt)
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {

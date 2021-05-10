@@ -7,7 +7,7 @@
 
 import FeatherCore
 
-struct BlogAuthorController: PublicFeatherController {
+struct BlogAuthorController: FeatherController {
 
     typealias Module = BlogModule
     typealias Model = BlogAuthorModel
@@ -70,6 +70,23 @@ struct BlogAuthorController: PublicFeatherController {
 
     func deleteContext(req: Request, model: Model) -> String {
         model.name
+    }
+
+}
+
+/// Overide default Route Builder
+extension BlogAuthorController {
+
+    func listPublicApi(_ req: Request) throws -> EventLoopFuture<PaginationContainer<ListApi.ListObject> > {
+        let qb = listLoader.queryAllPublic(req)
+            .filter(\.$updatedAt >= req.query["start"] ?? Date(timeIntervalSince1970: 0))
+            .filter(\.$updatedAt <= req.query["end"] ?? Date())
+
+        return listLoader.paginate(req, qb).map { pc -> PaginationContainer<ListApi.ListObject> in
+                let api = ListApi()
+                let items = pc.map { api.mapList(model: $0) }
+                return items
+            }
     }
 
 }

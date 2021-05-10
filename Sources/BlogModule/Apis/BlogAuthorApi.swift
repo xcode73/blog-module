@@ -28,8 +28,8 @@ struct BlogAuthorApi: FeatherApiRepresentable {
         .init(id: model.id!,
               name: model.name,
               imageKey: model.imageKey,
-              updatedAt: model.updatedAt,
               createdAt: model.createdAt,
+              updatedAt: model.updatedAt,
               deletedAt: model.deletedAt)
     }
     
@@ -39,9 +39,10 @@ struct BlogAuthorApi: FeatherApiRepresentable {
               name: model.name,
               imageKey: model.imageKey,
               bio: model.bio,
-              updatedAt: model.updatedAt,
+              links: (model.$links.value ?? []).map { linkApi.mapList(model: $0) },
               createdAt: model.createdAt,
-              links: (model.$links.value ?? []).map { linkApi.mapList(model: $0) })
+              updatedAt: model.updatedAt,
+              deletedAt: model.deletedAt)
     }
     
     func mapCreate(_ req: Request, model: Model, input: CreateObject) -> EventLoopFuture<Void> {
