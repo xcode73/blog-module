@@ -89,7 +89,7 @@ struct BlogWebController {
 
         return BlogPostModel
             .queryJoinPublicMetadata(on: req.db)
-            .range(..<17)
+            .limit(17)
             .with(\.$categories)
             .all()
             .flatMap { posts in
