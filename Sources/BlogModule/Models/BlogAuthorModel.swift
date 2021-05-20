@@ -14,7 +14,7 @@ final class BlogAuthorModel: FeatherModel {
     static let modelKey: String = "authors"
     static let name: FeatherModelName = "Author"
     
-    struct FieldKeys: TimestampFieldKeys {
+    struct FieldKeys {
         static var name: FieldKey { "name" }
         static var imageKey: FieldKey { "imageKey" }
         static var bio: FieldKey { "bio" }
@@ -26,11 +26,6 @@ final class BlogAuthorModel: FeatherModel {
     @Field(key: FieldKeys.name) var name: String
     @Field(key: FieldKeys.imageKey) var imageKey: String?
     @Field(key: FieldKeys.bio) var bio: String?
-    
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.updatedAt, on: .update, format: .`default`) var updatedAt: Date?
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.createdAt, on: .create, format: .`default`) var createdAt: Date?
-    @TimestampProperty<BlogAuthorModel, DefaultTimestampFormat>(key: FieldKeys.deletedAt, on: .delete, format: .`default`) var deletedAt: Date?
-    
     /// relations
     @Children(for: \.$author) var links: [BlogAuthorLinkModel]
     @Siblings(through: BlogPostAuthorModel.self, from: \.$author, to: \.$post) var posts: [BlogPostModel]

@@ -4,7 +4,7 @@ import PackageDescription
 let isLocalTestMode = false
 
 var deps: [Package.Dependency] = [
-    .package(url: "https://github.com/feathercms/feather-core", .branch("main")), //from: "1.0.0-beta"),
+    .package(url: "https://github.com/feathercms/feather-core", from: "1.0.0-beta"),
 ]
 
 var targets: [Target] = [

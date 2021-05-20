@@ -21,7 +21,7 @@ extension BlogModule {
     }
     
     func installVariablesHook(args: HookArguments) -> [VariableCreateObject] {
-        [
+        [   
             .init(key: "blogHomePageTitle",
                   name: "Blog home page title",
                   value: "Blog",

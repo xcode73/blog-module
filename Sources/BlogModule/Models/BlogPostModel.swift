@@ -14,7 +14,7 @@ final class BlogPostModel: FeatherModel {
     static let modelKey: String = "posts"
     static let name: FeatherModelName = "Post"
 
-    struct FieldKeys: TimestampFieldKeys {
+    struct FieldKeys {
         static var title: FieldKey { "title" }
         static var imageKey: FieldKey { "image_key" }
         static var excerpt: FieldKey { "excerpt" }
@@ -28,10 +28,6 @@ final class BlogPostModel: FeatherModel {
     @Field(key: FieldKeys.imageKey) var imageKey: String?
     @Field(key: FieldKeys.excerpt) var excerpt: String?
     @Field(key: FieldKeys.content) var content: String?
-
-    @Timestamp(key: FieldKeys.createdAt, on: .create) var createdAt: Date?
-    @Timestamp(key: FieldKeys.updatedAt, on: .update) var updatedAt: Date?
-    @Timestamp(key: FieldKeys.deletedAt, on: .delete) var deletedAt: Date?
     
     @Siblings(through: BlogPostCategoryModel.self, from: \.$post, to: \.$category) var categories: [BlogCategoryModel]
     @Siblings(through: BlogPostAuthorModel.self, from: \.$post, to: \.$author) var authors: [BlogAuthorModel]

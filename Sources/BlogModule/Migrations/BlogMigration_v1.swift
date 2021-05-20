@@ -18,9 +18,6 @@ struct BlogMigration_v1: Migration {
                 .field(BlogCategoryModel.FieldKeys.excerpt, .string)
                 .field(BlogCategoryModel.FieldKeys.color, .string)
                 .field(BlogCategoryModel.FieldKeys.priority, .int, .required)
-                .field(BlogPostModel.FieldKeys.updatedAt, .datetime)
-                .field(BlogPostModel.FieldKeys.createdAt, .datetime)
-                .field(BlogPostModel.FieldKeys.deletedAt, .datetime)
                 .unique(on: BlogCategoryModel.FieldKeys.title)
                 .create(),
             
@@ -29,9 +26,6 @@ struct BlogMigration_v1: Migration {
                 .field(BlogAuthorModel.FieldKeys.name, .string, .required)
                 .field(BlogAuthorModel.FieldKeys.imageKey, .string)
                 .field(BlogAuthorModel.FieldKeys.bio, .string)
-                .field(BlogPostModel.FieldKeys.updatedAt, .datetime)
-                .field(BlogPostModel.FieldKeys.createdAt, .datetime)
-                .field(BlogPostModel.FieldKeys.deletedAt, .datetime)
                 .create(),
 
             db.schema(BlogAuthorLinkModel.schema)
@@ -49,9 +43,6 @@ struct BlogMigration_v1: Migration {
                 .field(BlogPostModel.FieldKeys.imageKey, .string)
                 .field(BlogPostModel.FieldKeys.excerpt, .string)
                 .field(BlogPostModel.FieldKeys.content, .string)
-                .field(BlogPostModel.FieldKeys.updatedAt, .datetime)
-                .field(BlogPostModel.FieldKeys.createdAt, .datetime)
-                .field(BlogPostModel.FieldKeys.deletedAt, .datetime)
                 .create(),
             
             db.schema(BlogPostCategoryModel.schema)
