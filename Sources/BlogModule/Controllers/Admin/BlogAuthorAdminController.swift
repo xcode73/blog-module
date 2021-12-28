@@ -86,7 +86,7 @@ struct BlogAuthorAdminController: AdminController {
             LinkContext(label: "Metadata",
                         path: "/admin/web/metadatas/" + model.featherMetadata.id.string + "/update/",
                         absolute: true,
-                        permission: nil), // TODO: fix this WebMetadataAdminController.updatePermission()
+                        permission: Web.Metadata.permission(for: .update).key),
         ]
     }
     
@@ -105,10 +105,11 @@ struct BlogAuthorAdminController: AdminController {
                         path: model.featherMetadata.slug.safePath(),
                         absolute: true,
                         isBlank: true),
+            
             LinkContext(label: "Metadata",
                         path: "/admin/web/metadatas/" + model.featherMetadata.id.string + "/update/",
                         absolute: true,
-                        permission: nil), // TODO: fix this - WebMetadataAdminController.updatePermission()
+                        permission: Web.Metadata.permission(for: .update).key),
         ]
     }
 }

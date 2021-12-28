@@ -17,7 +17,7 @@ struct BlogPostPageTemplate: TemplateRepresentable {
         
     @TagBuilder
     func render(_ req: Request) -> Tag {
-        WebIndexTemplate(.init(title: context.post.title)) {
+        WebIndexTemplate(.init(title: context.post.title, metadata: context.post.metadata)) {
             Article {
                 Div {
                     Header {

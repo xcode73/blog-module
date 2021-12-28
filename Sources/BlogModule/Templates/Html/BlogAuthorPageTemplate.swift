@@ -17,7 +17,7 @@ struct BlogAuthorPageTemplate: TemplateRepresentable {
     
     @TagBuilder
     func render(_ req: Request) -> Tag {
-        WebIndexTemplate(.init(title: context.author.name)) {
+        WebIndexTemplate(.init(title: context.author.name, metadata: context.author.metadata)) {
             Div {
                 Header {
                     if let imageKey = context.author.imageKey {
