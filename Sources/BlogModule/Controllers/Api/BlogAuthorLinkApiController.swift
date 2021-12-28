@@ -12,6 +12,14 @@ struct BlogAuthorLinkApiController: ApiController {
     typealias ApiModel = Blog.AuthorLink
         
     typealias DatabaseModel = BlogAuthorLinkModel
+    
+    func getBaseRoutes(_ routes: RoutesBuilder) -> RoutesBuilder {
+        return routes
+            .grouped(Blog.pathKey.pathComponent)
+            .grouped(Blog.Author.pathKey.pathComponent)
+            .grouped(Blog.Author.pathIdComponent)
+            .grouped(ApiModel.pathKey.pathComponent)
+    }
 
     func listOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.AuthorLink.List {
         .init(id: model.uuid,

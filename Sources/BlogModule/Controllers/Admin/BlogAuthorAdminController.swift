@@ -73,9 +73,10 @@ struct BlogAuthorAdminController: AdminController {
             LinkContext(label: "Update",
                         path: "update",
                         permission: Blog.Author.permission(for: .update).key),
+
             LinkContext(label: BlogAuthorLinkAdminController.modelName.plural.uppercasedFirst,
-                        path: Blog.Author.pathKey,
-                        permission: Blog.Author.permission(for: .list).key),
+                        path: Blog.AuthorLink.pathKey,
+                        permission: Blog.AuthorLink.permission(for: .list).key),
             
             LinkContext(label: "Preview",
                         path: model.featherMetadata.slug.safePath(),

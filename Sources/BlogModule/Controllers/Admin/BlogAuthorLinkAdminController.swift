@@ -66,13 +66,11 @@ struct BlogAuthorLinkAdminController: AdminController {
         model.label
     }
     
-    
-    
     func getBaseRoutes(_ routes: RoutesBuilder) -> RoutesBuilder {
-        routes
+        return routes
             .grouped(Blog.pathKey.pathComponent)
             .grouped(Blog.Author.pathKey.pathComponent)
-            .grouped(Blog.Author.pathIdKey.pathComponent)
+            .grouped(Blog.Author.pathIdComponent)
             .grouped(ApiModel.pathKey.pathComponent)
     }
     

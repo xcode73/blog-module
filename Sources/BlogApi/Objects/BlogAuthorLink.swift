@@ -10,6 +10,8 @@ public extension Blog {
     enum AuthorLink: FeatherApiModel {
         public typealias Module = Blog
         
+        public static var pathKey: String { "links" }
+        
         public static let defaultPriority = 100
     }
 }
