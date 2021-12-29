@@ -14,7 +14,7 @@ struct BlogAuthorLinkAdminController: AdminController {
      
     static var modelName: FeatherModelName = .init(singular: "link")
 
-    func listQuery(_ req: Request, _ qb: QueryBuilder<DatabaseModel>) throws -> QueryBuilder<DatabaseModel> {
+    func listQuery(_ req: Request, _ qb: QueryBuilder<DatabaseModel>) async throws -> QueryBuilder<DatabaseModel> {
         guard let id = Blog.Author.getIdParameter(req) else {
             return qb
         }

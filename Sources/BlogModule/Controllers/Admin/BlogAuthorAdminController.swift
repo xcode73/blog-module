@@ -13,7 +13,7 @@ struct BlogAuthorAdminController: AdminController {
     typealias UpdateModelEditor = BlogAuthorEditor
     
     
-    //    func listQuery(_ req: Request, _ qb: QueryBuilder<BlogAuthorModel>) throws -> QueryBuilder<BlogAuthorModel> {
+    //    func listQuery(_ req: Request, _ qb: QueryBuilder<BlogAuthorModel>) async throws -> QueryBuilder<BlogAuthorModel> {
     //        let id = try req.getUserAccount().id.string
     //        return qb.filter(\.$bio == id )
     //    }
