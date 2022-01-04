@@ -15,7 +15,7 @@ struct BlogAuthorApiController: ApiController {
     static func list(_ req: Request) async throws -> [Blog.Author.List] {
         let authors = try await BlogAuthorModel.queryJoinPublicMetadata(on: req.db).all()
         let api = BlogAuthorApiController()
-        return try await authors.mapAsync { try await api.listOutput(req, $0) }
+        return try await api.listOutput(req, authors)
     }
     
     static func detailBy(path: String, _ req: Request) async throws -> Blog.Author.Detail? {
@@ -29,24 +29,27 @@ struct BlogAuthorApiController: ApiController {
         return try await BlogAuthorApiController().detailOutput(req, author)
     }
 
-    func listOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Author.List {
-        let linkApi = BlogAuthorLinkApiController()
-        let lnks = try await model.$links.get(on: req.db)
-        let links = try await lnks.mapAsync { try await linkApi.listOutput(req, $0) }
 
-        return .init(id: model.uuid,
-              name: model.name,
-              imageKey: model.imageKey,
-              bio: model.bio,
-              links: links,
-              metadata: model.featherMetadata)
+    func listOutput(_ req: Request, _ models: [DatabaseModel]) async throws -> [Blog.Author.List] {
+        try await models.mapAsync { model -> Blog.Author.List in
+            let linkApi = BlogAuthorLinkApiController()
+            let lnks = try await model.$links.get(on: req.db)
+            let links = try await linkApi.listOutput(req, lnks)
+
+            return .init(id: model.uuid,
+                  name: model.name,
+                  imageKey: model.imageKey,
+                  bio: model.bio,
+                  links: links,
+                  metadata: model.featherMetadata)
+        }
     }
     
     func detailOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Author.Detail {
         let posts = try await model.$posts.query(on: req.db).joinPublicMetadata().all()
-        let postList = try await posts.mapAsync { try await BlogPostApiController().listOutput(req, $0) }
+        let postList = try await BlogPostApiController().listOutput(req, posts)
         let linkApi = BlogAuthorLinkApiController()
-        let links = try await model.links.mapAsync { try await linkApi.listOutput(req, $0) }
+        let links = try await linkApi.listOutput(req, model.links)
         return .init(id: model.uuid,
                      name: model.name,
                      imageKey: model.imageKey,

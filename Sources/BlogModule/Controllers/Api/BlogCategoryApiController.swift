@@ -16,7 +16,7 @@ struct BlogCategoryApiController: ApiController {
     static func list(_ req: Request) async throws -> [Blog.Category.List] {
         let categories = try await BlogCategoryModel.queryJoinPublicMetadata(on: req.db).all()
         let api = BlogCategoryApiController()
-        return try await categories.mapAsync { try await api.listOutput(req, $0) }
+        return try await api.listOutput(req, categories)
     }
     
     static func detailBy(path: String, _ req: Request) async throws -> Blog.Category.Detail? {
@@ -28,19 +28,21 @@ struct BlogCategoryApiController: ApiController {
         return try await api.detailOutput(req, category)
     }
 
-    func listOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Category.List {
-        return .init(id: model.uuid,
-                     title: model.title,
-                     imageKey: model.imageKey,
-                     color: model.color,
-                     priority: model.priority,
-                     excerpt: model.excerpt,
-                     metadata: model.featherMetadata)
+    func listOutput(_ req: Request, _ models: [DatabaseModel]) async throws -> [Blog.Category.List] {
+        models.map { model in
+                .init(id: model.uuid,
+                      title: model.title,
+                      imageKey: model.imageKey,
+                      color: model.color,
+                      priority: model.priority,
+                      excerpt: model.excerpt,
+                      metadata: model.featherMetadata)
+        }
     }
     
     func detailOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Category.Detail {
         let posts = try await model.$posts.query(on: req.db).joinPublicMetadata().all()
-        let postList = try await posts.mapAsync { try await BlogPostApiController().listOutput(req, $0) }
+        let postList = try await BlogPostApiController().listOutput(req, posts)
         return .init(id: model.uuid,
                      title: model.title,
                      imageKey: model.imageKey,

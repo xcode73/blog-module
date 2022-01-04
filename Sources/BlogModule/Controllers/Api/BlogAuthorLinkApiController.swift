@@ -21,12 +21,14 @@ struct BlogAuthorLinkApiController: ApiController {
             .grouped(ApiModel.pathKey.pathComponent)
     }
 
-    func listOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.AuthorLink.List {
-        .init(id: model.uuid,
-              label: model.label,
-              url: model.url,
-              priority: model.priority,
-              authorId: model.$author.id)
+    func listOutput(_ req: Request, _ models: [DatabaseModel]) async throws -> [Blog.AuthorLink.List] {
+        models.map { model in
+            .init(id: model.uuid,
+                  label: model.label,
+                  url: model.url,
+                  priority: model.priority,
+                  authorId: model.$author.id)
+        }
     }
     
     func detailOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.AuthorLink.Detail {

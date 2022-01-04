@@ -15,7 +15,7 @@ struct BlogPostApiController: ApiController {
     static func list(_ req: Request) async throws -> [Blog.Post.List] {
         let posts = try await BlogPostModel.queryJoinPublicMetadata(on: req.db).all()
         let api = BlogPostApiController()
-        return try await posts.mapAsync { try await api.listOutput(req, $0) }
+        return try await api.listOutput(req, posts)
     }
     
     static func detailBy(path: String, _ req: Request) async throws -> Blog.Post.Detail? {
@@ -28,36 +28,35 @@ struct BlogPostApiController: ApiController {
         }
         return try await BlogPostApiController().detailOutput(req, post)
     }
-    
-    func listOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Post.List {
-        let categoryApi = BlogCategoryApiController()
-        let cats = try await model.$categories.query(on: req.db).joinMetadata().all()
-        let categories = try await cats.mapAsync { try await categoryApi.listOutput(req, $0) }
-        
-        let authorApi = BlogAuthorApiController()
-        let auths = try await model.$authors.query(on: req.db).joinMetadata().all()
-        let authors = try await auths.mapAsync { try await authorApi.listOutput(req, $0) }
-        
-        return .init(id: model.uuid,
-              title: model.title,
-              imageKey: model.imageKey,
-              excerpt: model.excerpt,
-              metadata: model.featherMetadata,
-              categories: categories,
-              authors: authors)
+
+    func listOutput(_ req: Request, _ models: [DatabaseModel]) async throws -> [Blog.Post.List] {
+        try await models.mapAsync { model in
+            let categoryApi = BlogCategoryApiController()
+            let cats = try await model.$categories.query(on: req.db).joinMetadata().all()
+            let categories = try await categoryApi.listOutput(req, cats)
+
+            let authorApi = BlogAuthorApiController()
+            let auths = try await model.$authors.query(on: req.db).joinMetadata().all()
+            let authors = try await authorApi.listOutput(req, auths)
+
+            return .init(id: model.uuid,
+                  title: model.title,
+                  imageKey: model.imageKey,
+                  excerpt: model.excerpt,
+                  metadata: model.featherMetadata,
+                  categories: categories,
+                  authors: authors)
+        }
     }
     
     func detailOutput(_ req: Request, _ model: DatabaseModel) async throws -> Blog.Post.Detail {
         let categoryApi = BlogCategoryApiController()
         let cats = try await model.$categories.query(on: req.db).joinMetadata().all()
-        let categories = try await cats.mapAsync { try await categoryApi.listOutput(req, $0) }
-        
+        let categories = try await categoryApi.listOutput(req, cats)
         let authorApi = BlogAuthorApiController()
         let auths = try await model.$authors.query(on: req.db).joinMetadata().all()
-        let authors = try await auths.mapAsync { try await authorApi.listOutput(req, $0) }
-        
+        let authors = try await authorApi.listOutput(req, auths)
         let content = try await model.filter(model.content ?? "", req)
-
         return .init(id: model.id!,
                      title: model.title,
                      imageKey: model.imageKey,

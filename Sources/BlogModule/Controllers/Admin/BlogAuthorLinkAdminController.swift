@@ -21,7 +21,7 @@ struct BlogAuthorLinkAdminController: AdminController {
         return qb.filter(\.$author.$id == id)
     }
     
-    func beforeCreate(_ req: Request, model: DatabaseModel) async throws {
+    func beforeCreate(_ req: Request, _ model: DatabaseModel) async throws {
         guard let id = Blog.Author.getIdParameter(req) else {
             throw Abort(.badRequest)
         }
