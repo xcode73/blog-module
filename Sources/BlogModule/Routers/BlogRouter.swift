@@ -17,10 +17,10 @@ struct BlogRouter: FeatherRouter {
     let postApiController = BlogPostApiController()
 
     func adminRoutesHook(args: HookArguments) {
-        authorAdminController.setupRoutes(args.routes)
-        authorLinkAdminController.setupRoutes(args.routes)
-        categoryAdminController.setupRoutes(args.routes)
-        postAdminController.setupRoutes(args.routes)
+        authorAdminController.setUpRoutes(args.routes)
+        authorLinkAdminController.setUpRoutes(args.routes)
+        categoryAdminController.setUpRoutes(args.routes)
+        postAdminController.setUpRoutes(args.routes)
         
         args.routes.get("blog") { req -> Response in
             let template = AdminModulePageTemplate(.init(title: "Blog", message: "module information", links: [
@@ -33,9 +33,9 @@ struct BlogRouter: FeatherRouter {
     }
     
     func apiRoutesHook(args: HookArguments) {
-        authorApiController.setupRoutes(args.routes)
-        authorLinkApiController.setupRoutes(args.routes)
-        categoryApiController.setupRoutes(args.routes)
-        postApiController.setupRoutes(args.routes)
+        authorApiController.setUpRoutes(args.routes)
+        authorLinkApiController.setUpRoutes(args.routes)
+        categoryApiController.setUpRoutes(args.routes)
+        postApiController.setUpRoutes(args.routes)
     }
 }
