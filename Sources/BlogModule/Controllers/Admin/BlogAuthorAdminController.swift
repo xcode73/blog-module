@@ -68,13 +68,13 @@ struct BlogAuthorAdminController: AdminController {
     }
     
     
-    func detailLinks(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
+    func detailNavigation(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
             LinkContext(label: "Update",
                         path: "update",
                         permission: Blog.Author.permission(for: .update).key),
 
-            LinkContext(label: BlogAuthorLinkAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorLinkAdminController.modelName.plural,
                         path: Blog.AuthorLink.pathKey,
                         permission: Blog.AuthorLink.permission(for: .list).key),
             
@@ -90,13 +90,13 @@ struct BlogAuthorAdminController: AdminController {
         ]
     }
     
-    func updateLinks(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
+    func updateNavigation(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
             LinkContext(label: "Details",
                         dropLast: 1,
                         permission: Blog.Author.permission(for: .detail).key),
             
-            LinkContext(label: BlogAuthorLinkAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorLinkAdminController.modelName.plural,
                         path: Blog.AuthorLink.pathKey,
                         dropLast: 1,
                         permission: Blog.AuthorLink.permission(for: .list).key),

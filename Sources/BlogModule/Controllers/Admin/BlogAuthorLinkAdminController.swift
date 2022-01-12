@@ -76,13 +76,13 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func listBreadcrumbs(_ req: Request) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherIdentifier.uppercasedFirst,
+            LinkContext(label: BlogModule.featherName,
                         dropLast: 3,
                         permission: Blog.permission(for: .detail).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.plural,
                         dropLast: 2,
                         permission: Blog.Author.permission(for: .list).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.singular.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.singular,
                         dropLast: 1,
                         permission: Blog.Author.permission(for: .detail).key),
         ]
@@ -90,16 +90,16 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func detailBreadcrumbs(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherIdentifier.uppercasedFirst,
+            LinkContext(label: BlogModule.featherName,
                         dropLast: 4,
                         permission: Blog.permission(for: .detail).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.plural,
                         dropLast: 3,
                         permission: Blog.Author.permission(for: .list).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.singular.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.singular,
                         dropLast: 2,
                         permission: Blog.Author.permission(for: .detail).key),
-            LinkContext(label: Self.modelName.plural.uppercasedFirst,
+            LinkContext(label: Self.modelName.plural,
                         dropLast: 1,
                         permission: ApiModel.permission(for: .list).key),
         ]
@@ -107,16 +107,16 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func updateBreadcrumbs(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherIdentifier.uppercasedFirst,
+            LinkContext(label: BlogModule.featherName,
                         dropLast: 5,
                         permission: Blog.permission(for: .detail).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.plural,
                         dropLast: 4,
                         permission: Blog.Author.permission(for: .list).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.singular.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.singular,
                         dropLast: 3,
                         permission: Blog.Author.permission(for: .detail).key),
-            LinkContext(label: Self.modelName.plural.uppercasedFirst,
+            LinkContext(label: Self.modelName.plural,
                         dropLast: 2,
                         permission: ApiModel.permission(for: .list).key),
         ]
@@ -124,16 +124,16 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func createBreadcrumbs(_ req: Request) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherIdentifier.uppercasedFirst,
+            LinkContext(label: BlogModule.featherName,
                         dropLast: 4,
                         permission: Blog.permission(for: .detail).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.plural.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.plural,
                         dropLast: 3,
                         permission: Blog.Author.permission(for: .list).key),
-            LinkContext(label: BlogAuthorAdminController.modelName.singular.uppercasedFirst,
+            LinkContext(label: BlogAuthorAdminController.modelName.singular,
                         dropLast: 2,
                         permission: Blog.Author.permission(for: .detail).key),
-            LinkContext(label: Self.modelName.plural.uppercasedFirst,
+            LinkContext(label: Self.modelName.plural,
                         dropLast: 1,
                         permission: ApiModel.permission(for: .list).key),
         ]
