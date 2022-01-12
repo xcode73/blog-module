@@ -80,7 +80,7 @@ struct BlogAuthorApiController: ApiController {
     func validators(optional: Bool) -> [AsyncValidator] {
         [
             KeyedContentValidator<String>.required("name", optional: optional),
-            KeyedContentValidator<String>("name", "Name must be unique", optional: optional) { value, req in
+            KeyedContentValidator<String>("name", "Name must be unique", optional: optional) { req, value in
                 try await DatabaseModel.isUnique(req, \.$name == value, Blog.Author.getIdParameter(req))
             }
         ]

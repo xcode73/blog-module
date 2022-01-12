@@ -91,7 +91,7 @@ struct BlogPostApiController: ApiController {
     func validators(optional: Bool) -> [AsyncValidator] {
         [
             KeyedContentValidator<String>.required("title", optional: optional),
-            KeyedContentValidator<String>("title", "Title must be unique", optional: optional) { value, req in
+            KeyedContentValidator<String>("title", "Title must be unique", optional: optional) { req, value in
                 try await DatabaseModel.isUnique(req, \.$title == value, Blog.Post.getIdParameter(req))
             }
         ]
