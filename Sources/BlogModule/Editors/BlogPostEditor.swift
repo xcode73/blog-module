@@ -7,15 +7,15 @@
 
 struct BlogPostEditor: FeatherModelEditor {
     let model: BlogPostModel
-    let form: FeatherForm
+    let form: AbstractForm
 
-    init(model: BlogPostModel, form: FeatherForm) {
+    init(model: BlogPostModel, form: AbstractForm) {
         self.model = model
         self.form = form
     }
 
-    @FormComponentBuilder
-    var formFields: [FormComponent] {
+    @FormFieldBuilder
+    var formFields: [FormField] {
         
         // @TODO: user proper variable name
         ImageField("image", path: "blog/post")

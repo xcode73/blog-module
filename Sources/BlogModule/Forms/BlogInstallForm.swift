@@ -5,7 +5,7 @@
 //  Created by Tibor Bodecs on 2021. 12. 23..
 //
 
-final class BlogInstallForm: FeatherForm {
+final class BlogInstallForm: AbstractForm {
 
     var sample: Bool = true
     
@@ -15,8 +15,8 @@ final class BlogInstallForm: FeatherForm {
         self.submit = "Next"
     }
 
-    @FormComponentBuilder
-    override func createFields() -> [FormComponent] {
+    @FormFieldBuilder
+    override func createFields() -> [FormField] {
         ToggleField("sample")
             .config {
                 $0.output.context.label.title = "Install sample content"

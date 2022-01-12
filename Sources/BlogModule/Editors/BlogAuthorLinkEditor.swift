@@ -7,15 +7,15 @@
 
 struct BlogAuthorLinkEditor: FeatherModelEditor {
     let model: BlogAuthorLinkModel
-    let form: FeatherForm
+    let form: AbstractForm
 
-    init(model: BlogAuthorLinkModel, form: FeatherForm) {
+    init(model: BlogAuthorLinkModel, form: AbstractForm) {
         self.model = model
         self.form = form
     }
 
-    @FormComponentBuilder
-    var formFields: [FormComponent] {
+    @FormFieldBuilder
+    var formFields: [FormField] {
         InputField("label")
             .config {
                 $0.output.context.label.required = true
