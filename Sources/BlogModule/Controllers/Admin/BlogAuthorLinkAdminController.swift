@@ -53,7 +53,7 @@ struct BlogAuthorLinkAdminController: AdminController {
         ]
     }
     
-    func detailFields(for model: DatabaseModel) -> [FieldContext] {
+    func detailFields(for model: DatabaseModel) -> [DetailContext] {
         [
             .init("id", model.uuid.string),
             .init("label", model.label),
