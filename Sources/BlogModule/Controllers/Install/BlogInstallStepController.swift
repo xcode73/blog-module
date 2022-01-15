@@ -33,7 +33,7 @@ struct BlogInstallStepController: SystemInstallStepController {
             try await installSampleContent(req)
         }
         try await continueInstall(req, with: info.nextStep)
-        return req.redirect(to: installPath(for: info.nextStep))
+        return req.redirect(to: installPath(req, for: info.nextStep))
     }
 
     func installSampleContent(_ req: Request) async throws {
