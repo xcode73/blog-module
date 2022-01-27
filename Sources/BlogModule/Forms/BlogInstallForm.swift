@@ -16,7 +16,7 @@ final class BlogInstallForm: AbstractForm {
     }
 
     @FormFieldBuilder
-    override func createFields() -> [FormField] {
+    override func createFields(_ req: Request) -> [FormField] {
         ToggleField("sample")
             .config {
                 $0.output.context.label.title = "Install sample content"

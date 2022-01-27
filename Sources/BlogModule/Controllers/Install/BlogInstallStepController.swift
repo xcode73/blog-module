@@ -14,6 +14,7 @@ struct BlogInstallStepController: SystemInstallStepController {
 
     func installStep(_ req: Request, info: SystemInstallInfo) async throws -> Response {
         let form = BlogInstallForm()
+        form.fields = form.createFields(req)
         try await form.load(req: req)
         try await form.read(req: req)
         return render(req, form: form)
@@ -21,6 +22,7 @@ struct BlogInstallStepController: SystemInstallStepController {
 
     func performInstallStep(_ req: Request, info: SystemInstallInfo) async throws -> Response? {
         let form = BlogInstallForm()
+        form.fields = form.createFields(req)
         try await form.load(req: req)
         try await form.process(req: req)
         let isValid = try await form.validate(req: req)
@@ -92,45 +94,45 @@ struct BlogInstallStepController: SystemInstallStepController {
                                   content: sampleContent())
 
         let post3 = BlogPostModel(id: UUID(),
-                                  title: "Bring your own theme",
-                                  imageKey: "blog/posts/theme.jpg",
-                                  excerpt: "You can build your own themes using HTML & CSS and Tau.",
+                                  title: "Bring your own module",
+                                  imageKey: "blog/posts/module.jpg",
+                                  excerpt: "You can build your own modules by using the FeatherCore library.",
                                   content: sampleContent())
 
         let post4 = BlogPostModel(id: UUID(),
                                   title: "Shortcodes and filters",
                                   imageKey: "blog/posts/filters.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "Create your own shortcodes and content filters easily.",
                                   content: sampleContent())
 
         let post5 = BlogPostModel(id: UUID(),
                                   title: "Content and metadata",
                                   imageKey: "blog/posts/content.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "Everything is a content, but not everything has metadata.",
                                   content: sampleContent())
 
         let post6 = BlogPostModel(id: UUID(),
                                   title: "Static pages",
                                   imageKey: "blog/posts/pages.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "Code your pages and render them using hook functions.",
                                   content: sampleContent())
 
         let post7 = BlogPostModel(id: UUID(),
                                   title: "Writing blog posts",
                                   imageKey: "blog/posts/editor.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "Focus on writing instead of coding.",
                                   content: sampleContent())
 
         let post8 = BlogPostModel(id: UUID(),
                                   title: "Branding your site",
                                   imageKey: "blog/posts/site.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "It is super easy to bring your own theme elements.",
                                   content: sampleContent())
 
         let post9 = BlogPostModel(id: UUID(),
                                   title: "A quick tour",
                                   imageKey: "blog/posts/tour.jpg",
-                                  excerpt: "Suspendisse potenti. Donec dignissim nibh non nisi finibus luctus.",
+                                  excerpt: "Just a quick introduction to Feather CMS.",
                                   content: sampleContent())
 
         let post10 = BlogPostModel(id: UUID(),
