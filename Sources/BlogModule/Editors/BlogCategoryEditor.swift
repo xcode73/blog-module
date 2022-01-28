@@ -15,7 +15,7 @@ struct BlogCategoryEditor: FeatherModelEditor {
     }
 
     @FormFieldBuilder
-    var formFields: [FormField] {
+    func createFields(_ req: Request) -> [FormField] {
         // @TODO: user proper variable name
         ImageField("image", path: "blog/category")
             .read {
