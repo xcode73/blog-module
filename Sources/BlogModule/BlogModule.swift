@@ -48,10 +48,10 @@ struct BlogModule: FeatherModule {
         app.hooks.registerAsync("blog-authors-page", use: authorsPageHook)
     }
     
-    func adminWidgetsHook(args: HookArguments) -> [TemplateRepresentable] {
+    func adminWidgetsHook(args: HookArguments) -> [OrderedHookResult<TemplateRepresentable>] {
         if args.req.checkPermission(Blog.permission(for: .detail)) {
             return [
-                BlogAdminWidgetTemplate(),
+                .init(BlogAdminWidgetTemplate(), order: 600),
             ]
         }
         return []
