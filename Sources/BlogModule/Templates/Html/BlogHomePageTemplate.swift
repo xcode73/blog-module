@@ -19,28 +19,31 @@ struct BlogHomePageTemplate: TemplateRepresentable {
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogHomePageTitle") ?? "Blog")) {
             Div {
-                LeadTemplate(.init(title: req.variable("blogHomePageTitle") ?? "Blog",
-                                   excerpt: req.variable("blogHomePageExcerpt") ?? "Latest posts")).render(req)
+                Div {
+                    LeadTemplate(.init(title: req.variable("blogHomePageTitle") ?? "Blog",
+                                       excerpt: req.variable("blogHomePageExcerpt") ?? "Latest posts")).render(req)
 
-                Section {
-                    for post in context.posts {
-                        A {
-                            Div {
-                                if let imageKey = post.imageKey {
-                                    Img(src: req.fs.resolve(key: imageKey), alt: post.title)
+                    Section {
+                        for post in context.posts {
+                            A {
+                                Div {
+                                    if let imageKey = post.imageKey {
+                                        Img(src: req.fs.resolve(key: imageKey), alt: post.title)
+                                    }
+                                    H2(post.title)
+                                    P(post.excerpt ?? "")
                                 }
-                                H2(post.title)
-                                P(post.excerpt ?? "")
+                                .class("content")
                             }
-                            .class("content")
+                            .href(post.metadata.slug.safePath())
+                            .class("card")
                         }
-                        .href(post.metadata.slug.safePath())
-                        .class("card")
                     }
+                    .class("grid-6")
                 }
-                .class("grid-6")
             }
             .id("blog-home")
+            .class("wrapper")
         }
         .render(req)
     }

@@ -19,29 +19,32 @@ struct BlogCategoriesPageTemplate: TemplateRepresentable {
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogCategoriesPageTitle") ?? "Categories")) {
             Div {
-                LeadTemplate(.init(title: req.variable("blogCategoriesPageTitle") ?? "Categories",
-                                   excerpt: req.variable("blogCategoriesPageExcerpt") ?? "")).render(req)
-                
-                Section {
-                    for category in context.categories {
-                        A {
-                            Div {
-                                if let imageKey = category.imageKey {
-                                    Img(src: req.fs.resolve(key: imageKey), alt: category.title)
-                                        .class("profile")
+                Div {
+                    LeadTemplate(.init(title: req.variable("blogCategoriesPageTitle") ?? "Categories",
+                                       excerpt: req.variable("blogCategoriesPageExcerpt") ?? "")).render(req)
+                    
+                    Section {
+                        for category in context.categories {
+                            A {
+                                Div {
+                                    if let imageKey = category.imageKey {
+                                        Img(src: req.fs.resolve(key: imageKey), alt: category.title)
+                                            .class("profile")
+                                    }
+                                    H2(category.title)
+                                    P(category.excerpt ?? "")
                                 }
-                                H2(category.title)
-                                P(category.excerpt ?? "")
+                                .class("content")
                             }
-                            .class("content")
+                            .href(category.metadata.slug.safePath())
+                            .class("card")
                         }
-                        .href(category.metadata.slug.safePath())
-                        .class("card")
                     }
                 }
+                .class("container")
             }
             .id("blog-categories")
-            .class("container")
+            .class("wrapper")
         }
         .render(req)
     }

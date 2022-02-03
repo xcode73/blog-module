@@ -18,30 +18,33 @@ struct BlogAuthorsPageTemplate: TemplateRepresentable {
     @TagBuilder
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors")) {
-            Div {
-                LeadTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors",
-                                   excerpt: req.variable("blogAuthorsPageExcerpt") ?? "")).render(req)
-                
-                Section {
-                    for author in context.authors {
-                        A {
-                            Div {
-                                if let imageKey = author.imageKey {
-                                    Img(src: req.fs.resolve(key: imageKey), alt: author.name)
-                                        .class("profile")
+            Div {                
+                Div {
+                    LeadTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors",
+                                       excerpt: req.variable("blogAuthorsPageExcerpt") ?? "")).render(req)
+
+                    Section {
+                        for author in context.authors {
+                            A {
+                                Div {
+                                    if let imageKey = author.imageKey {
+                                        Img(src: req.fs.resolve(key: imageKey), alt: author.name)
+                                            .class("profile")
+                                    }
+                                    H2(author.name)
+                                    P(author.bio ?? "")
                                 }
-                                H2(author.name)
-                                P(author.bio ?? "")
+                                .class("content")
                             }
-                            .class("content")
+                            .href(author.metadata.slug.safePath())
+                            .class("card")
                         }
-                        .href(author.metadata.slug.safePath())
-                        .class("card")
                     }
                 }
+                .class("container")
             }
             .id("blog-authors")
-            .class("container")
+            .class("wrapper")
         }
         .render(req)
     }
