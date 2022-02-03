@@ -19,11 +19,8 @@ struct BlogCategoriesPageTemplate: TemplateRepresentable {
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogCategoriesPageTitle") ?? "Categories")) {
             Div {
-                Header {
-                    H1(req.variable("blogCategoriesPageTitle") ?? "Categories")
-                    P(req.variable("blogCategoriesPageExcerpt") ?? "")
-                }
-                .class("lead")
+                LeadTemplate(.init(title: req.variable("blogCategoriesPageTitle") ?? "Categories",
+                                   excerpt: req.variable("blogCategoriesPageExcerpt") ?? "")).render(req)
                 
                 Section {
                     for category in context.categories {
