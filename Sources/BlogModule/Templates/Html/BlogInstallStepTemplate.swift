@@ -11,19 +11,23 @@ struct BlogInstallStepTemplate: TemplateRepresentable {
     
     var context: BlogInstallStepContext
     
-    init(_ context: BlogInstallStepContext) {        
+    init(_ context: BlogInstallStepContext) {
         self.context = context
     }
     
     @TagBuilder
     func render(_ req: Request) -> Tag {
         SystemIndexTemplate(.init(title: "Install blog")) {
-            Header {
-                H1("Install blog")
-                P("Would you like to install sample content for the blog?")
+            Div {
+                Div {
+                    LeadTemplate(.init(title: "Install blog",
+                                       excerpt: "Would you like to install sample content for the blog?")).render(req)
+                    
+                    FormTemplate(context.form).render(req)
+                }
+                .class("container")
             }
-            
-            FormTemplate(context.form).render(req)
+            .class("wrapper")
         }
         .render(req)
     }
