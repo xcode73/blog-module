@@ -31,7 +31,7 @@ struct BlogPostAdminController: AdminController {
     
     func listColumns() -> [ColumnContext] {
         [
-            .init("image"),
+            .init("image", width: "4rem"),
             .init("title"),
             .init("date"),
         ]
