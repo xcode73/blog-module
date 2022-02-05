@@ -1,0 +1,9 @@
+#blog-home img {
+    border-radius: 0.25rem;
+}
+#blog-categories img.profile, #blog-authors img.profile, #blog-author img.profile, #blog-category img.profile {
+    width: 4rem;
+    height: 4rem;
+}
+
+

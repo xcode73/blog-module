@@ -36,6 +36,7 @@ struct BlogModule: FeatherModule {
         app.hooks.register(.adminRoutes, use: router.adminRoutesHook)
         app.hooks.register(.apiRoutes, use: router.apiRoutesHook)
         app.hooks.register(.adminWidgets, use: adminWidgetsHook)
+        app.hooks.register(.webCss, use: webCssHook)
 
         app.hooks.registerAsync(.installResponse, use: installResponseHook)
         app.hooks.registerAsync(.response, use: categoryResponseHook)
@@ -55,6 +56,12 @@ struct BlogModule: FeatherModule {
             ]
         }
         return []
+    }
+    
+    func webCssHook(args: HookArguments) -> [OrderedHookResult<String>] {
+        [
+            .init("/css/blog/style.css", order: 42)
+        ]
     }
     
     // MARK: - pages
