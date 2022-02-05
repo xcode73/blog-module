@@ -18,7 +18,7 @@ struct BlogHomePageTemplate: TemplateRepresentable {
     @TagBuilder
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogHomePageTitle") ?? "Blog")) {
-            Div {
+            Wrapper {
                 Div {
                     LeadTemplate(.init(title: req.variable("blogHomePageTitle") ?? "Blog",
                                        excerpt: req.variable("blogHomePageExcerpt") ?? "Latest posts")).render(req)
@@ -34,6 +34,7 @@ struct BlogHomePageTemplate: TemplateRepresentable {
                                     P(post.excerpt ?? "")
                                 }
                                 .class("content")
+                                Span(post.metadata.date.formatted())
                             }
                             .href(post.metadata.slug.safePath())
                             .class("card")
@@ -43,7 +44,6 @@ struct BlogHomePageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-home")
-            .class("wrapper")
         }
         .render(req)
     }

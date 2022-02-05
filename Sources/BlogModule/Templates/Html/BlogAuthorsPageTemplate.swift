@@ -18,8 +18,8 @@ struct BlogAuthorsPageTemplate: TemplateRepresentable {
     @TagBuilder
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors")) {
-            Div {                
-                Div {
+            Wrapper {
+                Container {
                     LeadTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors",
                                        excerpt: req.variable("blogAuthorsPageExcerpt") ?? "")).render(req)
 
@@ -41,10 +41,8 @@ struct BlogAuthorsPageTemplate: TemplateRepresentable {
                         }
                     }
                 }
-                .class("container")
             }
             .id("blog-authors")
-            .class("wrapper")
         }
         .render(req)
     }
