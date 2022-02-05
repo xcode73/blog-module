@@ -19,7 +19,7 @@ struct BlogPostPageTemplate: TemplateRepresentable {
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: context.post.title, metadata: context.post.metadata)) {
             Article {
-                Div {
+                Container {
                     Header {
                         P {
                             for category in context.post.categories {
@@ -45,24 +45,23 @@ struct BlogPostPageTemplate: TemplateRepresentable {
                     }
                     .class("lead")
                 }
-                .class("container")
                 
-                Div {
+                Container {
                     if let imageKey = context.post.imageKey {
                         Img(src: req.fs.resolve(key: imageKey), alt: context.post.title)
                     }
                 }
-                Div {
+                Container {
                     Text(context.post.content ?? "")
                 }
                 .id("content")
-                .class("container")
             }
             .id("blog-post")
+            .class("wrapper")
             
             
             if req.checkVariable("blogPostShareIsEnabled") {
-                Div {
+                Container {
                     Section {
                         Hr()
                         P {
@@ -75,11 +74,10 @@ struct BlogPostPageTemplate: TemplateRepresentable {
                     .id("share")
                     .class("margin")
                 }
-                .class("container")
             }
             
             if req.checkVariable("blogPostAuthorBoxIsEnabled"), !context.post.authors.isEmpty {
-                Div {
+                Container {
                     H2("Author" + (context.post.authors.count > 1 ? "s" : ""))
                     for author in context.post.authors {
                         Div {
@@ -98,7 +96,6 @@ struct BlogPostPageTemplate: TemplateRepresentable {
                         }
                     }
                 }
-                .class("container")
             }
 
         }
