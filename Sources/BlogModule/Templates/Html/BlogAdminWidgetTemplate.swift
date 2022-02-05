@@ -6,11 +6,13 @@
 //
 
 import SwiftHtml
+import FeatherIcons
 
 struct BlogAdminWidgetTemplate: TemplateRepresentable {
     
     @TagBuilder
     func render(_ req: Request) -> Tag {
+        Svg.icon(.edit)
         H2("Blog")
         Ul {
             if req.checkPermission(Blog.Post.permission(for: .list)) {
