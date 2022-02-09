@@ -33,35 +33,38 @@ struct BlogPostsPageTemplate: TemplateRepresentable {
                                 }
                                 Div {
                                     Div {
+//                                        let dateString = Feather.dateFormatter().string(from: post.metadata.date)
+//                                        Time(dateString)
+//                                            .datetime(dateString)
+//                                            .class("date")
+
+                                        Span(post.metadata.date.formatted())
                                         H2(post.title)
                                         P(post.excerpt ?? "")
                                     }
                                     .class("text")
                                 }
                                 .class("content")
-                                Div {
-                                    let dateString = Feather.dateFormatter().string(from: post.metadata.date)
-                                    Time(dateString)
-                                        .datetime(dateString)
-                                        .class("date")
+//                                Div {
                                     
-                                    Div {
-                                        for category in post.categories {
-                                            //                                        A {
-                                            if let color = category.color {
-                                                Span(category.title)
-                                                    .style("color: #\(color);")
-                                            }
-                                            else {
-                                                Span(category.title)
-                                            }
-                                            //                                        }
-                                            //                                        .href(category.metadata.slug.safePath())
-                                        }
-                                    }
-                                    .class("tags")
-                                }
-                                .class("meta")
+                                    
+//                                    Div {
+//                                        for category in post.categories {
+//                                            //                                        A {
+//                                            if let color = category.color {
+//                                                Span(category.title)
+//                                                    .style("color: #\(color);")
+//                                            }
+//                                            else {
+//                                                Span(category.title)
+//                                            }
+//                                            //                                        }
+//                                            //                                        .href(category.metadata.slug.safePath())
+//                                        }
+//                                    }
+//                                    .class("tags")
+//                                }
+//                                .class("meta")
                             }
                             .href(post.metadata.slug.safePath())
                             .class("card")
@@ -70,6 +73,7 @@ struct BlogPostsPageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-posts")
+            .class(add: "blog")
         }
         .render(req)
     }

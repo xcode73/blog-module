@@ -39,10 +39,11 @@ struct BlogAuthorPageTemplate: TemplateRepresentable {
                     Section {
                         for post in context.author.posts {
                             A {
+                                if let imageKey = post.imageKey {
+                                    Img(src: req.fs.resolve(key: imageKey), alt: post.title)
+                                }
                                 Div {
-                                    if let imageKey = post.imageKey {
-                                        Img(src: req.fs.resolve(key: imageKey), alt: post.title)
-                                    }
+                                    Span(post.metadata.date.formatted())
                                     H2(post.title)
                                     P(post.excerpt ?? "")
                                 }
@@ -55,6 +56,7 @@ struct BlogAuthorPageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-author")
+            .class(add: "blog")
         }
         .render(req)
     }

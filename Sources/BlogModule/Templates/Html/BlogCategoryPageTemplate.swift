@@ -24,7 +24,7 @@ struct BlogCategoryPageTemplate: TemplateRepresentable {
                         if let imageKey = context.category.imageKey {
                             Img(src: req.fs.resolve(key: imageKey), alt: context.category.title)
                                 .class("profile")
-                                .style("border: none; border-radius: 0;")
+                                .style("border: 0.25rem solid \(context.category.color ?? "var(--link-color)")")
                         }
                         H1(context.category.title)
                         P(context.category.excerpt ?? "")
@@ -34,10 +34,11 @@ struct BlogCategoryPageTemplate: TemplateRepresentable {
                     Section {
                         for post in context.category.posts {
                             A {
+                                if let imageKey = post.imageKey {
+                                    Img(src: req.fs.resolve(key: imageKey), alt: post.title)
+                                }
                                 Div {
-                                    if let imageKey = post.imageKey {
-                                        Img(src: req.fs.resolve(key: imageKey), alt: post.title)
-                                    }
+                                    Span(post.metadata.date.formatted())
                                     H2(post.title)
                                     P(post.excerpt ?? "")
                                 }
@@ -50,6 +51,7 @@ struct BlogCategoryPageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-category")
+            .class(add: "blog")
         }
         .render(req)
     }

@@ -14,7 +14,7 @@ struct BlogPostPageTemplate: TemplateRepresentable {
     init(_ context: BlogPostPageContext) {
         self.context = context
     }
-        
+    
     @TagBuilder
     func render(_ req: Request) -> Tag {
         WebIndexTemplate(.init(title: context.post.title, metadata: context.post.metadata)) {
@@ -22,31 +22,34 @@ struct BlogPostPageTemplate: TemplateRepresentable {
                 Container {
                     Header {
                         P {
+                            Span(context.post.metadata.date.formatted())
+                            
                             for category in context.post.categories {
                                 A {
-                                    if let color = category.color {
-                                        Span(category.title)
-                                            .style("color: #\(color);")
-                                    }
-                                    else {
-                                        Span(category.title)
-                                    }
+                                    //                                    if let color = category.color {
+                                    Span(category.title)
+                                    //                                            .style("border-bottom: 2px solid \(color);")
+                                    //                                    }
+                                    //                                    else {
+                                    //                                        Span(category.title)
+                                    //                                    }
                                 }
                                 .href(category.metadata.slug.safePath())
                             }
-
-                            let dateString = Feather.dateFormatter().string(from: context.post.metadata.date)
-                            Time(dateString)
-                                .datetime(dateString)
-                                .class("date")
+                            
+                            //                            let dateString = Feather.dateFormatter().string(from: context.post.metadata.date)
+                            //                            Time(dateString)
+                            //                                .datetime(dateString)
+                            //                                .class("date")
                         }
+                        .class("meta")
                         H1(context.post.title)
                         P(context.post.excerpt ?? "")
                     }
                     .class("lead")
                 }
                 
-                Container {
+                Wrapper {
                     if let imageKey = context.post.imageKey {
                         Img(src: req.fs.resolve(key: imageKey), alt: context.post.title)
                     }
@@ -81,23 +84,28 @@ struct BlogPostPageTemplate: TemplateRepresentable {
                     H2("Author" + (context.post.authors.count > 1 ? "s" : ""))
                     for author in context.post.authors {
                         Div {
-                            if let imageKey = author.imageKey {
-                                Img(src: req.fs.resolve(key: imageKey), alt: author.name)
-                                    .class("profile")
+                            Div {
+                                if let imageKey = author.imageKey {
+                                    Img(src: req.fs.resolve(key: imageKey), alt: author.name)
+                                        .class("profile")
+                                }
+                                H3(author.name)
+                                P(author.bio ?? "")
+                                
+                                for link in author.links {
+                                    A(link.label)
+                                        .href(link.url)
+                                        .target(.blank)
+                                }
                             }
-                            H3(author.name)
-                            P(author.bio ?? "")
-                            
-                            for link in author.links {
-                                A(link.label)
-                                    .href(link.url)
-                                    .target(.blank)
-                            }
+                            .class("content")
                         }
+                        .class("card")
                     }
                 }
+                .class(add: "blog post-authors")
             }
-
+            
         }
         .render(req)
     }

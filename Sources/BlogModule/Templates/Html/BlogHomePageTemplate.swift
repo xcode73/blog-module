@@ -26,15 +26,15 @@ struct BlogHomePageTemplate: TemplateRepresentable {
                     Section {
                         for post in context.posts {
                             A {
+                                if let imageKey = post.imageKey {
+                                    Img(src: req.fs.resolve(key: imageKey), alt: post.title)
+                                }
                                 Div {
-                                    if let imageKey = post.imageKey {
-                                        Img(src: req.fs.resolve(key: imageKey), alt: post.title)
-                                    }
+                                    Span(post.metadata.date.formatted())
                                     H2(post.title)
                                     P(post.excerpt ?? "")
                                 }
-                                .class("content")
-                                Span(post.metadata.date.formatted())
+                                .class("content")   
                             }
                             .href(post.metadata.slug.safePath())
                             .class("card")
@@ -44,6 +44,7 @@ struct BlogHomePageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-home")
+            .class(add: "blog")
         }
         .render(req)
     }

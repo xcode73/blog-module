@@ -30,6 +30,7 @@ struct BlogCategoriesPageTemplate: TemplateRepresentable {
                                     if let imageKey = category.imageKey {
                                         Img(src: req.fs.resolve(key: imageKey), alt: category.title)
                                             .class("profile")
+                                            .style("border: 0.25rem solid \(category.color ?? "var(--link-color)")")
                                     }
                                     H2(category.title)
                                     P(category.excerpt ?? "")
@@ -43,6 +44,7 @@ struct BlogCategoriesPageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-categories")
+            .class(add: "blog")
         }
         .render(req)
     }

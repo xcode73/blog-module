@@ -43,6 +43,7 @@ struct BlogAuthorsPageTemplate: TemplateRepresentable {
                 }
             }
             .id("blog-authors")
+            .class(add: "blog")
         }
         .render(req)
     }
