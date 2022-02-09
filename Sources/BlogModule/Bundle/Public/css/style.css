@@ -1,9 +1,42 @@
-#blog-home img {
-    border-radius: 0.25rem;
-}
-#blog-categories img.profile, #blog-authors img.profile, #blog-author img.profile, #blog-category img.profile {
+img.profile {
     width: 4rem;
     height: 4rem;
 }
+.blog .lead h1 {
+    margin-bottom: 0rem;
+}
+.blog .lead p {
+    margin-top: 0.5rem;
+    margin-bottom: 0rem;
+}
+.blog .card {
+    margin-bottom: 3rem;
+}
+#blog-home .card {
+    margin-bottom: 0;
+}
+.blog .card h2 {
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+.blog .card p {
+    margin-top: 0.5rem;
+}
 
-
+#blog-post .meta > * {
+    margin-right: 1rem;
+}
+.post-authors h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+.post-authors p, #blog-author .lead p {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+.post-authors a, #blog-author .lead a {
+    margin-right: 1rem;
+}
+#blog-authors img, .post-authors img, #blog-author .lead img {
+    border-radius: 50%;
+}
