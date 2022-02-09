@@ -22,14 +22,9 @@ struct BlogRouter: FeatherRouter {
         categoryAdminController.setUpRoutes(args.routes)
         postAdminController.setUpRoutes(args.routes)
         
-        args.routes.get("blog") { req -> Response in
+        args.routes.get(Blog.pathKey.pathComponent) { req -> Response in
             let template = AdminModulePageTemplate(.init(title: "Blog",
-                                                         message: "module information",
-                                                         navigation: [
-                                                            .init(label: "Posts", path: "/admin/blog/posts/"),
-                                                            .init(label: "Categories", path: "/admin/blog/categories/"),
-                                                            .init(label: "Authors", path: "/admin/blog/authors/"),
-                                                         ]))
+                                                         tag: BlogAdminWidgetTemplate().render(req)))
             return req.templates.renderHtml(template)
         }
     }
