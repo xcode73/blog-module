@@ -85,61 +85,61 @@ struct BlogInstallStepController: SystemInstallStepController {
                                   title: "Binary Birds",
                                   imageKey: "blog/posts/birds.jpg",
                                   excerpt: "Feather is a modern Swift-based CMS powered by Vapor 4.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Birds.md"))
 
         let post2 = BlogPostModel(id: UUID(),
                                   title: "Feather API",
                                   imageKey: "blog/posts/api.jpg",
                                   excerpt: "This post is a showcase about the available content blocks.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Api.md"))
 
         let post3 = BlogPostModel(id: UUID(),
                                   title: "Bring your own module",
                                   imageKey: "blog/posts/module.jpg",
                                   excerpt: "You can build your own modules by using the FeatherCore library.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Modules.md"))
 
         let post4 = BlogPostModel(id: UUID(),
                                   title: "Shortcodes and filters",
                                   imageKey: "blog/posts/filters.jpg",
                                   excerpt: "Create your own shortcodes and content filters easily.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Filters.md"))
 
         let post5 = BlogPostModel(id: UUID(),
                                   title: "Content and metadata",
                                   imageKey: "blog/posts/content.jpg",
                                   excerpt: "Everything is a content, but not everything has metadata.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Editor.md"))
 
         let post6 = BlogPostModel(id: UUID(),
                                   title: "Static pages",
                                   imageKey: "blog/posts/pages.jpg",
                                   excerpt: "Code your pages and render them using hook functions.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Pages.md"))
 
         let post7 = BlogPostModel(id: UUID(),
                                   title: "Writing blog posts",
                                   imageKey: "blog/posts/editor.jpg",
                                   excerpt: "Focus on writing instead of coding.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Content.md"))
 
         let post8 = BlogPostModel(id: UUID(),
                                   title: "Branding your site",
                                   imageKey: "blog/posts/site.jpg",
                                   excerpt: "It is super easy to bring your own theme elements.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Site.md"))
 
         let post9 = BlogPostModel(id: UUID(),
                                   title: "A quick tour",
                                   imageKey: "blog/posts/tour.jpg",
                                   excerpt: "Just a quick introduction to Feather CMS.",
-                                  content: sampleContent())
+                                  content: BlogModule.sample(named: "Tour.md"))
 
         let post10 = BlogPostModel(id: UUID(),
                                    title: "Welcome to Feather",
                                    imageKey: "blog/posts/welcome.jpg",
                                    excerpt: "Feather is an open source content management system. It is blazing fast with an easy-to-use admin interface where you can customise almost everything.",
-                                   content: sampleContent())
+                                   content: BlogModule.sample(named: "Welcome.md"))
 
         let posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9, post10]
 
@@ -167,11 +167,5 @@ struct BlogInstallStepController: SystemInstallStepController {
 
         try await postAuthors.create(on: req.db)
         try await postCategories.create(on: req.db)
-    }
-    
-    private func sampleContent() -> String {
-        """
-        Lorem ipsum dolor sit amet
-        """
     }
 }
