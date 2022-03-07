@@ -5,6 +5,12 @@
 //  Created by Tibor Bodecs on 2021. 12. 24..
 //
 
+import Vapor
+import Fluent
+import Feather
+import BlogApi
+
+
 struct BlogAuthorLinkAdminController: AdminController {
     typealias ApiModel = Blog.AuthorLink
     typealias DatabaseModel = BlogAuthorLinkModel
@@ -76,7 +82,7 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func listBreadcrumbs(_ req: Request) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherName,
+            LinkContext(label: BlogModule.name,
                         dropLast: 3,
                         permission: Blog.permission(for: .detail).key),
             LinkContext(label: BlogAuthorAdminController.modelName.plural,
@@ -90,7 +96,7 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func detailBreadcrumbs(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherName,
+            LinkContext(label: BlogModule.name,
                         dropLast: 4,
                         permission: Blog.permission(for: .detail).key),
             LinkContext(label: BlogAuthorAdminController.modelName.plural,
@@ -107,7 +113,7 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func updateBreadcrumbs(_ req: Request, _ model: DatabaseModel) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherName,
+            LinkContext(label: BlogModule.name,
                         dropLast: 5,
                         permission: Blog.permission(for: .detail).key),
             LinkContext(label: BlogAuthorAdminController.modelName.plural,
@@ -124,7 +130,7 @@ struct BlogAuthorLinkAdminController: AdminController {
     
     func createBreadcrumbs(_ req: Request) -> [LinkContext] {
         [
-            LinkContext(label: BlogModule.featherName,
+            LinkContext(label: BlogModule.name,
                         dropLast: 4,
                         permission: Blog.permission(for: .detail).key),
             LinkContext(label: BlogAuthorAdminController.modelName.plural,

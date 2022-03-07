@@ -5,6 +5,11 @@
 //  Created by Tibor Bodecs on 2021. 12. 23..
 //
 
+import Vapor
+import Fluent
+import Feather
+import BlogApi
+
 struct BlogInstallStepController: SystemInstallStepController {
 
     private func render(_ req: Request, form: AbstractForm) -> Response {
@@ -80,66 +85,67 @@ struct BlogInstallStepController: SystemInstallStepController {
         let links = [link1, link2, link3, link4]
 
         /// we will use some sample posts
+        
 
         let post1 = BlogPostModel(id: UUID(),
                                   title: "Binary Birds",
                                   imageKey: "blog/posts/birds.jpg",
                                   excerpt: "Feather is a modern Swift-based CMS powered by Vapor 4.",
-                                  content: BlogModule.sample(named: "Birds.md"))
+                                  content: Sample(BlogModule.self, file: "Birds.md"))
 
         let post2 = BlogPostModel(id: UUID(),
                                   title: "Feather API",
                                   imageKey: "blog/posts/api.jpg",
                                   excerpt: "This post is a showcase about the available content blocks.",
-                                  content: BlogModule.sample(named: "Api.md"))
+                                  content: Sample(BlogModule.self, file: "Api.md"))
 
         let post3 = BlogPostModel(id: UUID(),
                                   title: "Bring your own module",
                                   imageKey: "blog/posts/module.jpg",
                                   excerpt: "You can build your own modules by using the FeatherCore library.",
-                                  content: BlogModule.sample(named: "Modules.md"))
+                                  content: Sample(BlogModule.self, file: "Modules.md"))
 
         let post4 = BlogPostModel(id: UUID(),
                                   title: "Shortcodes and filters",
                                   imageKey: "blog/posts/filters.jpg",
                                   excerpt: "Create your own shortcodes and content filters easily.",
-                                  content: BlogModule.sample(named: "Filters.md"))
+                                  content: Sample(BlogModule.self, file: "Filters.md"))
 
         let post5 = BlogPostModel(id: UUID(),
                                   title: "Content and metadata",
                                   imageKey: "blog/posts/content.jpg",
                                   excerpt: "Everything is a content, but not everything has metadata.",
-                                  content: BlogModule.sample(named: "Editor.md"))
+                                  content: Sample(BlogModule.self, file: "Editor.md"))
 
         let post6 = BlogPostModel(id: UUID(),
                                   title: "Static pages",
                                   imageKey: "blog/posts/pages.jpg",
                                   excerpt: "Code your pages and render them using hook functions.",
-                                  content: BlogModule.sample(named: "Pages.md"))
+                                  content: Sample(BlogModule.self, file: "Pages.md"))
 
         let post7 = BlogPostModel(id: UUID(),
                                   title: "Writing blog posts",
                                   imageKey: "blog/posts/editor.jpg",
                                   excerpt: "Focus on writing instead of coding.",
-                                  content: BlogModule.sample(named: "Content.md"))
+                                  content: Sample(BlogModule.self, file: "Content.md"))
 
         let post8 = BlogPostModel(id: UUID(),
                                   title: "Branding your site",
                                   imageKey: "blog/posts/site.jpg",
                                   excerpt: "It is super easy to bring your own theme elements.",
-                                  content: BlogModule.sample(named: "Site.md"))
+                                  content: Sample(BlogModule.self, file: "Site.md"))
 
         let post9 = BlogPostModel(id: UUID(),
                                   title: "A quick tour",
                                   imageKey: "blog/posts/tour.jpg",
                                   excerpt: "Just a quick introduction to Feather CMS.",
-                                  content: BlogModule.sample(named: "Tour.md"))
+                                  content: Sample(BlogModule.self, file: "Tour.md"))
 
         let post10 = BlogPostModel(id: UUID(),
                                    title: "Welcome to Feather",
                                    imageKey: "blog/posts/welcome.jpg",
                                    excerpt: "Feather is an open source content management system. It is blazing fast with an easy-to-use admin interface where you can customise almost everything.",
-                                   content: BlogModule.sample(named: "Welcome.md"))
+                                   content: Sample(BlogModule.self, file: "Welcome.md"))
 
         let posts = [post1, post2, post3, post4, post5, post6, post7, post8, post9, post10]
 

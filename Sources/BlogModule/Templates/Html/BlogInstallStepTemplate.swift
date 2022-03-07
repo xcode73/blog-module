@@ -5,6 +5,9 @@
 //  Created by Tibor Bodecs on 2021. 12. 23..
 //
 
+import Vapor
+import Feather
+import BlogApi
 import SwiftHtml
 
 struct BlogInstallStepTemplate: TemplateRepresentable {
@@ -14,10 +17,9 @@ struct BlogInstallStepTemplate: TemplateRepresentable {
     init(_ context: BlogInstallStepContext) {
         self.context = context
     }
-    
-    @TagBuilder
+
     func render(_ req: Request) -> Tag {
-        SystemIndexTemplate(.init(title: "Install blog")) {
+        req.templateEngine.system.index(.init(title: "Install blog")) {
             Wrapper {
                 Container {
                     LeadTemplate(.init(title: "Install blog",

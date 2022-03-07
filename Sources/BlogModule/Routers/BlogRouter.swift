@@ -5,6 +5,10 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
+import Vapor
+import Feather
+import BlogApi
+
 struct BlogRouter: FeatherRouter {
  
     let authorAdminController = BlogAuthorAdminController()
@@ -23,8 +27,8 @@ struct BlogRouter: FeatherRouter {
         postAdminController.setUpRoutes(args.routes)
         
         args.routes.get(Blog.pathKey.pathComponent) { req -> Response in
-            let template = AdminModulePageTemplate(.init(title: "Blog",
-                                                         tag: BlogAdminWidgetTemplate().render(req)))
+            let template = SystemAdminModulePageTemplate(.init(title: "Blog",
+                                                               tag: BlogAdminWidgetTemplate().render(req)))
             return req.templates.renderHtml(template)
         }
     }

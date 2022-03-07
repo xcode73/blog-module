@@ -5,6 +5,12 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
+import Vapor
+import Fluent
+import Feather
+import BlogApi
+
+
 extension Blog.Category.List: Content {}
 extension Blog.Category.Detail: Content {}
 
@@ -77,12 +83,13 @@ struct BlogCategoryApiController: ApiController {
         model.priority = input.priority ?? model.priority
     }
     
+    #warning("fixme")
     func validators(optional: Bool) -> [AsyncValidator] {
         [
             KeyedContentValidator<String>.required("title", optional: optional),
-            KeyedContentValidator<String>("title", "Title must be unique", optional: optional) { req, value in
-                try await DatabaseModel.isUnique(req, \.$title == value, Blog.Category.getIdParameter(req))
-            }
+//            KeyedContentValidator<String>("title", "Title must be unique", optional: optional) { req, value in
+//                try await DatabaseModel.isUnique(req, \.$title == value, Blog.Category.getIdParameter(req))
+//            }
         ]
     }
     

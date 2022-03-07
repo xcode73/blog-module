@@ -5,6 +5,11 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
+import Foundation
+import Fluent
+import Feather
+import FeatherApi
+
 final class BlogPostAuthorModel: FeatherDatabaseModel {
     typealias Module = BlogModule
     

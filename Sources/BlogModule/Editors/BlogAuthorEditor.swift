@@ -5,6 +5,10 @@
 //  Created by Tibor Bodecs on 2021. 12. 17..
 //
 
+import Vapor
+import Feather
+import BlogApi
+
 struct BlogAuthorEditor: FeatherModelEditor {
     let model: BlogAuthorModel
     let form: AbstractForm

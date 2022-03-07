@@ -5,6 +5,12 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
+import Foundation
+import Fluent
+import Feather
+import FeatherApi
+import BlogApi
+
 final class BlogCategoryModel: FeatherDatabaseModel {
     typealias Module = BlogModule
     
@@ -48,9 +54,9 @@ final class BlogCategoryModel: FeatherDatabaseModel {
 
 extension BlogCategoryModel: MetadataRepresentable {
 
-    var webMetadata: FeatherMetadata {
-        .init(module: Module.featherIdentifier,
-              model: Self.featherIdentifier,
+    var systemMetadata: FeatherMetadata {
+        .init(module: Module.uniqueKey,
+              model: Self.uniqueKey,
               reference: uuid,
               slug: Blog.Category.pathKey + "/" + title.slugify(),
               title: title)

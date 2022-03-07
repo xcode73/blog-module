@@ -8,18 +8,17 @@ let package = Package(
     ],
     products: [
         .library(name: "BlogModule", targets: ["BlogModule"]),
-        .library(name: "BlogApi", targets: ["BlogApi"]),
     ],
     dependencies: [
         .package(url: "https://github.com/feathercms/feather-core", .branch("dev")),
+        .package(url: "https://github.com/feathercms/blog-api", .branch("main")),
+        .package(url: "https://github.com/feathercms/web-module", .branch("main")),
     ],
     targets: [
-        .target(name: "BlogApi", dependencies: [
-            .product(name: "FeatherCoreApi", package: "feather-core"),
-        ]),
         .target(name: "BlogModule", dependencies: [
-            .target(name: "BlogApi"),
-            .product(name: "FeatherCore", package: "feather-core"),
+            .product(name: "Feather", package: "feather-core"),
+            .product(name: "BlogApi", package: "blog-api"),
+            .product(name: "WebModule", package: "web-module"),
         ],
         resources: [
             .copy("Bundle"),

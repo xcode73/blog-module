@@ -5,6 +5,9 @@
 //  Created by Tibor Bodecs on 2021. 12. 18..
 //
 
+import Vapor
+import Feather
+import BlogApi
 import SwiftHtml
 
 struct BlogAuthorsPageTemplate: TemplateRepresentable {
@@ -15,9 +18,8 @@ struct BlogAuthorsPageTemplate: TemplateRepresentable {
         self.context = context
     }
     
-    @TagBuilder
     func render(_ req: Request) -> Tag {
-        WebIndexTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors")) {
+        req.templateEngine.system.index(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors")) {
             Wrapper {
                 Container {
                     LeadTemplate(.init(title: req.variable("blogAuthorsPageTitle") ?? "Authors",

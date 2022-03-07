@@ -5,8 +5,13 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
-@_exported import FeatherCore
-@_exported import BlogApi
+import Vapor
+import Fluent
+import Feather
+import FeatherApi
+import BlogApi
+import WebModule
+import WebApi
 
 public extension HookName {
     
@@ -29,14 +34,14 @@ struct BlogModule: FeatherModule {
         app.databases.middleware.use(MetadataModelMiddleware<BlogAuthorModel>())
         
         app.hooks.register(.installStep, use: installStepHook)
-        app.hooks.register(.installUserPermissions, use: installUserPermissionsHook)
-        app.hooks.register(.installCommonVariables, use: installCommonVariablesHook)
-        app.hooks.register(.installWebMenuItems, use: installWebMenuItemsHook)
+        app.hooks.register(.installPermissions, use: installUserPermissionsHook)
+        app.hooks.register(.installVariables, use: installCommonVariablesHook)
+        app.hooks.register(.installMenuItems, use: installMenuItemsHook)
         app.hooks.register(.installWebPages, use: installWebPagesHook)
         app.hooks.register(.adminRoutes, use: router.adminRoutesHook)
         app.hooks.register(.apiRoutes, use: router.apiRoutesHook)
-        app.hooks.register(.adminWidgets, use: adminWidgetsHook)
-        app.hooks.register(.webCss, use: webCssHook)
+        app.hooks.register(.adminWidgets, use: adminWidgetsHook, priority: 600)
+        app.hooks.register(.webCss, use: webCssHook, priority: 42)
 
         app.hooks.registerAsync(.installResponse, use: installResponseHook)
         app.hooks.registerAsync(.response, use: categoryResponseHook)
@@ -49,18 +54,18 @@ struct BlogModule: FeatherModule {
         app.hooks.registerAsync("blog-authors-page", use: authorsPageHook)
     }
     
-    func adminWidgetsHook(args: HookArguments) -> [OrderedHookResult<TemplateRepresentable>] {
+    func adminWidgetsHook(args: HookArguments) -> [TemplateRepresentable] {
         if args.req.checkPermission(Blog.permission(for: .detail)) {
             return [
-                .init(BlogAdminWidgetTemplate(), order: 600),
+                BlogAdminWidgetTemplate()
             ]
         }
         return []
     }
     
-    func webCssHook(args: HookArguments) -> [OrderedHookResult<String>] {
+    func webCssHook(args: HookArguments) -> [String] {
         [
-            .init("/css/blog/style.css", order: 42)
+            "/css/blog/style.css"
         ]
     }
     
@@ -120,18 +125,18 @@ struct BlogModule: FeatherModule {
     
     func installStepHook(args: HookArguments) -> [SystemInstallStep] {
         [
-            .init(key: Self.featherIdentifier, priority: 100),
+            .init(key: Self.uniqueKey, priority: 100),
         ]
     }
     
     func installResponseHook(args: HookArguments) async throws -> Response? {
-        guard args.installInfo.currentStep == Self.featherIdentifier else {
+        guard args.installInfo.currentStep == Self.uniqueKey else {
             return nil
         }
         return try await BlogInstallStepController().handleInstallStep(args.req, info: args.installInfo)
     }
     
-    func installUserPermissionsHook(args: HookArguments) -> [User.Permission.Create] {
+    func installUserPermissionsHook(args: HookArguments) -> [FeatherPermission.Create] {
         var permissions = Blog.availablePermissions()
         permissions += Blog.Post.availablePermissions()
         permissions += Blog.Category.availablePermissions()
@@ -140,7 +145,7 @@ struct BlogModule: FeatherModule {
         return permissions.map { .init($0) }
     }
     
-    func installCommonVariablesHook(args: HookArguments) -> [Common.Variable.Create] {
+    func installCommonVariablesHook(args: HookArguments) -> [FeatherVariable.Create] {
         [
             .init(key: "blogHomePageTitle",
                   name: "Blog home page title",
@@ -223,22 +228,24 @@ struct BlogModule: FeatherModule {
         ]
     }
     
-    func installWebMenuItemsHook(args: HookArguments) -> [Web.MenuItem.Create] {
-        let menuId = args["menuId"] as! UUID
-        return [
-            .init(label: "Blog", url: "/blog/", priority: 900, menuId: menuId),
-            .init(label: "Posts", url: "/posts/", priority: 800, menuId: menuId),
-            .init(label: "Categories", url: "/categories/", priority: 700, menuId: menuId),
-            .init(label: "Authors", url: "/authors/", priority: 600, menuId: menuId),
-        ]
-    }
-    
     func installWebPagesHook(args: HookArguments) -> [Web.Page.Create] {
         [
             .init(title: "Blog", content: "[blog-home-page]"),
             .init(title: "Posts", content: "[blog-posts-page]"),
             .init(title: "Categories", content: "[blog-categories-page]"),
             .init(title: "Authors", content: "[blog-authors-page]"),
+        ]
+    }
+    
+    func installMenuItemsHook(args: HookArguments) -> [FeatherMenuItem] {
+        guard let key = args["menu-key"] as? String, key == "main" else {
+            return []
+        }
+        return [
+            .init(label: "Blog", url: "/blog/", priority: 900),
+            .init(label: "Posts", url: "/posts/", priority: 800),
+            .init(label: "Categories", url: "/categories/", priority: 700),
+            .init(label: "Authors", url: "/authors/", priority: 600),
         ]
     }
 }

@@ -5,6 +5,10 @@
 //  Created by Tibor Bodecs on 2021. 12. 17..
 //
 
+import Vapor
+import Feather
+import BlogApi
+
 struct BlogPostEditor: FeatherModelEditor {
     let model: BlogPostModel
     let form: AbstractForm
@@ -45,6 +49,7 @@ struct BlogPostEditor: FeatherModelEditor {
             .read { $1.output.context.value = model.content }
             .write { model.content = $1.input }
         
+        #warning("fixme")
         CheckboxField("categories")
             .load { req, field in
                 let categories = try await BlogCategoryModel.query(on: req.db).all()
@@ -53,10 +58,10 @@ struct BlogPostEditor: FeatherModelEditor {
             .read { req, field in
                 field.output.context.values = model.categories.compactMap { $0.uuid.string }
             }
-            .save { req, field in
-                let values = field.input.compactMap(\.uuid)
-                return try await model.$categories.reAttach(ids: values, on: req.db)
-            }
+//            .save { req, field in
+//                let values = field.input.compactMap(\.uuid)
+//                return try await model.$categories.reAttach(ids: values, on: req.db)
+//            }
 
         CheckboxField("authors")
             .load { req, field in
@@ -66,10 +71,10 @@ struct BlogPostEditor: FeatherModelEditor {
             .read { req, field in
                 field.output.context.values = model.authors.compactMap { $0.uuid.string }
             }
-            .save { req, field in
-                let values = field.input.compactMap(\.uuid)
-                return try await model.$authors.reAttach(ids: values, on: req.db)
-            }
+//            .save { req, field in
+//                let values = field.input.compactMap(\.uuid)
+//                return try await model.$authors.reAttach(ids: values, on: req.db)
+//            }
     }
 }
 

@@ -5,6 +5,12 @@
 //  Created by Tibor Bodecs on 2021. 12. 17..
 //
 
+import Vapor
+import Fluent
+import Feather
+import FeatherApi
+import BlogApi
+
 struct BlogAuthorAdminController: AdminController {
     typealias ApiModel = Blog.Author
     typealias DatabaseModel = BlogAuthorModel
@@ -84,9 +90,9 @@ struct BlogAuthorAdminController: AdminController {
                         isBlank: true),
             
             LinkContext(label: "Metadata",
-                        path: "/admin/web/metadatas/" + model.featherMetadata.id.string + "/update/",
+                        path: "/admin/system/metadatas/" + model.featherMetadata.id.string + "/update/",
                         absolute: true,
-                        permission: Web.Metadata.permission(for: .update).key),
+                        permission: FeatherMetadata.permission(for: .update).key),
         ]
     }
     
@@ -107,9 +113,9 @@ struct BlogAuthorAdminController: AdminController {
                         isBlank: true),
             
             LinkContext(label: "Metadata",
-                        path: "/admin/web/metadatas/" + model.featherMetadata.id.string + "/update/",
+                        path: "/admin/system/metadatas/" + model.featherMetadata.id.string + "/update/",
                         absolute: true,
-                        permission: Web.Metadata.permission(for: .update).key),
+                        permission: FeatherMetadata.permission(for: .update).key),
         ]
     }
 }

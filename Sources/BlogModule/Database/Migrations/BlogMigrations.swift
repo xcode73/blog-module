@@ -5,6 +5,8 @@
 //  Created by Tibor Bodecs on 2021. 12. 14..
 //
 
+import Fluent
+
 struct BlogMigrations {
 
     struct v1: AsyncMigration {

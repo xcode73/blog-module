@@ -5,6 +5,9 @@
 //  Created by Tibor Bodecs on 2021. 12. 17..
 //
 
+import Vapor
+import Feather
+import BlogApi
 import SwiftHtml
 
 struct BlogCategoryPageTemplate: TemplateRepresentable {
@@ -14,10 +17,9 @@ struct BlogCategoryPageTemplate: TemplateRepresentable {
     init(_ context: BlogCategoryPageContext) {
         self.context = context
     }
-    
-    @TagBuilder
+
     func render(_ req: Request) -> Tag {
-        WebIndexTemplate(.init(title: context.category.title, metadata: context.category.metadata)) {
+        req.templateEngine.system.index(.init(title: context.category.title, metadata: context.category.metadata)) {
             Wrapper {
                 Container {
                     Header {
