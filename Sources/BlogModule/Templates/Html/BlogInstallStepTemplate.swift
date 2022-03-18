@@ -7,7 +7,7 @@
 
 import Vapor
 import Feather
-import BlogApi
+import BlogObjects
 import SwiftHtml
 
 struct BlogInstallStepTemplate: TemplateRepresentable {

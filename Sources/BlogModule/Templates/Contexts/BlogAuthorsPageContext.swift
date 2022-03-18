@@ -5,7 +5,7 @@
 //  Created by Tibor Bodecs on 2021. 12. 21..
 //
 
-import BlogApi
+import BlogObjects
 
 struct BlogAuthorsPageContext {
     let authors: [Blog.Author.List]

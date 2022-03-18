@@ -8,7 +8,7 @@
 import Vapor
 import Fluent
 import Feather
-import BlogApi
+import BlogObjects
 
 
 struct BlogAuthorLinkAdminController: AdminController {

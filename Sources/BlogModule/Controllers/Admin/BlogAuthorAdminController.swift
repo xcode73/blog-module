@@ -8,8 +8,8 @@
 import Vapor
 import Fluent
 import Feather
-import FeatherApi
-import BlogApi
+import FeatherObjects
+import BlogObjects
 
 struct BlogAuthorAdminController: AdminController {
     typealias ApiModel = Blog.Author

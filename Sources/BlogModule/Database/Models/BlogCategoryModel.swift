@@ -8,8 +8,8 @@
 import Foundation
 import Fluent
 import Feather
-import FeatherApi
-import BlogApi
+import FeatherObjects
+import BlogObjects
 
 final class BlogCategoryModel: FeatherDatabaseModel {
     typealias Module = BlogModule

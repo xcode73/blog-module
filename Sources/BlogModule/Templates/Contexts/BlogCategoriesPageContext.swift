@@ -5,7 +5,7 @@
 //  Created by Tibor Bodecs on 2021. 12. 21..
 //
 
-import BlogApi
+import BlogObjects
 
 struct BlogCategoriesPageContext {
     let categories: [Blog.Category.List]

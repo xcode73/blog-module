@@ -11,13 +11,13 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/feathercms/feather-core", .branch("dev")),
-        .package(url: "https://github.com/feathercms/blog-api", .branch("main")),
+        .package(url: "https://github.com/feathercms/blog-objects", .branch("main")),
         .package(url: "https://github.com/feathercms/web-module", .branch("main")),
     ],
     targets: [
         .target(name: "BlogModule", dependencies: [
             .product(name: "Feather", package: "feather-core"),
-            .product(name: "BlogApi", package: "blog-api"),
+            .product(name: "BlogObjects", package: "blog-objects"),
             .product(name: "WebModule", package: "web-module"),
         ],
         resources: [

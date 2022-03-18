@@ -7,7 +7,7 @@
 
 import Vapor
 import Feather
-import BlogApi
+import BlogObjects
 
 final class BlogInstallForm: AbstractForm {
 

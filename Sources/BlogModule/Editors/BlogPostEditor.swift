@@ -7,7 +7,7 @@
 
 import Vapor
 import Feather
-import BlogApi
+import BlogObjects
 
 struct BlogPostEditor: FeatherModelEditor {
     let model: BlogPostModel

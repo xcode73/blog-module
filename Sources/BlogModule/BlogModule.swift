@@ -8,10 +8,10 @@
 import Vapor
 import Fluent
 import Feather
-import FeatherApi
-import BlogApi
+import FeatherObjects
+import BlogObjects
 import WebModule
-import WebApi
+import WebObjects
 
 public extension HookName {
     

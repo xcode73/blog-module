@@ -9,7 +9,7 @@ import Foundation
 import Fluent
 import Feather
 import Feather
-import FeatherApi
+import FeatherObjects
 
 final class BlogPostCategoryModel: FeatherDatabaseModel {
     typealias Module = BlogModule
