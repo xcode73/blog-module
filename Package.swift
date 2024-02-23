@@ -10,9 +10,9 @@ let package = Package(
         .library(name: "BlogModule", targets: ["BlogModule"])
     ],
     dependencies: [
-        .package(url: "https://github.com/xcode73/feather-core", branch: "test-dev"),
-        .package(url: "https://github.com/xcode73/blog-objects", branch: "test-dev"),
-        .package(url: "https://github.com/xcode73/web-module", branch: "test-dev")
+        .package(url: "https://github.com/xcode73/feather-core.git", branch: "test-dev"),
+        .package(url: "https://github.com/xcode73/blog-objects.git", branch: "test-dev"),
+        .package(url: "https://github.com/xcode73/web-module.git", branch: "test-dev")
     ],
     targets: [
         .target(name: "BlogModule", dependencies: [

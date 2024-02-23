@@ -21,7 +21,7 @@
     {
       "identity" : "blog-objects",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/xcode73/blog-objects",
+      "location" : "https://github.com/xcode73/blog-objects.git",
       "state" : {
         "branch" : "test-dev",
         "revision" : "14f4d8b370e3933c50421367fad0d02ca8884244"
@@ -39,10 +39,10 @@
     {
       "identity" : "feather-core",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/xcode73/feather-core",
+      "location" : "https://github.com/xcode73/feather-core.git",
       "state" : {
         "branch" : "test-dev",
-        "revision" : "fb1399003049728d2eaa3ed28f2b5e72e767b20b"
+        "revision" : "f9d391813be3c88b04e94e350d7401f0c83e8878"
       }
     },
     {
@@ -291,7 +291,7 @@
     {
       "identity" : "web-module",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/xcode73/web-module",
+      "location" : "https://github.com/xcode73/web-module.git",
       "state" : {
         "branch" : "test-dev",
         "revision" : "75d05342e38fe1f982aaf318a8f117a0996b2bfb"
