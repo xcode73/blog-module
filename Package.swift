@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../feather-core"),
-//        .package(url: "git@github.com:xcode73/feather-core.git", branch: "main")
+//        .package(url: "https://github.com/xcode73/feather-core.git", branch: "main"),
     ],
     targets: [
         .target(name: "BlogApi", dependencies: [
