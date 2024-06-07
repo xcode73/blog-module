@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 import PackageDescription
 import Foundation
 
@@ -19,7 +19,8 @@ let package = Package(
             name: "BlogApi",
             dependencies: [
                 .product(name: "FeatherCoreApi", package: "feather-core"),
-            ]
+            ],
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency=complete")]
         ),
         .target(
             name: "BlogModule",
@@ -29,7 +30,8 @@ let package = Package(
             ],
             resources: [
                 .copy("Bundle"),
-            ]
+            ],
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency=complete")]
         ),
     ]
 )
