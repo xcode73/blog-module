@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
@@ -11,7 +11,8 @@ let package = Package(
         .library(name: "BlogApi", targets: ["BlogApi"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/feathercms/feather-core", .branch("dev")),
+        .package(path: "../feather-core"),
+//        .package(url: "git@github.com:xcode73/feather-core.git", branch: "main")
     ],
     targets: [
         .target(name: "BlogApi", dependencies: [
